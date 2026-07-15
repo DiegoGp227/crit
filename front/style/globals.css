@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* ── Design tokens ── */
+:root {
+  --bg: #13162a;
+  --surface: #1c1f35;
+  --border: #252840;
+  --border-hover: #333650;
+
+  --accent: #f01454;
+  --accent-dark: #a00d38;
+  --accent-bright: #f5527a;
+  --accent-bg: #35142f;
+
+  --green: #2dd4a0;
+  --green-dim: #0d3d2e;
+  --amber: #f5a623;
+
+  --text: #c0c4e2;
+  --text-muted: #7a7e9a;
+  --text-dim: #40445e;
+
+  --completed-bg: #0f1120;
+  --nav-hover: #1a1d33;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+/* ── Tailwind v4 theme registration ── */
+@theme inline {
+  /* backgrounds / surfaces */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-completed-bg: var(--completed-bg);
+  --color-nav-hover: var(--nav-hover);
+
+  /* borders */
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+
+  /* accent */
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-bg: var(--accent-bg);
+
+  /* semantic */
+  --color-green: var(--green);
+  --color-green-dim: var(--green-dim);
+  --color-amber: var(--amber);
+
+  /* text */
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+
+  /* radius */
+  --radius-app: var(--radius);
+  --radius-app-sm: var(--radius-sm);
+
+  /* fonts */
+  --font-sans: var(--font-inter), var(--font-dm-sans), system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "DM Sans", var(--font-sans);
+}
