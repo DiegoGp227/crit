@@ -19,7 +19,7 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
-const PUBLIC_ROUTES = ["/auth"];
+const PUBLIC_ROUTES = ["/"];
 
 export const SWRProvider = ({ children }: { children: ReactNode }) => {
   const [isClient, setIsClient] = useState(false);
