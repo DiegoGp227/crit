@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crit Virgilio — Comunidad de critériums de Bogotá</title>
+  <style>
+    /* ============================================================
+       CSS VARIABLES
+       ============================================================ */
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #121214;
+      --bg-tertiary: #1a1a1e;
+      --bg-elevated: #1e1e24;
+      --bg-hover: #25252b;
+      --bg-card: #16161a;
+
+      --text-primary: #f0f0f4;
+      --text-secondary: #9d9da8;
+      --text-tertiary: #6b6b78;
+      --text-inverse: #0a0a0b;
+
+      --orange: #ff6b35;
+      --orange-light: #ff8c5a;
+      --orange-dark: #e55a28;
+      --orange-bg: rgba(255, 107, 53, 0.08);
+      --orange-bg-hover: rgba(255, 107, 53, 0.15);
+
+      --green: #22c55e;
+      --green-bg: rgba(34, 197, 94, 0.10);
+      --red: #ef4444;
+      --yellow: #eab308;
+      --blue: #3b82f6;
+
+      --border: #26262c;
+      --border-light: #2e2e36;
+      --border-radius-sm: 6px;
+      --border-radius: 10px;
+      --border-radius-lg: 14px;
+      --border-radius-xl: 20px;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
+      --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.10);
+
+      --sidebar-width: 240px;
+      --sidebar-collapsed: 64px;
+      --header-height: 0px;
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 15px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+    a { color: var(--orange); text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .items-end { align-items: flex-end; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-1 { gap: 4px; }
+    .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    .gap-6 { gap: 24px; }
+    .gap-8 { gap: 32px; }
+
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.85rem; }
+    .text-lg { font-size: 1.1rem; }
+    .text-xl { font-size: 1.35rem; }
+    .text-2xl { font-size: 1.75rem; }
+    .text-3xl { font-size: 2.25rem; }
+
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+
+    .text-secondary { color: var(--text-secondary); }
+    .text-tertiary { color: var(--text-tertiary); }
+    .text-orange { color: var(--orange); }
+    .text-green { color: var(--green); }
+
+    .mt-2 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; }
+    .mt-6 { margin-top: 24px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ============================================================
+       LOGO
+       ============================================================ */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 16px 16px;
+      user-select: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--border-radius);
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -0.5px;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .logo-text strong {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .logo-text span {
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .app { display: flex; height: 100vh; }
+
+    /* --- Sidebar --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+      transition: width var(--transition);
+      overflow: hidden;
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 10px 16px;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 3px; }
+    .nav-section-title {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-tertiary);
+      padding: 20px 14px 6px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 14px;
+      border-radius: var(--border-radius);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 0.88rem;
+      font-weight: 450;
+      position: relative;
+      white-space: nowrap;
+    }
+    .nav-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    .nav-item.active {
+      background: var(--orange-bg);
+      color: var(--orange);
+    }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 20px;
+      background: var(--orange);
+      border-radius: 0 3px 3px 0;
+    }
+    .nav-item .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .sidebar-footer {
+      padding: 12px 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* --- Main --- */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .main-header {
+      padding: 20px 32px 0;
+      flex-shrink: 0;
+    }
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 32px 40px;
+    }
+    .main-content::-webkit-scrollbar { width: 5px; }
+
+    /* --- View system --- */
+    .view { display: none; animation: viewIn 0.3s ease; }
+    .view.active { display: block; }
+
+    @keyframes viewIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       CARDS
+       ============================================================ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 20px 24px;
+      transition: all var(--transition);
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    /* mini chart bars inside cards */
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 40px;
+      margin-top: 12px;
+    }
+    .mini-chart .bar {
+      flex: 1;
+      border-radius: 2px 2px 0 0;
+      background: var(--orange);
+      opacity: 0.2;
+      transition: opacity var(--transition);
+      min-height: 4px;
+    }
+    .mini-chart .bar.fill { opacity: 0.6; }
+    .mini-chart .bar.fill.high { opacity: 1; }
+    .card:hover .mini-chart .bar { opacity: 0.3; }
+    .card:hover .mini-chart .bar.fill { opacity: 0.8; }
+    .card:hover .mini-chart .bar.fill.high { opacity: 1; }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: var(--border-radius);
+      border: none;
+      font-family: var(--font);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--orange-light);
+      box-shadow: var(--shadow-glow);
+    }
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-light);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+    .btn-ghost:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      border-radius: var(--border-radius-sm);
+    }
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: var(--border-radius);
+    }
+
+    /* ============================================================
+       BADGES & TAGS
+       ============================================================ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 550;
+      letter-spacing: 0.2px;
+    }
+    .badge-orange {
+      background: var(--orange-bg);
+      color: var(--orange);
+    }
+    .badge-green {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+    .badge-gray {
+      background: var(--bg-tertiary);
+      color: var(--text-tertiary);
+    }
+    .badge-gold {
+      background: rgba(234, 179, 8, 0.12);
+      color: var(--yellow);
+    }
+    .badge-silver {
+      background: rgba(156, 163, 175, 0.12);
+      color: #9ca3af;
+    }
+    .badge-bronze {
+      background: rgba(180, 83, 9, 0.12);
+      color: #cd7f32;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: var(--border-radius-sm);
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       TABLES
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead {
+      background: var(--bg-tertiary);
+    }
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 550;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: background var(--transition);
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr {
+      transition: background var(--transition);
+      cursor: default;
+    }
+    tbody tr:hover td {
+      background: var(--bg-hover);
+    }
+    .table-rank {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 48px;
+    }
+    .rank-1, .rank-2, .rank-3 { font-weight: 700; }
+    .rank-1 { color: var(--yellow); }
+    .rank-2 { color: #9ca3af; }
+    .rank-3 { color: #cd7f32; }
+
+    /* ============================================================
+       TABS
+       ============================================================ */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-tertiary);
+      padding: 3px;
+      border-radius: var(--border-radius);
+      width: fit-content;
+    }
+    .tab {
+      padding: 8px 18px;
+      border-radius: var(--border-radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       INPUTS
+       ============================================================ */
+    .input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border);
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-bg);
+    }
+    .input::placeholder { color: var(--text-tertiary); }
+
+    .select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b6b78' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    /* ============================================================
+       MODAL
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-xl);
+      padding: 32px;
+      max-width: 520px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: modalIn 0.25s ease;
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ============================================================
+       DROPDOWN
+       ============================================================ */
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-light);
+      border-radius: var(--border-radius);
+      padding: 6px;
+      min-width: 200px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: all var(--transition);
+      z-index: 100;
+    }
+    .dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--border-radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 0.85rem;
+    }
+    .dropdown-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       PROFILE AVATAR
+       ============================================================ */
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .avatar-lg { width: 80px; height: 80px; font-size: 1.8rem; }
+    .avatar-sm { width: 32px; height: 32px; font-size: 0.8rem; }
+
+    /* ============================================================
+       EVENT CARD (large hero card)
+       ============================================================ */
+    .event-hero {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-tertiary) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-xl);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .event-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--orange-bg) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .event-hero .event-date-big {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--orange);
+    }
+    .event-hero .event-name-big {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin: 4px 0 2px;
+    }
+    .event-hero .event-location {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    .event-hero .event-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .event-hero .event-meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .event-hero .event-meta-item .label {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .event-hero .event-meta-item .value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       TIMELINE (profile)
+       ============================================================ */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 20px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-light);
+    }
+    .timeline-item.win::before {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .timeline-item.podium::before {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+    .timeline-date {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+    .timeline-title {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .timeline-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       STATS CARDS (grid layout)
+       ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 20px;
+      transition: all var(--transition);
+    }
+    .stat-card:hover {
+      border-color: var(--border-light);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .stat-card .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+    .stat-card .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.1;
+    }
+    .stat-card .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       CATEGORY BADGE LIST
+       ============================================================ */
+    .category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .category-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .category-item .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ============================================================
+       PAGE HEADER
+       ============================================================ */
+    .page-header {
+      margin-bottom: 24px;
+    }
+    .page-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+    .page-header p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       GRID HELPERS
+       ============================================================ */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+
+    /* ============================================================
+       PADDING / SPACING OVERRIDES
+       ============================================================ */
+    .p-0 { padding: 0; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .sidebar { width: var(--sidebar-collapsed); }
+      .sidebar .logo-text,
+      .sidebar .nav-item span,
+      .sidebar .nav-section-title,
+      .sidebar-footer .btn span { display: none; }
+      .sidebar .nav-item { justify-content: center; padding: 9px; }
+      .sidebar .nav-item.active::before { display: none; }
+      .main-content { padding: 16px 20px 32px; }
+      .main-header { padding: 16px 20px 0; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-2-1 { grid-template-columns: 1fr; }
+      .event-hero .event-name-big { font-size: 1.5rem; }
+    }
+    @media (max-width: 640px) {
+      .sidebar { width: 0; border: none; padding: 0; }
+      .sidebar-nav, .sidebar-footer, .logo { display: none; }
+      .main-content { padding: 12px 16px 24px; }
+      .main-header { padding: 12px 16px 0; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .event-hero { padding: 20px; }
+      .event-hero .event-name-big { font-size: 1.25rem; }
+    }
+
+    /* ============================================================
+       EXTRA COMPONENTS
+       ============================================================ */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+    .inline-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    /* Progress bar (for stats / categories) */
+    .progress-bar {
+      height: 4px;
+      border-radius: 4px;
+      background: var(--bg-tertiary);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar .fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--orange);
+      transition: width 0.6s ease;
+    }
+
+    /* Stat highlight row (season page) */
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    /* ============================================================
+       EQUIPOS / TEAMS PAGE
+       ============================================================ */
+    .team-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+    }
+    .team-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ============================================================
+         SIDEBAR
+         ============================================================ -->
+    <aside class="sidebar" role="navigation">
+      <div class="logo">
+        <div class="logo-icon">CV</div>
+        <div class="logo-text">
+          <strong>Crit Virgilio</strong>
+          <span>La comunidad de critériums</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">General</div>
+        <div class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">&#9679;</span>
+          <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-view="events">
+          <span class="nav-icon">&#9733;</span>
+          <span>Próximos eventos</span>
+        </div>
+        <div class="nav-item" data-view="results">
+          <span class="nav-icon">&#10003;</span>
+          <span>Resultados</span>
+        </div>
+        <div class="nav-item" data-view="ranking">
+          <span class="nav-icon">&#9650;</span>
+          <span>Ranking</span>
+        </div>
+
+        <div class="nav-section-title">Comunidad</div>
+        <div class="nav-item" data-view="riders">
+          <span class="nav-icon">&#9787;</span>
+          <span>Corredores</span>
+        </div>
+        <div class="nav-item" data-view="seasons">
+          <span class="nav-icon">&#9632;</span>
+          <span>Temporadas</span>
+        </div>
+        <div class="nav-item" data-view="teams">
+          <span class="nav-icon">&#9829;</span>
+          <span>Equipos</span>
+        </div>
+
+        <div class="nav-section-title">Datos</div>
+        <div class="nav-item" data-view="stats">
+          <span class="nav-icon">&#9776;</span>
+          <span>Estadísticas</span>
+        </div>
+        <div class="nav-item" data-view="settings">
+          <span class="nav-icon">&#9881;</span>
+          <span>Configuración</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary btn-sm" style="width:100%" onclick="toggleSidebar()">
+          <span>&#9776;</span>
+          <span>Colapsar</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <main class="main">
+
+      <div class="main-header">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <h1 class="page-header" style="margin-bottom:0" id="pageTitle">Dashboard</h1>
+            <p class="text-tertiary text-sm" id="pageSubtitle">Resumen general de la comunidad</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="dropdown" id="headerDropdown">
+              <button class="btn btn-ghost btn-icon" onclick="toggleDropdown()">&#8942;</button>
+              <div class="dropdown-menu">
+                <div class="dropdown-item">Ver reporte completo</div>
+                <div class="dropdown-item">Exportar datos</div>
+                <div class="dropdown-item">Configurar vista</div>
+              </div>
+            </div>
+            <div class="avatar avatar-sm" style="cursor:pointer" onclick="navigateTo('riders')" title="Ver perfil">DG</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+
+        <!-- ============================================================
+             VIEW: DASHBOARD
+             ============================================================ -->
+        <section class="view active" id="view-dashboard">
+          <div class="grid-4 stats-grid" style="grid-template-columns:repeat(4,1fr)">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--orange-bg);color:var(--orange)">&#9733;</div>
+              <div class="stat-value">Crit #19</div>
+              <div class="stat-label">Próximo critérium</div>
+              <div class="progress-bar"><div class="fill" style="width:73%"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--green-bg);color:var(--green)">&#9787;</div>
+              <div class="stat-value">247</div>
+              <div class="stat-label">Corredores registrados</div>
+              <div class="mini-chart">
+                <div class="bar fill" style="height:18px"></div>
+                <div class="bar fill" style="height:28px"></div>
+                <div class="bar fill high" style="height:40px"></div>
+                <div class="bar fill" style="height:32px"></div>
+                <div class="bar fill" style="height:22px"></div>
+                <div class="bar" style="height:12px"></div>
+                <div class="bar fill" style="height:26px"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--orange-bg);color:var(--orange)">&#10003;</div>
+              <div class="stat-value">36</div>
+              <div class="stat-label">Eventos realizados</div>
+              <div class="mini-chart">
+                <div class="bar fill" style="height:30px"></div>
+                <div class="bar fill high" style="height:40px"></div>
+                <div class="bar fill" style="height:34px"></div>
+                <div class="bar fill" style="height:22px"></div>
+                <div class="bar" style="height:10px"></div>
+                <div class="bar fill" style="height:38px"></div>
+                <div class="bar fill" style="height:26px"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--green-bg);color:var(--green)">&#9829;</div>
+              <div class="stat-value">1,892</div>
+              <div class="stat-label">Participaciones totales</div>
+              <div class="mini-chart">
+                <div class="bar fill" style="height:24px"></div>
+                <div class="bar" style="height:14px"></div>
+                <div class="bar fill high" style="height:40px"></div>
+                <div class="bar fill" style="height:36px"></div>
+                <div class="bar fill" style="height:30px"></div>
+                <div class="bar fill" style="height:20px"></div>
+                <div class="bar" style="height:8px"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="grid-2-1" style="margin-top:8px">
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">Próximo evento</span>
+                  <span class="badge badge-orange">Sábado</span>
+                </div>
+                <div style="font-size:1.5rem;font-weight:700;letter-spacing:-0.3px">Crit #18</div>
+                <div class="text-secondary" style="margin-top:2px">Virgilio Barco — 8:00 AM</div>
+                <div class="flex items-center gap-2" style="margin-top:8px">
+                  <span class="badge badge-gray">42 inscritos</span>
+                  <span class="badge badge-green">Abiertas</span>
+                </div>
+                <div class="category-list">
+                  <span class="category-item"><span class="dot" style="background:var(--orange)"></span>Novatos</span>
+                  <span class="category-item"><span class="dot" style="background:var(--blue)"></span>Intermedios</span>
+                  <span class="category-item"><span class="dot" style="background:var(--green)"></span>Open</span>
+                </div>
+                <div style="margin-top:16px">
+                  <button class="btn btn-primary btn-sm" onclick="navigateTo('events')">Ver evento</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin-top:16px">
+                <div class="card-header">
+                  <span class="card-title">Podios entregados</span>
+                  <span class="badge badge-gold">108</span>
+                </div>
+                <div class="flex items-center gap-4" style="margin-top:8px">
+                  <div><span class="text-lg font-bold">36</span><span class="text-tertiary text-sm" style="margin-left:4px">eventos</span></div>
+                  <div><span class="text-lg font-bold">3</span><span class="text-tertiary text-sm" style="margin-left:4px">podios / evento</span></div>
+                </div>
+                <div class="mini-chart" style="height:32px;margin-top:12px">
+                  <div class="bar fill high" style="height:32px;background:var(--yellow)"></div>
+                  <div class="bar fill" style="height:26px;background:#9ca3af"></div>
+                  <div class="bar fill" style="height:20px;background:#cd7f32"></div>
+                  <div class="bar" style="height:8px"></div>
+                  <div class="bar fill" style="height:28px;background:var(--yellow)"></div>
+                  <div class="bar fill" style="height:22px;background:#9ca3af"></div>
+                  <div class="bar" style="height:6px"></div>
+                  <div class="bar fill" style="height:24px;background:#cd7f32"></div>
+                  <div class="bar fill" style="height:30px;background:var(--yellow)"></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">Top 5 Ranking</span>
+                  <button class="btn btn-ghost btn-sm" onclick="navigateTo('ranking')">Ver todo</button>
+                </div>
+                <div style="margin-top:4px">
+                  <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+                    <div class="flex items-center gap-3">
+                      <span class="font-bold text-sm" style="width:24px;color:var(--yellow)">1</span>
+                      <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.7rem">DG</div>
+                      <span class="font-medium">Diego Góngora</span>
+                    </div>
+                    <span class="font-semibold text-orange">2,480</span>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+                    <div class="flex items-center gap-3">
+                      <span class="font-bold text-sm" style="width:24px;color:#9ca3af">2</span>
+                      <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.7rem;background:var(--bg-elevated);color:var(--text-secondary)">JP</div>
+                      <span class="font-medium">Juan Pérez</span>
+                    </div>
+                    <span class="font-semibold">2,310</span>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+                    <div class="flex items-center gap-3">
+                      <span class="font-bold text-sm" style="width:24px;color:#cd7f32">3</span>
+                      <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.7rem;background:var(--bg-elevated);color:var(--text-secondary)">AR</div>
+                      <span class="font-medium">Andrés Ruiz</span>
+                    </div>
+                    <span class="font-semibold">2,145</span>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding:8px 0;border-bottom:1px solid var(--border)">
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm" style="width:24px;color:var(--text-tertiary)">4</span>
+                      <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.7rem;background:var(--bg-elevated);color:var(--text-secondary)">CD</div>
+                      <span class="font-medium">Camilo Díaz</span>
+                    </div>
+                    <span class="font-semibold">1,980</span>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding:8px 0">
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm" style="width:24px;color:var(--text-tertiary)">5</span>
+                      <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.7rem;background:var(--bg-elevated);color:var(--text-secondary)">FM</div>
+                      <span class="font-medium">Felipe Mora</span>
+                    </div>
+                    <span class="font-semibold">1,875</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: EVENTS
+             ============================================================ -->
+        <section class="view" id="view-events">
+          <div class="page-header">
+            <h1>Próximos eventos</h1>
+            <p>Calendario de critériums de la temporada 2026</p>
+          </div>
+
+          <div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm">Todos</button>
+            <button class="btn btn-ghost btn-sm">Novatos</button>
+            <button class="btn btn-ghost btn-sm">Intermedios</button>
+            <button class="btn btn-ghost btn-sm">Open</button>
+            <div style="flex:1"></div>
+            <div class="dropdown">
+              <button class="btn btn-secondary btn-sm" onclick="this.nextElementSibling.classList.toggle('open')">Filtrar &#9660;</button>
+              <div class="dropdown-menu" style="right:auto;left:0">
+                <div class="dropdown-item">Este mes</div>
+                <div class="dropdown-item">Próximos 3 meses</div>
+                <div class="dropdown-item">Toda la temporada</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-hero" style="cursor:pointer" onclick="openEventModal(0)">
+            <div class="event-date-big">Sábado 2 agosto 2026</div>
+            <div class="event-name-big">Crit #18 — Virgilio Barco</div>
+            <div class="event-location">Av. Calle 53, Bogotá</div>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="label">Hora</span>
+                <span class="value">8:00 AM</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="label">Inscritos</span>
+                <span class="value">42</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="label">Categorías</span>
+                <span class="value">3</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="label">Distancia</span>
+                <span class="value">45 km</span>
+              </div>
+            </div>
+            <div class="category-list" style="margin-top:16px">
+              <span class="category-item"><span class="dot" style="background:var(--orange)"></span>Novatos</span>
+              <span class="category-item"><span class="dot" style="background:var(--blue)"></span>Intermedios</span>
+              <span class="category-item"><span class="dot" style="background:var(--green)"></span>Open</span>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:12px">
+              <button class="btn btn-primary" onclick="event.stopPropagation();navigateTo('results')">Ver resultados</button>
+              <button class="btn btn-secondary" onclick="event.stopPropagation();openEventModal(0)">Más info</button>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:24px">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Crit #17 — Parque Simón Bolívar</span>
+                <span class="badge badge-orange">16 agosto</span>
+              </div>
+              <div class="text-sm text-secondary">Sábado — 7:30 AM — 38 inscritos</div>
+              <div class="category-list">
+                <span class="category-item"><span class="dot" style="background:var(--orange)"></span>Novatos</span>
+                <span class="category-item"><span class="dot" style="background:var(--green)"></span>Open</span>
+              </div>
+              <div style="margin-top:12px"><button class="btn btn-secondary btn-sm" onclick="navigateTo('results')">Ver resultados</button></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Crit #19 — Virgilio Barco</span>
+                <span class="badge badge-green">30 agosto</span>
+              </div>
+              <div class="text-sm text-secondary">Sábado — 8:00 AM — 51 inscritos</div>
+              <div class="category-list">
+                <span class="category-item"><span class="dot" style="background:var(--orange)"></span>Novatos</span>
+                <span class="category-item"><span class="dot" style="background:var(--blue)"></span>Intermedios</span>
+                <span class="category-item"><span class="dot" style="background:var(--green)"></span>Open</span>
+              </div>
+              <div style="margin-top:12px"><button class="btn btn-primary btn-sm">Inscribirse</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: RESULTS
+             ============================================================ -->
+        <section class="view" id="view-results">
+          <div class="page-header">
+            <h1>Resultados</h1>
+            <p>Últimos resultados del Crit #18 — Virgilio Barco</p>
+          </div>
+
+          <div class="flex items-center gap-3 mb-4">
+            <div class="tabs">
+              <button class="tab active" onclick="switchResultTab(this,'open')">Open</button>
+              <button class="tab" onclick="switchResultTab(this,'intermedios')">Intermedios</button>
+              <button class="tab" onclick="switchResultTab(this,'novatos')">Novatos</button>
+            </div>
+          </div>
+
+          <!-- Podium -->
+          <div class="card" style="padding:24px">
+            <div class="card-title mb-4">Podio — Categoría Open</div>
+            <div class="flex items-end justify-center gap-6" style="padding:12px 0">
+              <div class="flex flex-col items-center" style="order:2">
+                <div class="avatar avatar-lg" style="width:64px;height:64px;font-size:1.4rem;background:linear-gradient(135deg,#9ca3af,#6b7280)">JP</div>
+                <div class="font-semibold mt-2">Juan Pérez</div>
+                <div class="text-xs text-tertiary">Team Ciclismo Capital</div>
+                <div class="badge badge-silver mt-2">2º</div>
+              </div>
+              <div class="flex flex-col items-center" style="order:1;transform:translateY(-12px)">
+                <div class="avatar avatar-lg" style="width:80px;height:80px;font-size:1.8rem">DG</div>
+                <div class="font-semibold mt-2 text-lg">Diego Góngora</div>
+                <div class="text-xs text-tertiary">Team Bogotá Elite</div>
+                <div class="badge badge-gold mt-2">1º</div>
+              </div>
+              <div class="flex flex-col items-center" style="order:3">
+                <div class="avatar avatar-lg" style="width:64px;height:64px;font-size:1.4rem;background:linear-gradient(135deg,#cd7f32,#a0522d)">AR</div>
+                <div class="font-semibold mt-2">Andrés Ruiz</div>
+                <div class="text-xs text-tertiary">Team Andes</div>
+                <div class="badge badge-bronze mt-2">3º</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full results table -->
+          <div class="table-wrap" style="margin-top:20px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pos</th>
+                  <th>Nombre</th>
+                  <th>Equipo</th>
+                  <th>Categoría</th>
+                  <th>Tiempo</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody">
+                <tr><td class="table-rank rank-1">1</td><td class="font-medium text-primary">Diego Góngora</td><td>Team Bogotá Elite</td><td><span class="badge badge-green">Open</span></td><td>1:02:34</td><td class="font-semibold text-orange">250</td></tr>
+                <tr><td class="table-rank rank-2">2</td><td class="font-medium text-primary">Juan Pérez</td><td>Team Ciclismo Capital</td><td><span class="badge badge-green">Open</span></td><td>1:02:42</td><td class="font-semibold">200</td></tr>
+                <tr><td class="table-rank rank-3">3</td><td class="font-medium text-primary">Andrés Ruiz</td><td>Team Andes</td><td><span class="badge badge-green">Open</span></td><td>1:03:01</td><td class="font-semibold">170</td></tr>
+                <tr><td class="table-rank">4</td><td>Camilo Díaz</td><td>Team Bogotá Elite</td><td><span class="badge badge-green">Open</span></td><td>1:03:18</td><td>150</td></tr>
+                <tr><td class="table-rank">5</td><td>Felipe Mora</td><td>Independiente</td><td><span class="badge badge-green">Open</span></td><td>1:03:45</td><td>135</td></tr>
+                <tr><td class="table-rank">6</td><td>Carlos Rincón</td><td>Team Ciclismo Capital</td><td><span class="badge badge-green">Open</span></td><td>1:04:02</td><td>120</td></tr>
+                <tr><td class="table-rank">7</td><td>David Parra</td><td>Independiente</td><td><span class="badge badge-green">Open</span></td><td>1:04:28</td><td>105</td></tr>
+                <tr><td class="table-rank">8</td><td>Santiago Rojas</td><td>Team Andes</td><td><span class="badge badge-green">Open</span></td><td>1:05:10</td><td>90</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:20px;display:flex;gap:12px">
+            <button class="btn btn-primary" onclick="openResultPublishModal()">Publicar resultados</button>
+            <button class="btn btn-secondary">Exportar</button>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: RANKING
+             ============================================================ -->
+        <section class="view" id="view-ranking">
+          <div class="page-header">
+            <h1>Ranking general</h1>
+            <p>Clasificación acumulada temporada 2026</p>
+          </div>
+
+          <div class="flex items-center gap-3 mb-4">
+            <div class="tabs">
+              <button class="tab active" onclick="switchRankingTab(this,'general')">General</button>
+              <button class="tab" onclick="switchRankingTab(this,'open')">Open</button>
+              <button class="tab" onclick="switchRankingTab(this,'intermedios')">Intermedios</button>
+              <button class="tab" onclick="switchRankingTab(this,'novatos')">Novatos</button>
+            </div>
+            <div style="flex:1"></div>
+            <input class="input" style="width:200px" placeholder="Buscar corredor..." oninput="filterRanking(this.value)">
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pos</th>
+                  <th>Nombre</th>
+                  <th>Equipo</th>
+                  <th>Carreras</th>
+                  <th>Podios</th>
+                  <th>Victorias</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody id="rankingBody">
+                <!-- populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: RIDERS (Profile)
+             ============================================================ -->
+        <section class="view" id="view-riders">
+          <div class="page-header">
+            <h1>Perfil del corredor</h1>
+            <p>Estadísticas y trayectoria</p>
+          </div>
+
+          <!-- Profile hero -->
+          <div class="card" style="padding:28px">
+            <div class="flex items-center gap-6" style="flex-wrap:wrap">
+              <div class="avatar avatar-lg" style="width:88px;height:88px;font-size:2rem">DG</div>
+              <div style="flex:1;min-width:200px">
+                <div class="text-2xl font-bold">Diego Góngora</div>
+                <div class="text-secondary">Team Bogotá Elite</div>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="badge badge-green">Open</span>
+                  <span class="badge badge-gray">Categoría A</span>
+                  <span class="badge badge-orange">#1 Ranking</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="text-center"><div class="text-xl font-bold">12</div><div class="text-xs text-tertiary">Carreras</div></div>
+                <div class="text-center"><div class="text-xl font-bold">5</div><div class="text-xs text-tertiary">Victorias</div></div>
+                <div class="text-center"><div class="text-xl font-bold">9</div><div class="text-xs text-tertiary">Podios</div></div>
+                <div class="text-center"><div class="text-xl font-bold">2,480</div><div class="text-xs text-tertiary">Puntos</div></div>
+                <div class="text-center"><div class="text-xl font-bold">2.3</div><div class="text-xs text-tertiary">Pos. prom.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats grid -->
+          <div class="stats-grid" style="margin-top:16px;grid-template-columns:repeat(5,1fr)">
+            <div class="stat-card"><div class="stat-value" style="font-size:1.3rem">83%</div><div class="stat-label">Tasa de podio</div><div class="progress-bar"><div class="fill" style="width:83%"></div></div></div>
+            <div class="stat-card"><div class="stat-value" style="font-size:1.3rem">42%</div><div class="stat-label">Tasa de victoria</div><div class="progress-bar"><div class="fill" style="width:42%"></div></div></div>
+            <div class="stat-card"><div class="stat-value" style="font-size:1.3rem">206.7</div><div class="stat-label">Puntos / carrera</div><div class="progress-bar"><div class="fill" style="width:70%"></div></div></div>
+            <div class="stat-card"><div class="stat-value" style="font-size:1.3rem">45 km</div><div class="stat-label">Dist. promedio</div><div class="progress-bar"><div class="fill" style="width:60%"></div></div></div>
+            <div class="stat-card"><div class="stat-value" style="font-size:1.3rem">1.2</div><div class="stat-label">Relación V/P</div><div class="progress-bar"><div class="fill" style="width:55%"></div></div></div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="card" style="margin-top:20px">
+            <div class="card-title mb-4">Línea de tiempo — Resultados recientes</div>
+            <div class="timeline">
+              <div class="timeline-item win">
+                <div class="timeline-date">2 agosto 2026</div>
+                <div class="timeline-title">Crit #18 — Virgilio Barco</div>
+                <div class="timeline-sub">1º lugar — Categoría Open</div>
+              </div>
+              <div class="timeline-item podium">
+                <div class="timeline-date">19 julio 2026</div>
+                <div class="timeline-title">Crit #17 — Parque Simón Bolívar</div>
+                <div class="timeline-sub">2º lugar — Categoría Open</div>
+              </div>
+              <div class="timeline-item win">
+                <div class="timeline-date">5 julio 2026</div>
+                <div class="timeline-title">Crit #16 — Virgilio Barco</div>
+                <div class="timeline-sub">1º lugar — Categoría Open</div>
+              </div>
+              <div class="timeline-item podium">
+                <div class="timeline-date">21 junio 2026</div>
+                <div class="timeline-title">Crit #15 — Parque Nacional</div>
+                <div class="timeline-sub">3º lugar — Categoría Open</div>
+              </div>
+              <div class="timeline-item win">
+                <div class="timeline-date">7 junio 2026</div>
+                <div class="timeline-title">Crit #14 — Virgilio Barco</div>
+                <div class="timeline-sub">1º lugar — Categoría Open</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: SEASONS
+             ============================================================ -->
+        <section class="view" id="view-seasons">
+          <div class="page-header">
+            <h1>Temporada 2026</h1>
+            <p>Clasificaciones, carreras y estadísticas</p>
+          </div>
+
+          <div class="flex items-center gap-3 mb-4">
+            <div class="tabs">
+              <button class="tab active" onclick="switchSeasonTab(this,'general')">Clasificación general</button>
+              <button class="tab" onclick="switchSeasonTab(this,'cat')">Por categoría</button>
+              <button class="tab" onclick="switchSeasonTab(this,'races')">Carreras</button>
+            </div>
+          </div>
+
+          <!-- General classification -->
+          <div id="seasonGeneral">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Pos</th><th>Nombre</th><th>Equipo</th><th>Carreras</th><th>Victorias</th><th>Podios</th><th>Puntos</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="table-rank rank-1">1</td><td class="font-medium text-primary">Diego Góngora</td><td>Team Bogotá Elite</td><td>12</td><td>5</td><td>9</td><td class="font-semibold text-orange">2,480</td></tr>
+                  <tr><td class="table-rank rank-2">2</td><td class="font-medium text-primary">Juan Pérez</td><td>Team Ciclismo Capital</td><td>11</td><td>3</td><td>7</td><td class="font-semibold">2,310</td></tr>
+                  <tr><td class="table-rank rank-3">3</td><td class="font-medium text-primary">Andrés Ruiz</td><td>Team Andes</td><td>12</td><td>2</td><td>6</td><td class="font-semibold">2,145</td></tr>
+                  <tr><td>4</td><td>Camilo Díaz</td><td>Team Bogotá Elite</td><td>10</td><td>1</td><td>4</td><td>1,980</td></tr>
+                  <tr><td>5</td><td>Felipe Mora</td><td>Independiente</td><td>11</td><td>0</td><td>3</td><td>1,875</td></tr>
+                  <tr><td>6</td><td>Carlos Rincón</td><td>Team Ciclismo Capital</td><td>10</td><td>1</td><td>3</td><td>1,720</td></tr>
+                  <tr><td>7</td><td>David Parra</td><td>Independiente</td><td>9</td><td>0</td><td>1</td><td>1,540</td></tr>
+                  <tr><td>8</td><td>Santiago Rojas</td><td>Team Andes</td><td>10</td><td>0</td><td>2</td><td>1,410</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- By category (hidden initially) -->
+          <div id="seasonCat" style="display:none">
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title mb-4 flex items-center justify-between">
+                <span>Categoría Open</span>
+                <span class="badge badge-green">8 corredores</span>
+              </div>
+              <div class="table-wrap" style="border:none;padding:0">
+                <table>
+                  <thead><tr><th>Pos</th><th>Nombre</th><th>Puntos</th></tr></thead>
+                  <tbody>
+                    <tr><td class="table-rank rank-1">1</td><td>Diego Góngora</td><td class="font-semibold">2,480</td></tr>
+                    <tr><td class="table-rank rank-2">2</td><td>Juan Pérez</td><td class="font-semibold">2,310</td></tr>
+                    <tr><td class="table-rank rank-3">3</td><td>Andrés Ruiz</td><td class="font-semibold">2,145</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title mb-4 flex items-center justify-between">
+                <span>Categoría Intermedios</span>
+                <span class="badge badge-orange">6 corredores</span>
+              </div>
+              <div class="table-wrap" style="border:none;padding:0">
+                <table>
+                  <thead><tr><th>Pos</th><th>Nombre</th><th>Puntos</th></tr></thead>
+                  <tbody>
+                    <tr><td class="table-rank rank-1">1</td><td>Laura Méndez</td><td class="font-semibold">1,890</td></tr>
+                    <tr><td class="table-rank rank-2">2</td><td>Pedro Sánchez</td><td class="font-semibold">1,720</td></tr>
+                    <tr><td class="table-rank rank-3">3</td><td>Ana Torres</td><td class="font-semibold">1,540</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Races (hidden initially) -->
+          <div id="seasonRaces" style="display:none">
+            <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+              <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Carreras realizadas</div></div>
+              <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Próximas carreras</div></div>
+              <div class="stat-card"><div class="stat-value">247</div><div class="stat-label">Corredores únicos</div></div>
+              <div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Prom. participantes</div></div>
+            </div>
+            <div class="grid-2">
+              <div class="card"><span class="card-title">Crit #18 — Virgilio Barco</span><div class="text-sm text-secondary mt-2">2 agosto — 42 inscritos</div><span class="badge badge-green mt-2">Completado</span></div>
+              <div class="card"><span class="card-title">Crit #17 — Simón Bolívar</span><div class="text-sm text-secondary mt-2">19 julio — 38 inscritos</div><span class="badge badge-green mt-2">Completado</span></div>
+              <div class="card"><span class="card-title">Crit #16 — Virgilio Barco</span><div class="text-sm text-secondary mt-2">5 julio — 45 inscritos</div><span class="badge badge-green mt-2">Completado</span></div>
+              <div class="card"><span class="card-title">Crit #19 — Virgilio Barco</span><div class="text-sm text-secondary mt-2">30 agosto — 51 inscritos</div><span class="badge badge-orange mt-2">Próximo</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: TEAMS
+             ============================================================ -->
+        <section class="view" id="view-teams">
+          <div class="page-header">
+            <h1>Equipos</h1>
+            <p>Equipos registrados en la comunidad</p>
+          </div>
+          <div class="grid-2">
+            <div class="card team-card">
+              <div class="team-avatar" style="background:linear-gradient(135deg,#ff6b35,#e55a28)">BE</div>
+              <div style="flex:1">
+                <div class="font-semibold">Team Bogotá Elite</div>
+                <div class="text-sm text-tertiary">12 corredores · 8 victorias</div>
+                <div class="flex gap-2 mt-2">
+                  <span class="badge badge-green">Open</span>
+                  <span class="badge badge-orange">Intermedios</span>
+                </div>
+              </div>
+            </div>
+            <div class="card team-card">
+              <div class="team-avatar" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">CC</div>
+              <div style="flex:1">
+                <div class="font-semibold">Team Ciclismo Capital</div>
+                <div class="text-sm text-tertiary">10 corredores · 5 victorias</div>
+                <div class="flex gap-2 mt-2">
+                  <span class="badge badge-green">Open</span>
+                  <span class="badge badge-orange">Intermedios</span>
+                  <span class="badge badge-gray">Novatos</span>
+                </div>
+              </div>
+            </div>
+            <div class="card team-card">
+              <div class="team-avatar" style="background:linear-gradient(135deg,#22c55e,#16a34a)">TA</div>
+              <div style="flex:1">
+                <div class="font-semibold">Team Andes</div>
+                <div class="text-sm text-tertiary">8 corredores · 3 victorias</div>
+                <div class="flex gap-2 mt-2">
+                  <span class="badge badge-green">Open</span>
+                  <span class="badge badge-gray">Novatos</span>
+                </div>
+              </div>
+            </div>
+            <div class="card team-card">
+              <div class="team-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">IN</div>
+              <div style="flex:1">
+                <div class="font-semibold">Independientes</div>
+                <div class="text-sm text-tertiary">6 corredores · 2 victorias</div>
+                <div class="flex gap-2 mt-2">
+                  <span class="badge badge-green">Open</span>
+                  <span class="badge badge-orange">Intermedios</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: STATS
+             ============================================================ -->
+        <section class="view" id="view-stats">
+          <div class="page-header">
+            <h1>Estadísticas</h1>
+            <p>Métricas clave de la comunidad</p>
+          </div>
+
+          <div class="highlight-row">
+            <div class="stat-card">
+              <div class="stat-value text-orange">12</div>
+              <div class="stat-label">Carreras (Diego Góngora)</div>
+              <div class="text-xs text-tertiary">Corredor con más carreras</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value text-orange">5</div>
+              <div class="stat-label">Victorias (Diego Góngora)</div>
+              <div class="text-xs text-tertiary">Más victorias esta temporada</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value text-orange">9</div>
+              <div class="stat-label">Podios (Diego Góngora)</div>
+              <div class="text-xs text-tertiary">Mayor cantidad de podios</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">47</div>
+              <div class="stat-label">Prom. participantes / evento</div>
+              <div class="text-xs text-tertiary">Temporada 2026</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="card" style="margin-top:8px">
+            <div class="card-title mb-4">Distribución por categoría</div>
+            <div class="flex flex-col gap-4">
+              <div>
+                <div class="flex justify-between text-sm"><span>Open</span><span>45%</span></div>
+                <div class="progress-bar"><div class="fill" style="width:45%;background:var(--orange)"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm"><span>Intermedios</span><span>32%</span></div>
+                <div class="progress-bar"><div class="fill" style="width:32%;background:var(--blue)"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm"><span>Novatos</span><span>23%</span></div>
+                <div class="progress-bar"><div class="fill" style="width:23%;background:var(--green)"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:16px">
+            <div class="card">
+              <div class="card-title mb-4">Participación por mes</div>
+              <div class="mini-chart" style="height:60px">
+                <div class="bar fill" style="height:28px"></div>
+                <div class="bar fill" style="height:36px"></div>
+                <div class="bar fill high" style="height:55px"></div>
+                <div class="bar fill" style="height:42px"></div>
+                <div class="bar fill" style="height:38px"></div>
+                <div class="bar fill" style="height:48px"></div>
+                <div class="bar fill" style="height:30px"></div>
+                <div class="bar" style="height:10px"></div>
+              </div>
+              <div class="flex justify-between text-xs text-tertiary mt-2">
+                <span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title mb-4">Progreso de corredores</div>
+              <div class="flex flex-col gap-4">
+                <div><div class="flex justify-between text-sm"><span>Registrados</span><span>247</span></div><div class="progress-bar"><div class="fill" style="width:100%"></div></div></div>
+                <div><div class="flex justify-between text-sm"><span>Activos (3+ carreras)</span><span>142</span></div><div class="progress-bar"><div class="fill" style="width:57%;background:var(--orange)"></div></div></div>
+                <div><div class="flex justify-between text-sm"><span>Con podios</span><span>68</span></div><div class="progress-bar"><div class="fill" style="width:28%;background:var(--green)"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             VIEW: SETTINGS
+             ============================================================ -->
+        <section class="view" id="view-settings">
+          <div class="page-header">
+            <h1>Configuración</h1>
+            <p>Personaliza tu experiencia</p>
+          </div>
+          <div class="card" style="max-width:600px">
+            <div class="flex items-center justify-between" style="padding:8px 0">
+              <div><span class="font-medium">Notificaciones</span><div class="text-sm text-tertiary">Recibir alertas de nuevos eventos</div></div>
+              <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer">
+                <input type="checkbox" checked style="opacity:0;width:0;height:0" onchange="this.previousElementSibling?.style; toggleSwitch(this)">
+                <span style="position:absolute;inset:0;background:var(--orange);border-radius:12px;transition:background var(--transition)"></span>
+                <span style="position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform var(--transition);transform:translateX(20px)"></span>
+              </label>
+            </div>
+            <div class="divider"></div>
+            <div class="flex items-center justify-between" style="padding:8px 0">
+              <div><span class="font-medium">Modo oscuro</span><div class="text-sm text-tertiary">Tema actual</div></div>
+              <span class="badge badge-orange">Activado</span>
+            </div>
+            <div class="divider"></div>
+            <div class="flex items-center justify-between" style="padding:8px 0">
+              <div><span class="font-medium">Idioma</span><div class="text-sm text-tertiary">Español</div></div>
+              <button class="btn btn-secondary btn-sm">Cambiar</button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /main-content -->
+    </main>
+
+  </div><!-- /app -->
+
+  <!-- ============================================================
+       MODALS
+       ============================================================ -->
+
+  <!-- Event detail modal -->
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal" style="max-width:640px">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px">
+        <div>
+          <span class="badge badge-orange">Sábado 2 agosto 2026</span>
+          <div class="modal-title" style="margin-bottom:2px;margin-top:8px">Crit #18 — Virgilio Barco</div>
+          <div class="text-secondary">Av. Calle 53, Bogotá · 8:00 AM · 45 km</div>
+        </div>
+        <button class="btn btn-ghost btn-icon" onclick="closeModal('eventModal')">&times;</button>
+      </div>
+      <div class="flex gap-4" style="flex-wrap:wrap">
+        <div><span class="text-tertiary text-xs">Inscritos</span><div class="font-semibold">42</div></div>
+        <div><span class="text-tertiary text-xs">Categorías</span><div class="font-semibold">3</div></div>
+        <div><span class="text-tertiary text-xs">Distancia</span><div class="font-semibold">45 km</div></div>
+        <div><span class="text-tertiary text-xs">Estado</span><div><span class="badge badge-green">Finalizado</span></div></div>
+      </div>
+      <div class="category-list mt-4">
+        <span class="category-item"><span class="dot" style="background:var(--orange)"></span>Novatos · 12 corredores</span>
+        <span class="category-item"><span class="dot" style="background:var(--blue)"></span>Intermedios · 14 corredores</span>
+        <span class="category-item"><span class="dot" style="background:var(--green)"></span>Open · 16 corredores</span>
+      </div>
+      <div style="margin-top:24px;display:flex;gap:12px">
+        <button class="btn btn-primary" onclick="closeModal('eventModal');navigateTo('results')">Ver resultados</button>
+        <button class="btn btn-secondary" onclick="closeModal('eventModal')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publish results modal -->
+  <div class="modal-overlay" id="publishModal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:16px">
+        <div class="modal-title">Publicar resultados</div>
+        <button class="btn btn-ghost btn-icon" onclick="closeModal('publishModal')">&times;</button>
+      </div>
+      <p class="text-secondary text-sm">Se publicarán los resultados oficiales del Crit #18 — Virgilio Barco para todas las categorías. Los corredores recibirán una notificación.</p>
+      <div style="margin-top:20px;display:flex;gap:12px">
+        <button class="btn btn-primary" onclick="closeModal('publishModal');showToast('Resultados publicados exitosamente')">Confirmar publicación</button>
+        <button class="btn btn-secondary" onclick="closeModal('publishModal')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--bg-elevated);border:1px solid var(--border-light);border-radius:var(--border-radius);padding:14px 20px;box-shadow:var(--shadow-lg);z-index:2000;transform:translateY(120px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);pointer-events:none;display:flex;align-items:center;gap:10px">
+    <span style="color:var(--green);font-size:1.2rem">&#10003;</span>
+    <span id="toastMessage" style="font-size:0.9rem">Resultados publicados</span>
+  </div>
+
+  <script>
+    // ============================================================
+    // DATA
+    // ============================================================
+    const rankingData = [
+      { pos: 1, name: 'Diego Góngora', team: 'Team Bogotá Elite', races: 12, podiums: 9, wins: 5, points: 2480 },
+      { pos: 2, name: 'Juan Pérez', team: 'Team Ciclismo Capital', races: 11, podiums: 7, wins: 3, points: 2310 },
+      { pos: 3, name: 'Andrés Ruiz', team: 'Team Andes', races: 12, podiums: 6, wins: 2, points: 2145 },
+      { pos: 4, name: 'Camilo Díaz', team: 'Team Bogotá Elite', races: 10, podiums: 4, wins: 1, points: 1980 },
+      { pos: 5, name: 'Felipe Mora', team: 'Independiente', races: 11, podiums: 3, wins: 0, points: 1875 },
+      { pos: 6, name: 'Carlos Rincón', team: 'Team Ciclismo Capital', races: 10, podiums: 3, wins: 1, points: 1720 },
+      { pos: 7, name: 'David Parra', team: 'Independiente', races: 9, podiums: 1, wins: 0, points: 1540 },
+      { pos: 8, name: 'Santiago Rojas', team: 'Team Andes', races: 10, podiums: 2, wins: 0, points: 1410 },
+      { pos: 9, name: 'Laura Méndez', team: 'Team Ciclismo Capital', races: 8, podiums: 4, wins: 2, points: 1890 },
+      { pos: 10, name: 'Pedro Sánchez', team: 'Independiente', races: 7, podiums: 2, wins: 0, points: 1230 },
+    ];
+
+    const allRankingData = [...rankingData];
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    const viewTitles = {
+      dashboard: ['Dashboard', 'Resumen general de la comunidad'],
+      events: ['Próximos eventos', 'Calendario de critériums de la temporada 2026'],
+      results: ['Resultados', 'Últimos resultados del Crit #18 — Virgilio Barco'],
+      ranking: ['Ranking general', 'Clasificación acumulada temporada 2026'],
+      riders: ['Perfil del corredor', 'Estadísticas y trayectoria'],
+      seasons: ['Temporada 2026', 'Clasificaciones, carreras y estadísticas'],
+      teams: ['Equipos', 'Equipos registrados en la comunidad'],
+      stats: ['Estadísticas', 'Métricas clave de la comunidad'],
+      settings: ['Configuración', 'Personaliza tu experiencia'],
+    };
+
+    function navigateTo(view) {
+      // Update sidebar
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      const navItem = document.querySelector(`.nav-item[data-view="${view}"]`);
+      if (navItem) navItem.classList.add('active');
+
+      // Update views
+      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`view-${view}`);
+      if (target) {
+        target.classList.add('active');
+        // Re-trigger animation
+        target.style.animation = 'none';
+        requestAnimationFrame(() => { target.style.animation = ''; });
+      }
+
+      // Update header
+      const info = viewTitles[view] || [view, ''];
+      document.getElementById('pageTitle').textContent = info[0];
+      document.getElementById('pageSubtitle').textContent = info[1];
+    }
+
+    // Sidebar click handlers
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.addEventListener('click', () => navigateTo(el.dataset.view));
+    });
+
+    // ============================================================
+    // SIDEBAR TOGGLE
+    // ============================================================
+    let sidebarCollapsed = false;
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebarCollapsed = !sidebarCollapsed;
+      if (sidebarCollapsed) {
+        sidebar.style.width = 'var(--sidebar-collapsed)';
+      } else {
+        sidebar.style.width = 'var(--sidebar-width)';
+      }
+    }
+
+    // ============================================================
+    // DROPDOWN
+    // ============================================================
+    function toggleDropdown() {
+      document.querySelector('#headerDropdown .dropdown-menu').classList.toggle('open');
+    }
+    document.addEventListener('click', (e) => {
+      const dd = document.querySelector('#headerDropdown .dropdown-menu');
+      if (!e.target.closest('#headerDropdown') && dd) dd.classList.remove('open');
+    });
+
+    // ============================================================
+    // MODALS
+    // ============================================================
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function openEventModal(idx) { openModal('eventModal'); }
+    function openResultPublishModal() { openModal('publishModal'); }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (e.target === el) el.classList.remove('open');
+      });
+    });
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.transform = 'translateY(120px)';
+        toast.style.opacity = '0';
+      }, 3000);
+    }
+
+    // ============================================================
+    // RANKING (table + filter)
+    // ============================================================
+    function renderRanking(data) {
+      const tbody = document.getElementById('rankingBody');
+      tbody.innerHTML = data.map(r => {
+        let rankClass = '';
+        if (r.pos === 1) rankClass = 'rank-1';
+        else if (r.pos === 2) rankClass = 'rank-2';
+        else if (r.pos === 3) rankClass = 'rank-3';
+        const initials = r.name.split(' ').map(w => w[0]).join('');
+        return `<tr>
+          <td class="table-rank ${rankClass}">${r.pos}</td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar avatar-sm" style="width:28px;height:28px;font-size:0.65rem">${initials}</div>
+              <span class="font-medium text-primary">${r.name}</span>
+            </div>
+          </td>
+          <td>${r.team}</td>
+          <td>${r.races}</td>
+          <td>${r.podiums}</td>
+          <td>${r.wins}</td>
+          <td class="font-semibold ${r.pos === 1 ? 'text-orange' : ''}">${r.points}</td>
+        </tr>`;
+      }).join('');
+    }
+    renderRanking(allRankingData);
+
+    function filterRanking(query) {
+      const q = query.toLowerCase();
+      const filtered = allRankingData.filter(r =>
+        r.name.toLowerCase().includes(q) || r.team.toLowerCase().includes(q)
+      );
+      renderRanking(filtered);
+    }
+
+    // ============================================================
+    // TABS
+    // ============================================================
+    function switchResultTab(btn, cat) {
+      const parent = btn.closest('.tabs') || btn.parentElement;
+      parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      // Update table data (simulated)
+      const tbody = document.getElementById('resultsTableBody');
+      if (cat === 'novatos') {
+        tbody.innerHTML = `<tr><td class="table-rank rank-1">1</td><td class="font-medium text-primary">Laura Méndez</td><td>Team Ciclismo Capital</td><td><span class="badge badge-orange">Novatos</span></td><td>1:08:12</td><td class="font-semibold text-orange">250</td></tr>
+          <tr><td class="table-rank rank-2">2</td><td class="font-medium text-primary">Pedro Sánchez</td><td>Independiente</td><td><span class="badge badge-orange">Novatos</span></td><td>1:08:45</td><td class="font-semibold">200</td></tr>
+          <tr><td class="table-rank rank-3">3</td><td class="font-medium text-primary">Ana Torres</td><td>Team Andes</td><td><span class="badge badge-orange">Novatos</span></td><td>1:09:03</td><td class="font-semibold">170</td></tr>`;
+      } else if (cat === 'intermedios') {
+        tbody.innerHTML = `<tr><td class="table-rank rank-1">1</td><td class="font-medium text-primary">Carlos Rincón</td><td>Team Ciclismo Capital</td><td><span class="badge badge-orange">Intermedios</span></td><td>1:05:30</td><td class="font-semibold text-orange">250</td></tr>
+          <tr><td class="table-rank rank-2">2</td><td class="font-medium text-primary">Santiago Rojas</td><td>Team Andes</td><td><span class="badge badge-orange">Intermedios</span></td><td>1:05:58</td><td class="font-semibold">200</td></tr>
+          <tr><td class="table-rank rank-3">3</td><td class="font-medium text-primary">David Parra</td><td>Independiente</td><td><span class="badge badge-orange">Intermedios</span></td><td>1:06:22</td><td class="font-semibold">170</td></tr>`;
+      } else {
+        tbody.innerHTML = `<tr><td class="table-rank rank-1">1</td><td class="font-medium text-primary">Diego Góngora</td><td>Team Bogotá Elite</td><td><span class="badge badge-green">Open</span></td><td>1:02:34</td><td class="font-semibold text-orange">250</td></tr>
+          <tr><td class="table-rank rank-2">2</td><td class="font-medium text-primary">Juan Pérez</td><td>Team Ciclismo Capital</td><td><span class="badge badge-green">Open</span></td><td>1:02:42</td><td class="font-semibold">200</td></tr>
+          <tr><td class="table-rank rank-3">3</td><td class="font-medium text-primary">Andrés Ruiz</td><td>Team Andes</td><td><span class="badge badge-green">Open</span></td><td>1:03:01</td><td class="font-semibold">170</td></tr>`;
+      }
+    }
+
+    function switchRankingTab(btn) {
+      const parent = btn.closest('.tabs') || btn.parentElement;
+      parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      // Simulated: data stays same but different category filter
+      showToast(`Mostrando ranking: ${btn.textContent}`);
+    }
+
+    function switchSeasonTab(btn, tab) {
+      const parent = btn.closest('.tabs') || btn.parentElement;
+      parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('seasonGeneral').style.display = tab === 'general' ? 'block' : 'none';
+      document.getElementById('seasonCat').style.display = tab === 'cat' ? 'block' : 'none';
+      document.getElementById('seasonRaces').style.display = tab === 'races' ? 'block' : 'none';
+    }
+
+    // ============================================================
+    // SETTINGS TOGGLE
+    // ============================================================
+    function toggleSwitch(el) {
+      const track = el.previousElementSibling;
+      const thumb = track.nextElementSibling;
+      if (el.checked) {
+        track.style.background = 'var(--orange)';
+        thumb.style.transform = 'translateX(20px)';
+      } else {
+        track.style.background = 'var(--border)';
+        thumb.style.transform = 'translateX(0)';
+      }
+    }
+
+    // ============================================================
+    // KEYBOARD SHORTCUTS
+    // ============================================================
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('.dropdown-menu.open').forEach(el => el.classList.remove('open'));
+      }
+    });
+
+    // ============================================================
+    // RESPONSIVE: close sidebar dropdowns on outside click
+    // ============================================================
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-menu.open').forEach(el => el.classList.remove('open'));
+      }
+    });
+
+    // Initialize
+    console.log('Crit Virgilio — Mockup v1.0');
+    console.log('Navegación: usa la barra lateral para cambiar entre vistas.');
+  </script>
+</body>
+</html>
