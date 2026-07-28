@@ -2,8 +2,7 @@
 
 import apiClient from "@/src/shared/services/apiClient";
 import type { AxiosResponse } from "axios";
-import { store } from "@/store/store";
-import { StoreProvider } from "easy-peasy";
+import { useAuthStore } from "@/src/store/authStore";
 import { useRouter, usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { SWRConfig } from "swr";
@@ -27,6 +26,7 @@ export const SWRProvider = ({ children }: { children: ReactNode }) => {
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const clearAuth = useAuthStore((s) => s.clearAuth);
 
   useEffect(() => {
     setIsClient(true);
@@ -51,33 +51,31 @@ export const SWRProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const handleUnauthorized = () => {
-      store.dispatch.auth.clearAuth();
+      clearAuth();
       router.replace("/auth");
     };
 
     window.addEventListener("app:unauthorized", handleUnauthorized);
     return () =>
       window.removeEventListener("app:unauthorized", handleUnauthorized);
-  }, [router]);
+  }, [router, clearAuth]);
 
   if (!isClient || !authChecked) {
     return null;
   }
+
   return (
-    <StoreProvider store={store}>
-      <SWRConfig
-        value={{
-          fetcher: fetcher,
-          onError: (error: { status: number }) => {
-            if (error.status !== 403 && error.status !== 404) {
-              // We can send the error to Sentry,
-              // or show a notification UI.
-            }
-          },
-        }}
-      >
-        {children}
-      </SWRConfig>
-    </StoreProvider>
+    <SWRConfig
+      value={{
+        fetcher: fetcher,
+        onError: (error: { status: number }) => {
+          if (error.status !== 403 && error.status !== 404) {
+            // Send to Sentry or show notification
+          }
+        },
+      }}
+    >
+      {children}
+    </SWRConfig>
   );
 };
