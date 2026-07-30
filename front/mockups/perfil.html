@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diego Góngora — Crit Virgilio</title>
+  <style>
+    :root {
+      --black: #0a0a0a; --black-2: #0f0f0f; --black-3: #161616; --black-4: #1c1c1c;
+      --gray-900: #222; --gray-800: #2a2a2a; --gray-700: #333; --gray-600: #555;
+      --gray-500: #777; --gray-400: #999; --gray-300: #bbb;
+      --gray-200: #ddd; --gray-100: #eee; --white: #f5f5f5;
+      --yellow: #eab308; --yellow-light: #facc15; --yellow-dark: #ca8a04;
+      --yellow-bg: rgba(234,179,8,0.08); --yellow-glow: rgba(234,179,8,0.06);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--font);background:var(--black);color:var(--gray-300);
+      line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden
+    }
+    ::selection{background:rgba(234,179,8,0.2);color:var(--yellow)}
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:var(--black-2)}
+    ::-webkit-scrollbar-thumb{background:var(--gray-700);border-radius:10px}
+    a{color:var(--yellow);text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+    .header{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(10,10,10,0.85);backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04)
+    }
+    .header-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:12px 24px;max-width:1100px;margin:0 auto
+    }
+    .header-logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+    .header-logo .mark{
+      width:28px;height:28px;background:var(--yellow);color:var(--black);
+      font-weight:800;font-size:.75rem;display:flex;align-items:center;
+      justify-content:center;border-radius:6px
+    }
+    .header-logo .word{font-weight:600;font-size:.85rem;color:var(--white)}
+
+    .profile{
+      padding:80px 0 28px;position:relative;overflow:hidden
+    }
+    .profile::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 60% 40%,var(--yellow-glow) 0%,transparent 60%);
+      pointer-events:none
+    }
+    .profile-inner{
+      display:flex;gap:24px;align-items:center;position:relative;flex-wrap:wrap
+    }
+    .profile-photo-wrap{
+      display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0
+    }
+    .profile-photo{
+      width:150px;height:150px;border-radius:50%;
+      background:linear-gradient(135deg,var(--black-3),var(--black-4));
+      border:2px solid var(--gray-800);display:flex;align-items:center;
+      justify-content:center;font-size:2.5rem;color:var(--gray-600);
+      overflow:hidden;transition:border-color .3s;position:relative
+    }
+    .profile-photo:hover{border-color:var(--yellow)}
+    .profile-photo .ph{
+      display:flex;flex-direction:column;align-items:center;
+      font-size:.6rem;color:var(--gray-600);gap:2px
+    }
+    .profile-photo .ph .big{font-size:2rem}
+    .profile-number{
+      background:var(--yellow);color:var(--black);
+      font-size:.7rem;font-weight:800;padding:3px 12px;
+      border-radius:100px;border:2px solid var(--black);line-height:1
+    }
+    .profile-info{flex:1;min-width:220px}
+    .profile-name{
+      font-size:1.8rem;font-weight:800;color:var(--white);letter-spacing:-1px
+    }
+    .profile-team{
+      font-size:.8rem;color:var(--gray-400);margin-top:1px
+    }
+    .profile-meta{
+      display:flex;gap:16px;margin-top:6px;flex-wrap:wrap
+    }
+    .profile-meta-item{display:flex;flex-direction:column}
+    .profile-meta-item .l{
+      font-size:.5rem;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-500)
+    }
+    .profile-meta-item .v{
+      font-size:1rem;font-weight:700;color:var(--white);line-height:1.2
+    }
+    .profile-meta-item .v.yellow{color:var(--yellow)}
+    .profile-tags{
+      display:flex;gap:6px;margin-top:6px;flex-wrap:wrap
+    }
+    .profile-tags .tag{
+      font-size:.6rem;padding:2px 10px;border-radius:100px;
+      background:var(--black-3);border:1px solid var(--black-4);color:var(--gray-400)
+    }
+
+    .profile-stats{
+      display:flex;flex-direction:column;gap:8px;flex-shrink:0
+    }
+    .ps-card{
+      background:var(--black-3);border:1px solid var(--black-4);
+      border-radius:8px;padding:8px 14px;display:flex;
+      align-items:center;gap:10px;transition:all .3s;min-width:120px
+    }
+    .ps-card:hover{border-color:var(--gray-700)}
+    .ps-card .ps-num{
+      font-size:1.1rem;font-weight:800;color:var(--white);line-height:1;min-width:36px
+    }
+    .ps-card .ps-num.yellow{color:var(--yellow)}
+    .ps-card .ps-label{
+      font-size:.55rem;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-500)
+    }
+
+    .bike{padding:36px 0;position:relative;overflow:hidden}
+    .bike::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 40% 50%,var(--yellow-glow) 0%,transparent 60%);
+      pointer-events:none
+    }
+    .bike-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;position:relative}
+    .bike-photo{
+      aspect-ratio:4/3;border-radius:16px;
+      background:linear-gradient(135deg,var(--black-3),var(--black-4));
+      border:1px solid var(--black-4);display:flex;flex-direction:column;
+      align-items:center;justify-content:center;overflow:hidden;transition:border-color .3s
+    }
+    .bike-photo:hover{border-color:var(--gray-700)}
+    .bike-photo .ph{text-align:center;color:var(--gray-600)}
+    .bike-photo .ph .icon{font-size:2.5rem;opacity:.15;margin-bottom:6px}
+    .bike-photo .ph .hint{font-size:.7rem;opacity:.4}
+    .bike-info{position:relative}
+    .bike-info .sl{
+      font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;
+      color:var(--gray-500);font-weight:500;margin-bottom:4px
+    }
+    .bike-info h2{font-size:1.2rem;font-weight:700;color:var(--white);letter-spacing:-.3px}
+    .bike-info .bike-nick{font-size:.95rem;font-weight:600;color:var(--yellow);font-style:italic;margin-top:2px}
+    .bike-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+    .bike-spec{
+      background:var(--black-3);border:1px solid var(--black-4);
+      border-radius:8px;padding:8px 12px;transition:border-color .3s
+    }
+    .bike-spec:hover{border-color:var(--gray-700)}
+    .bike-spec .sl{font-size:.55rem;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-500)}
+    .bike-spec .sv{font-size:.8rem;font-weight:600;color:var(--gray-200);margin-top:1px}
+
+    .footer{
+      border-top:1px solid var(--black-4);padding:24px 0 18px
+    }
+    .footer-inner{
+      display:flex;justify-content:space-between;align-items:center;
+      flex-wrap:wrap;gap:12px;font-size:.7rem;color:var(--gray-600)
+    }
+    .footer-socials{display:flex;gap:6px}
+    .footer-socials a{
+      width:30px;height:30px;border-radius:50%;background:var(--black-3);
+      border:1px solid var(--black-4);display:flex;align-items:center;
+      justify-content:center;color:var(--gray-500);font-size:.6rem;transition:all .2s
+    }
+    .footer-socials a:hover{border-color:var(--yellow);color:var(--yellow)}
+
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.08s}
+    .reveal-delay-2{transition-delay:.16s}
+
+    @media(max-width:900px){
+      .profile-inner{justify-content:center;text-align:center}
+      .profile-meta{justify-content:center}
+      .profile-tags{justify-content:center}
+      .profile-stats{flex-direction:row;flex-wrap:wrap;justify-content:center;width:100%}
+      .bike-grid{grid-template-columns:1fr}
+      .bike-photo{order:-1}
+    }
+    @media(max-width:600px){
+      .profile-name{font-size:1.4rem}
+      .profile-photo{width:120px;height:120px}
+      .bike-specs{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-logo" onclick="window.location.href='landing.html'">
+        <div class="mark">CV</div>
+        <span class="word">Crit Virgilio</span>
+      </div>
+      <a href="landing.html" style="font-size:.8rem;color:var(--gray-400)">Volver</a>
+    </div>
+  </header>
+
+  <section class="profile">
+    <div class="container">
+      <div class="profile-inner">
+        <div class="profile-photo-wrap reveal">
+          <div class="profile-photo">
+            <div class="ph">
+              <span class="big">&#128100;</span>
+              <span>Foto</span>
+            </div>
+          </div>
+          <span class="profile-number">#027</span>
+        </div>
+        <div class="profile-info reveal reveal-delay-1">
+          <h1 class="profile-name">Diego Góngora</h1>
+          <div class="profile-team">Team Bogotá Elite · Categoría A</div>
+          <div class="profile-meta">
+            <div class="profile-meta-item">
+              <span class="l">Ranking</span>
+              <span class="v yellow">#1</span>
+            </div>
+            <div class="profile-meta-item">
+              <span class="l">Puntos</span>
+              <span class="v">2,480</span>
+            </div>
+            <div class="profile-meta-item">
+              <span class="l">Carreras</span>
+              <span class="v">34</span>
+            </div>
+            <div class="profile-meta-item">
+              <span class="l">Victorias</span>
+              <span class="v yellow">8</span>
+            </div>
+          </div>
+          <div class="profile-tags">
+            <span class="tag">Especialista sprint</span>
+            <span class="tag">3 podios consecutivos</span>
+            <span class="tag">68 km/h punta</span>
+          </div>
+        </div>
+        <div class="profile-stats reveal reveal-delay-2">
+          <div class="ps-card">
+            <span class="ps-num yellow">34</span>
+            <span class="ps-label">Carreras</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-num yellow">8</span>
+            <span class="ps-label">Victorias</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-num">12</span>
+            <span class="ps-label">Podios</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-num">1,248</span>
+            <span class="ps-label">km totales</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bike">
+    <div class="container">
+      <div class="bike-grid">
+        <div class="bike-photo reveal">
+          <div class="ph">
+            <div class="icon">&#9881;</div>
+            <span>Fotografía de la bicicleta</span>
+            <span class="hint">Reemplazar con imagen real</span>
+          </div>
+        </div>
+        <div class="bike-info reveal reveal-delay-1">
+          <div class="sl">La máquina</div>
+          <h2>Specialized Tarmac SL7</h2>
+          <div class="bike-nick">&ldquo;La Flecha&rdquo;</div>
+          <div class="bike-specs">
+            <div class="bike-spec"><span class="sl">Grupo</span><span class="sv">SRAM Red AXS</span></div>
+            <div class="bike-spec"><span class="sl">Ruedas</span><span class="sv">Roval Rapide CLX</span></div>
+            <div class="bike-spec"><span class="sl">Relación</span><span class="sv">48x15</span></div>
+            <div class="bike-spec"><span class="sl">Peso</span><span class="sv">6.8 kg</span></div>
+            <div class="bike-spec"><span class="sl">Frenos</span><span class="sv">SRAM Red Disc</span></div>
+            <div class="bike-spec"><span class="sl">Tija</span><span class="sv">Roval Alpinist</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>&copy; 2026 Crit Virgilio · Bogotá, Colombia</span>
+        <div class="footer-socials">
+          <a href="#">IG</a>
+          <a href="#">ST</a>
+          <a href="#">WA</a>
+          <a href="#">&#9993;</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
