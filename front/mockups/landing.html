@@ -1002,8 +1002,91 @@
     .feed-item .feed-emoji { font-size: 1.3rem; }
 
     /* ============================================================
-       12 — COUNTDOWN
-       ============================================================ */
+        12 — SPONSORS
+        ============================================================ */
+    .sponsors {
+      padding: 100px 0;
+      background: var(--black);
+      text-align: center;
+    }
+    .sponsors h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .sponsors h2 em { font-style: normal; color: var(--yellow); }
+    .sponsors-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 48px;
+    }
+    .sponsor-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 28px 32px;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      cursor: default;
+      min-width: 140px;
+    }
+    .sponsor-item:hover {
+      background: var(--black-3);
+    }
+    .sponsor-item .sp-logo {
+      width: 72px; height: 72px;
+      border-radius: 16px;
+      background: var(--black-3);
+      border: 1.5px solid var(--black-4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      color: var(--gray-500);
+      transition: all 0.3s ease;
+    }
+    .sponsor-item:hover .sp-logo {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: var(--yellow-bg);
+    }
+    .sponsor-item .sp-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      transition: color 0.3s ease;
+    }
+    .sponsor-item:hover .sp-name { color: var(--gray-200); }
+    .sponsor-item.gold .sp-logo {
+      width: 88px; height: 88px;
+      font-size: 2.2rem;
+    }
+    .sponsor-item.gold .sp-name {
+      font-size: 0.95rem;
+      color: var(--gray-200);
+    }
+    .sponsors-cta {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--black-4);
+    }
+    .sponsors-cta p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+    .sponsors-cta a {
+      color: var(--yellow);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .sponsors-cta a:hover { color: var(--yellow-light); }
+
+    /* ============================================================
+        13 — COUNTDOWN
+        ============================================================ */
     .countdown {
       padding: 80px 0;
       text-align: center;
@@ -1064,8 +1147,8 @@
     }
 
     /* ============================================================
-       13 — FOOTER
-       ============================================================ */
+        14 — FOOTER
+        ============================================================ */
     .footer {
       border-top: 1px solid var(--black-4);
       padding: 60px 0 32px;
@@ -1092,22 +1175,39 @@
     .footer-links a { display: block; font-size: 0.82rem; color: var(--gray-500); padding: 3px 0; transition: color 0.2s; }
     .footer-links a:hover { color: var(--yellow); }
     .footer-sponsors {
-      display: flex; gap: 24px; align-items: center;
-      flex-wrap: wrap; padding: 24px 0;
+      display: flex; gap: 16px; align-items: center;
+      flex-wrap: wrap; padding: 28px 0;
       border-top: 1px solid var(--black-4);
       border-bottom: 1px solid var(--black-4);
       margin-bottom: 24px;
       justify-content: center;
     }
+    .footer-sponsors .sp-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gray-600);
+      font-weight: 500;
+      margin-right: 8px;
+    }
     .footer-sponsors .sp {
-      padding: 10px 24px;
-      border-radius: 8px;
+      padding: 10px 22px;
+      border-radius: 10px;
       background: var(--black-3);
       border: 1px solid var(--black-4);
-      color: var(--gray-600);
-      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-size: 0.72rem;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+    .footer-sponsors .sp:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: var(--yellow-bg);
+      transform: translateY(-2px);
     }
     .footer-bottom {
       display: flex;
@@ -1166,6 +1266,8 @@
       .bike-grid { grid-template-columns: 1fr; }
       .photo-week-layout { grid-template-columns: 1fr; }
       .hof-grid { grid-template-columns: 1fr 1fr; }
+      .sponsors-grid { gap: 20px; }
+      .sponsor-item { min-width: 100px; padding: 20px 16px; }
       .countdown-unit .num { font-size: 2.5rem; }
       .footer-top { flex-direction: column; }
     }
@@ -1743,8 +1845,49 @@
   </section>
 
   <!-- ============================================================
-       12 — COUNTDOWN
-       ============================================================ -->
+        12 — SPONSORS
+        ============================================================ -->
+  <section class="sponsors">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Patrocinadores</div>
+        <h2>Aliados que hacen <em>posible</em> el Crit</h2>
+      </div>
+      <div class="sponsors-grid">
+        <div class="sponsor-item gold reveal reveal-delay-1">
+          <div class="sp-logo">&#9971;</div>
+          <span class="sp-name">Specialized</span>
+        </div>
+        <div class="sponsor-item gold reveal reveal-delay-2">
+          <div class="sp-logo">&#9881;</div>
+          <span class="sp-name">SRAM</span>
+        </div>
+        <div class="sponsor-item reveal reveal-delay-3">
+          <div class="sp-logo">&#128666;</div>
+          <span class="sp-name">Roval</span>
+        </div>
+        <div class="sponsor-item reveal reveal-delay-4">
+          <div class="sp-logo">&#9733;</div>
+          <span class="sp-name">Gatorade</span>
+        </div>
+        <div class="sponsor-item reveal reveal-delay-4">
+          <div class="sp-logo">&#127963;</div>
+          <span class="sp-name">IDRD</span>
+        </div>
+        <div class="sponsor-item reveal reveal-delay-4">
+          <div class="sp-logo">&#9881;</div>
+          <span class="sp-name">Shimano</span>
+        </div>
+      </div>
+      <div class="sponsors-cta reveal">
+        <p>¿Tu marca quiere ser parte? <a href="#">Contáctanos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+        13 — COUNTDOWN
+        ============================================================ -->
   <section class="countdown">
     <div class="container">
       <h2 class="reveal">Próximo crit</h2>
@@ -1776,16 +1919,17 @@
   </section>
 
   <!-- ============================================================
-       13 — FOOTER
-       ============================================================ -->
+        14 — FOOTER
+        ============================================================ -->
   <footer class="footer">
     <div class="container">
       <div class="footer-sponsors">
-        <span class="sp">&#9733; Specialized</span>
-        <span class="sp">&#9733; SRAM</span>
-        <span class="sp">&#9733; Roval</span>
-        <span class="sp">&#9733; Gatorade</span>
-        <span class="sp">&#9733; IDRD</span>
+        <span class="sp-label">Patrocinan</span>
+        <span class="sp">Specialized</span>
+        <span class="sp">SRAM</span>
+        <span class="sp">Roval</span>
+        <span class="sp">Gatorade</span>
+        <span class="sp">IDRD</span>
       </div>
       <div class="footer-top">
         <div class="footer-brand">
