@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Posiciones — Crit Virgilio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      color: #bbb;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .mockup { width: 100%; max-width: 820px; }
+
+    /* ── Categories as tabs ── */
+    .cat-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      background: #0f0f0f;
+      border: 1px solid #1c1c1c;
+      border-radius: 14px;
+      padding: 4px;
+    }
+    .cat-tabs .cat {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 11px;
+      border: none;
+      background: transparent;
+      color: #555;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-tabs .cat:hover { color: #bbb; }
+    .cat-tabs .cat.active {
+      background: #fef300;
+      color: #0a0a0a;
+    }
+
+    /* ── Toolbar (race name + view toggle + date) ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .toolbar .race-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fdfdfd;
+      letter-spacing: -0.3px;
+    }
+    .toolbar .race-name .badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(254, 243, 0, 0.1);
+      border: 1px solid rgba(254, 243, 0, 0.15);
+      color: #fef300;
+      font-size: 0.6rem;
+      font-weight: 600;
+      vertical-align: middle;
+      letter-spacing: 0.3px;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .toolbar-right .view-pills {
+      display: flex;
+      gap: 2px;
+      background: #0f0f0f;
+      border: 1px solid #1c1c1c;
+      border-radius: 100px;
+      padding: 3px;
+    }
+    .toolbar-right .view-pills .vp {
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      color: #555;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .toolbar-right .view-pills .vp:hover { color: #bbb; }
+    .toolbar-right .view-pills .vp.active {
+      background: #161616;
+      color: #bbb;
+      font-weight: 600;
+    }
+
+    .toolbar-right select {
+      background: #0f0f0f;
+      border: 1px solid #1c1c1c;
+      border-radius: 100px;
+      padding: 5px 30px 5px 12px;
+      color: #bbb;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color 0.2s;
+    }
+    .toolbar-right select:hover { border-color: #2a2a2a; }
+    .toolbar-right select:focus { outline: none; border-color: rgba(254, 243, 0, 0.3); }
+    .toolbar-right select option { background: #0a0a0a; color: #bbb; }
+
+    /* ── Table ── */
+    .table-wrap {
+      background: #0f0f0f;
+      border: 1px solid #1c1c1c;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table-scroll::-webkit-scrollbar { height: 4px; }
+    .table-scroll::-webkit-scrollbar-track { background: #0f0f0f; }
+    .table-scroll::-webkit-scrollbar-thumb { background: #1c1c1c; border-radius: 10px; }
+
+    table { width: 100%; border-collapse: collapse; min-width: 540px; }
+    thead { background: #161616; }
+    thead th {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #555;
+      white-space: nowrap;
+    }
+    thead th:first-child { padding-left: 20px; }
+    thead th:last-child { padding-right: 20px; }
+    tbody tr {
+      border-top: 1px solid #1c1c1c;
+      transition: background 0.15s;
+      cursor: default;
+    }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+    tbody td {
+      padding: 12px 16px;
+      font-size: 0.88rem;
+    }
+    tbody td:first-child { padding-left: 20px; }
+    tbody td:last-child { padding-right: 20px; }
+
+    .col-pos { width: 40px; font-weight: 700; }
+    .col-pos .pos { color: #555; }
+    .col-pos .pos.gold { color: #fef300; }
+    .col-pos .pos.silver { color: #999; }
+    .col-pos .pos.bronze { color: #cd7f32; }
+
+    .col-rider { display: flex; align-items: center; gap: 10px; }
+    .col-rider .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #161616;
+      border: 1.5px solid #1c1c1c;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; color: #777;
+      flex-shrink: 0;
+    }
+    .col-rider .avatar.top3 { border-color: rgba(254, 243, 0, 0.3); color: #fef300; }
+    .col-rider .info { min-width: 0; }
+    .col-rider .info .name { font-weight: 600; color: #fdfdfd; font-size: 0.88rem; }
+    .col-rider .info .team { font-size: 0.68rem; color: #555; margin-top: 1px; }
+    .col-rider .trend { font-size: 0.68rem; margin-left: 6px; flex-shrink: 0; }
+    .col-rider .trend.up { color: #2dd4a0; }
+    .col-rider .trend.down { color: #f01454; }
+    .col-rider .trend.same { color: #555; }
+
+    .col-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #bbb;
+      letter-spacing: 0.2px;
+    }
+    .col-time .leader { color: #fef300; font-weight: 600; }
+    .col-points { font-weight: 700; color: #fdfdfd; text-align: right; }
+
+    .hint {
+      display: none;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #555;
+      padding: 8px 0 4px;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE
+       ══════════════════════════════════ */
+    @media (max-width: 768px) {
+      body { padding: 24px 16px; }
+      .toolbar .race-name { font-size: 0.95rem; }
+      thead th, tbody td { padding: 10px 12px; }
+      thead th:first-child, tbody td:first-child { padding-left: 16px; }
+      thead th:last-child, tbody td:last-child { padding-right: 16px; }
+      .col-rider .info .team { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 12px; }
+      .cat-tabs { border-radius: 11px; }
+      .cat-tabs .cat { font-size: 0.8rem; padding: 9px; }
+
+      .toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .toolbar-right { width: 100%; }
+      .toolbar-right .view-pills { flex: 1; justify-content: center; }
+      .toolbar-right select { flex: 1; min-width: 0; }
+
+      .table-scroll { margin: 0 -12px; border-radius: 0; }
+      .table-wrap { border-radius: 0; border-left: none; border-right: none; }
+      .hint { display: flex; }
+
+      table { min-width: 420px; }
+      thead th { font-size: 0.62rem; padding: 10px 10px; }
+      tbody td { font-size: 0.82rem; padding: 10px 10px; }
+      .col-pos { width: 32px; }
+      .col-rider .avatar { width: 28px; height: 28px; font-size: 0.6rem; }
+      .col-rider .info .name { font-size: 0.82rem; }
+      .col-rider .trend { display: none; }
+      .col-time { font-size: 0.75rem; }
+    }
+
+    @media (max-width: 400px) {
+      .toolbar .race-name { font-size: 0.85rem; }
+      .toolbar-right .view-pills .vp { font-size: 0.7rem; padding: 4px 10px; }
+      .toolbar-right select { font-size: 0.7rem; padding: 4px 24px 4px 10px; }
+      table { min-width: 360px; }
+      .col-points { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup">
+
+    <!-- Categories: segmented control -->
+    <div class="cat-tabs">
+      <button class="cat active">Expertos</button>
+      <button class="cat">Intermedios</button>
+      <button class="cat">Novatos</button>
+      <button class="cat">Ruta</button>
+      <button class="cat">Mujeres</button>
+    </div>
+
+    <!-- Toolbar: race + view + date -->
+    <div class="toolbar">
+      <div class="race-name">
+        Crit #19 — Virgilio Barco
+        <span class="badge">&#9889; Finalizada</span>
+      </div>
+      <div class="toolbar-right">
+        <div class="view-pills">
+          <button class="vp active">General</button>
+          <button class="vp">Por etapa</button>
+        </div>
+        <select>
+          <option selected>Crit #19 — 18 Jul 2026</option>
+          <option>Crit #18 — 05 Jul 2026</option>
+          <option>Crit #17 — 21 Jun 2026</option>
+          <option>Crit #16 — 14 Jun 2026</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="hint"><span>&#8592;</span> Desliza para ver más <span>&#8594;</span></div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Corredor</th>
+              <th>Tiempo</th>
+              <th style="text-align:right">Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-pos"><span class="pos gold">1</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar top3">DG</div>
+                  <div class="info">
+                    <div class="name">Diego Góngora</div>
+                    <div class="team">Team Bogotá Elite</div>
+                  </div>
+                  <span class="trend up">&#9650;+2</span>
+                </div>
+              </td>
+              <td class="col-time"><span class="leader">1:02:34</span></td>
+              <td class="col-points">2,480</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos silver">2</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar top3">JP</div>
+                  <div class="info">
+                    <div class="name">Juan Pérez</div>
+                    <div class="team">Team Ciclismo Capital</div>
+                  </div>
+                  <span class="trend up">&#9650;+1</span>
+                </div>
+              </td>
+              <td class="col-time">+0:12</td>
+              <td class="col-points">2,310</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos bronze">3</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar top3">AR</div>
+                  <div class="info">
+                    <div class="name">Andrés Ruiz</div>
+                    <div class="team">Team Andes</div>
+                  </div>
+                  <span class="trend same">&#9654;0</span>
+                </div>
+              </td>
+              <td class="col-time">+0:45</td>
+              <td class="col-points">2,145</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">4</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">CD</div>
+                  <div class="info">
+                    <div class="name">Camilo Díaz</div>
+                    <div class="team">Team Capital</div>
+                  </div>
+                  <span class="trend up">&#9650;+3</span>
+                </div>
+              </td>
+              <td class="col-time">+1:08</td>
+              <td class="col-points">1,980</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">5</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">FM</div>
+                  <div class="info">
+                    <div class="name">Felipe Mora</div>
+                    <div class="team">Team Bogotá Elite</div>
+                  </div>
+                  <span class="trend down">&#9660;-1</span>
+                </div>
+              </td>
+              <td class="col-time">+1:23</td>
+              <td class="col-points">1,875</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">6</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">SL</div>
+                  <div class="info">
+                    <div class="name">Santiago López</div>
+                    <div class="team">Team Andes</div>
+                  </div>
+                  <span class="trend up">&#9650;+4</span>
+                </div>
+              </td>
+              <td class="col-time">+2:15</td>
+              <td class="col-points">1,720</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">7</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">PM</div>
+                  <div class="info">
+                    <div class="name">Pedro Martínez</div>
+                    <div class="team">Team Ciclismo Capital</div>
+                  </div>
+                  <span class="trend down">&#9660;-2</span>
+                </div>
+              </td>
+              <td class="col-time">+3:02</td>
+              <td class="col-points">1,655</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">8</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">AG</div>
+                  <div class="info">
+                    <div class="name">Ana Gómez</div>
+                    <div class="team">Team Femenino Elite</div>
+                  </div>
+                  <span class="trend up">&#9650;+5</span>
+                </div>
+              </td>
+              <td class="col-time">+3:45</td>
+              <td class="col-points">1,590</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">9</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">CR</div>
+                  <div class="info">
+                    <div class="name">Carlos Ríos</div>
+                    <div class="team">Team Independiente</div>
+                  </div>
+                  <span class="trend down">&#9660;-3</span>
+                </div>
+              </td>
+              <td class="col-time">+4:20</td>
+              <td class="col-points">1,445</td>
+            </tr>
+            <tr>
+              <td class="col-pos"><span class="pos">10</span></td>
+              <td>
+                <div class="col-rider">
+                  <div class="avatar">LV</div>
+                  <div class="info">
+                    <div class="name">Laura Vega</div>
+                    <div class="team">Team Femenino Elite</div>
+                  </div>
+                  <span class="trend same">&#9654;0</span>
+                </div>
+              </td>
+              <td class="col-time">+5:10</td>
+              <td class="col-points">1,320</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
