@@ -2,10 +2,11 @@
 
 /* ── Design tokens ── */
 :root {
-  --bg: #13162a;
-  --surface: #1c1f35;
-  --border: #252840;
-  --border-hover: #333650;
+  --bg: #0a0a0a;
+  --surface: #0f0f0f;
+  --surface-raised: #161616;
+  --border: #1c1c1c;
+  --border-hover: #2a2a2a;
 
   --accent: #f01454;
   --accent-dark: #a00d38;
@@ -16,12 +17,17 @@
   --green-dim: #0d3d2e;
   --amber: #f5a623;
 
-  --text: #c0c4e2;
-  --text-muted: #7a7e9a;
-  --text-dim: #40445e;
+  --text-primary: #fdfdfd;
+  --text-segundary: #fef300;
+  --text: #bbb;
+  --text-muted: #777;
+  --text-dim: #555;
 
-  --completed-bg: #0f1120;
-  --nav-hover: #1a1d33;
+  --bg-yellow-tint: #222108;
+  --border-yellow: rgba(254, 243, 0, 0.15);
+
+  --completed-bg: #0f0f0f;
+  --nav-hover: #1c1c1c;
 
   --radius: 10px;
   --radius-sm: 6px;
@@ -32,12 +38,15 @@
   /* backgrounds / surfaces */
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-bg-yellow-tint: var(--bg-yellow-tint);
   --color-completed-bg: var(--completed-bg);
   --color-nav-hover: var(--nav-hover);
 
   /* borders */
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);
+  --color-border-yellow: var(--border-yellow);
 
   /* accent */
   --color-accent: var(--accent);
@@ -51,6 +60,8 @@
   --color-amber: var(--amber);
 
   /* text */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-segundary);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-text-dim: var(--text-dim);

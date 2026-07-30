@@ -1,4 +1,4 @@
-import "../../style/globals.css";
+import "../style/global.css";
 import type { Metadata } from "next";
 import { Inter, DM_Sans } from "next/font/google";
 import { SWRProvider } from "@/provider/StoreProvider";
@@ -31,10 +31,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${inter.variable} ${dmSans.variable} antialiased w-full h-screen overflow-hidden flex flex-col bg-bg text-text`}
+        className={`${inter.variable} ${dmSans.variable} antialiased w-full min-h-screen flex flex-col bg-bg text-text`}
       >
         <SWRProvider>
-          <div className="flex-1 w-full flex flex-col min-h-0">
+          <div className="w-full">
             {children}
           </div>
         </SWRProvider>
