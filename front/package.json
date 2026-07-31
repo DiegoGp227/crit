@@ -11,12 +11,14 @@
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
     "axios": "^1.16.0",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.576.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.75.0",
     "swr": "^2.4.1",
+    "tailwind-merge": "^3.6.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {

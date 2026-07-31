@@ -17,8 +17,12 @@
   --green-dim: #0d3d2e;
   --amber: #f5a623;
 
+  --gold: #fef300;
+  --silver: #999;
+  --bronze: #cd7f32;
+
   --text-primary: #fdfdfd;
-  --text-segundary: #fef300;
+  --text-secondary: #fef300;
   --text: #bbb;
   --text-muted: #777;
   --text-dim: #555;
@@ -31,6 +35,9 @@
 
   --radius: 10px;
   --radius-sm: 6px;
+
+  /* layout */
+  --max-width-content: 1152px;
 }
 
 /* ── Tailwind v4 theme registration ── */
@@ -54,17 +61,29 @@
   --color-accent-bright: var(--accent-bright);
   --color-accent-bg: var(--accent-bg);
 
+  /* brand CTA (yellow) */
+  --color-cta: var(--text-secondary);
+  --color-cta-ink: #0a0a0a;
+
   /* semantic */
   --color-green: var(--green);
   --color-green-dim: var(--green-dim);
   --color-amber: var(--amber);
 
+  /* podium */
+  --color-gold: var(--gold);
+  --color-silver: var(--silver);
+  --color-bronze: var(--bronze);
+
   /* text */
   --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-segundary);
+  --color-text-secondary: var(--text-secondary);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-text-dim: var(--text-dim);
+
+  /* layout */
+  --max-width-content: 1152px;
 
   /* radius */
   --radius-app: var(--radius);
@@ -78,4 +97,13 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: "Inter", "DM Sans", var(--font-sans);
+}
+
+/* ── Custom utilities ── */
+@utility card {
+  @apply rounded-2xl bg-surface-raised;
+}
+
+@utility badge {
+  @apply inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-0.5 text-xs font-medium;
 }
