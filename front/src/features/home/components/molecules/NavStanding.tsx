@@ -1,29 +1,81 @@
+"use client";
+
+import { useState } from "react";
+import Button from "@/src/shared/components/ui/Button";
+
+const categories = ["Expertos", "Intermedios", "Novatos", "Ruteros", "Femenino", "Clubs"];
+
+const races = [
+    "Crit #19 — 18 Jul 2026",
+    "Crit #18 — 05 Jul 2026",
+    "Crit #17 — 21 Jun 2026",
+    "Crit #16 — 14 Jun 2026",
+];
+
+type View = "general" | "etapa";
+
 export default function NavStanding() {
+    const [category, setCategory] = useState(categories[0]);
+    const [view, setView] = useState<View>("general");
+    const [race, setRace] = useState(races[0]);
+
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex w-full flex-col gap-5">
             <nav className="w-full flex items-center justify-center">
-                <ul className="inline-flex gap-5 justify-center bg-surface-raised w-auto rounded-2xl">
-                    <li className="px-10 py-3 bg-text-secondary text-black font-bold rounded-2xl cursor-pointer">Expertos</li>
-                    <li className="px-10 py-3 text-text-muted font-bold rounded-2xl transition-all duration-500 hover:text-text-primary hover:bg-surface cursor-pointer">Intermedios</li>
-                    <li className="px-10 py-3 text-text-muted font-bold rounded-2xl transition-all duration-500 hover:text-text-primary hover:bg-surface cursor-pointer">Novatos</li>
-                    <li className="px-10 py-3 text-text-muted font-bold rounded-2xl transition-all duration-500 hover:text-text-primary hover:bg-surface cursor-pointer">Ruteros</li>
-                    <li className="px-10 py-3 text-text-muted font-bold rounded-2xl transition-all duration-500 hover:text-text-primary hover:bg-surface cursor-pointer">Femenino</li>
-                    <li className="px-10 py-3 text-text-muted font-bold rounded-2xl transition-all duration-500 hover:text-text-primary hover:bg-surface cursor-pointer">Clubs</li>
+                <ul className="inline-flex w-auto justify-center gap-5 rounded-2xl bg-surface-raised">
+                    {categories.map((c) => (
+                        <li key={c}>
+                            <Button
+                                size="lg"
+                                variant={category === c ? "primary" : "ghost"}
+                                onClick={() => setCategory(c)}
+                                aria-pressed={category === c}
+                            >
+                                {c}
+                            </Button>
+                        </li>
+                    ))}
                 </ul>
             </nav>
-            <div className="flex justify-between">
-                <div className="flex gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
                     <h2 className="font-bold text-2xl text-text-primary">General - Crit Virgilio</h2>
-                    <div className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-border-yellow bg-bg-yellow-tint px-2.5 py-0.5 text-xs font-medium text-text-secondary">
+                    <span className="badge border border-border-yellow bg-bg-yellow-tint text-text-secondary">
                         <span aria-hidden="true" className="text-sm">⚡</span>
                         <span>En Curso</span>
-                    </div>
+                    </span>
                 </div>
-                <div>
-                    <div className="bg-surface flex gap-2 rounded-2xl">
-                        <button className="bg-surface-raised py-2 px-5 rounded-2xl font-bold">General</button>
-                        <button className="py-2 px-5 rounded-2xl transition-all duration-500 hover:text-text-primary font-bold">Por Etapa</button>
+                <div className="flex items-center gap-2">
+                    <div className="flex gap-2 rounded-2xl bg-surface">
+                        <Button
+                            variant={view === "general" ? "surface" : "ghost"}
+                            size="sm"
+                            onClick={() => setView("general")}
+                            aria-pressed={view === "general"}
+                        >
+                            General
+                        </Button>
+                        <Button
+                            variant={view === "etapa" ? "surface" : "ghost"}
+                            size="sm"
+                            onClick={() => setView("etapa")}
+                            aria-pressed={view === "etapa"}
+                        >
+                            Por Etapa
+                        </Button>
                     </div>
+                    <select
+                        value={race}
+                        onChange={(e) => setRace(e.target.value)}
+                        aria-label="Seleccionar carrera"
+                        className="cursor-pointer rounded-full border border-border bg-surface px-4 py-2 text-xs font-medium text-text transition-colors hover:border-border-hover focus:border-border-yellow focus:outline-none"
+                    >
+                        {races.map((r) => (
+                            <option key={r} value={r}>
+                                {r}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </div>
         </div>
