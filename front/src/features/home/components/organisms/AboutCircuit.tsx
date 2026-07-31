@@ -1,37 +1,48 @@
 import Image from "next/image";
+import Section from "@/src/shared/components/ui/Section";
 
 export default function AboutCircuit() {
+    const stats = [
+        { label: "Longitud", value: "1.5 km" },
+        { label: "Vueltas", value: "10" },
+        { label: "Superficie", value: "Asfalto" },
+        { label: "Tráfico", value: "Sin tráfico" },
+    ];
+
     return (
-        <section className="w-full h-170 flex justify-center items-center gap-5 ">
-            <div className="flex">
-                <div className="flex items-start flex-col w-[55%] gap-5">
+        <Section>
+            <div className="grid w-full grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+                <div className="flex flex-col gap-8">
                     <div>
                         <p>El circuito</p>
                         <h2 className="font-bold text-4xl text-text-primary">Virgilio Barco</h2>
                         <p>Av. Calle 53 · Bogotá</p>
                     </div>
-                    <div className="flex flex-wrap w-200 items-center gap-3">
-                        <div className="w-67.5  bg-surface-raised rounded-2xl p-3"><p className="text-text-muted">Longitud: <span className="text-text-primary font-bold">1.5 km</span></p></div>
-                        <div className="w-67.5  bg-surface-raised rounded-2xl p-3"><p className="text-text-muted">Vueltas: <span className="text-text-primary font-bold">10</span></p></div>
-                        <div className="w-67.5  bg-surface-raised rounded-2xl p-3"><p className="text-text-muted">Superficie: <span className="text-text-primary font-bold">Asfalto</span></p></div>
-                        <div className="w-67.5  bg-surface-raised rounded-2xl p-3"><p className="text-text-muted">Tráfico: <span className="text-text-primary font-bold">Sin tráfico</span></p></div>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {stats.map((stat) => (
+                            <div key={stat.label} className="card p-3">
+                                <p className="text-text-muted">
+                                    {stat.label}: <span className="font-bold text-text-primary">{stat.value}</span>
+                                </p>
+                            </div>
+                        ))}
                     </div>
-                    <div className="flex gap-2">
-                        <div className="bg-surface-raised px-4 py-1 rounded-2xl"><p>Rectas rápidas</p></div>
-                        <div className="bg-surface-raised px-4 py-1 rounded-2xl"><p>Curva técnica</p></div>
-                        <div className="bg-surface-raised px-4 py-1 rounded-2xl"><p>Zona de sprint</p></div>
+                    <div className="flex flex-wrap gap-2">
+                        <div className="card px-4 py-1">Rectas rápidas</div>
+                        <div className="card px-4 py-1">Curva técnica</div>
+                        <div className="card px-4 py-1">Zona de sprint</div>
                     </div>
                 </div>
-                <div className="flex items-center justify-center flex-col w-[55%]">
+                <div className="flex items-center justify-center">
                     <Image
                         src="/brand/Circuito2.png"
-                        alt="CritVirgilium logo"
+                        alt="Virgilio Barco"
                         width={623}
                         height={500}
                         style={{ height: "500px", width: "auto" }}
                     />
                 </div>
             </div>
-        </section>
+        </Section>
     )
 }
