@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — Crit Virgilio</title>
+  <style>
+    :root {
+      --black: #0a0a0a; --black-2: #0f0f0f; --black-3: #161616; --black-4: #1c1c1c;
+      --gray-900: #222; --gray-800: #2a2a2a; --gray-700: #333; --gray-600: #555;
+      --gray-500: #777; --gray-400: #999; --gray-300: #bbb; --gray-200: #ddd;
+      --white: #fdfdfd;
+      --yellow: #fef300; --yellow-light: #facc15; --yellow-bg: rgba(254, 243, 0, 0.08);
+      --yellow-glow: rgba(254, 243, 0, 0.06);
+      --red: #f01454; --red-bg: rgba(240, 20, 84, 0.1);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--font);background:var(--black);color:var(--gray-300);
+      line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;
+      display:flex;
+    }
+    ::selection{background:rgba(254,243,0,0.2);color:var(--yellow)}
+    a{color:var(--yellow);text-decoration:none}
+
+    /* ═══════════ Brand panel (left) ═══════════ */
+    .brand{
+      flex:1;display:none;flex-direction:column;justify-content:center;
+      align-items:center;gap:24px;padding:48px;text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .brand::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 50% 30%,var(--yellow-glow) 0%,transparent 60%);
+      pointer-events:none;
+    }
+    .brand-mark{
+      width:96px;height:96px;border-radius:24px;display:flex;align-items:center;
+      justify-content:center;font-size:3rem;
+      background:linear-gradient(135deg,var(--black-3),var(--black-4));
+      border:1.5px solid var(--black-4);position:relative;z-index:1;
+    }
+    .brand h1{font-size:2rem;font-weight:800;color:var(--white);letter-spacing:-1px;position:relative;z-index:1}
+    .brand h1 span{color:var(--yellow)}
+    .brand p{max-width:360px;font-size:.85rem;color:var(--gray-500);position:relative;z-index:1}
+    .brand .tag{
+      display:inline-flex;align-items:center;gap:8px;position:relative;z-index:1;
+      padding:6px 14px;border-radius:100px;font-size:.68rem;font-weight:600;color:var(--yellow);
+      background:var(--yellow-bg);border:1px solid rgba(254,243,0,0.15);
+    }
+
+    /* ═══════════ Form panel (right) ═══════════ */
+    .auth{
+      flex:1.2;display:flex;align-items:center;justify-content:center;
+      padding:32px 24px;min-height:100vh;
+    }
+    .auth-inner{width:100%;max-width:400px}
+    .auth-head{margin-bottom:32px}
+    .auth-head .mobile-mark{
+      display:flex;align-items:center;gap:10px;margin-bottom:28px;
+    }
+    .auth-head .mobile-mark .mark{
+      width:38px;height:38px;border-radius:10px;background:var(--yellow);color:var(--black);
+      font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;
+    }
+    .auth-head .mobile-mark span{font-weight:600;font-size:.9rem;color:var(--white)}
+    .auth-head h2{font-size:1.6rem;font-weight:700;color:var(--white);letter-spacing:-0.5px}
+    .auth-head p{font-size:.82rem;color:var(--gray-500);margin-top:4px}
+
+    .field{margin-bottom:18px}
+    .field label{
+      display:block;font-size:.68rem;font-weight:600;text-transform:uppercase;
+      letter-spacing:1px;color:var(--gray-500);margin-bottom:8px;
+    }
+    .field input{
+      width:100%;padding:13px 16px;border-radius:12px;background:var(--black-2);
+      border:1px solid var(--black-4);color:var(--white);font-family:inherit;
+      font-size:.9rem;outline:none;transition:border-color .2s;
+    }
+    .field input::placeholder{color:var(--gray-600)}
+    .field input:focus{border-color:rgba(254,243,0,0.4)}
+    .field .input-wrap{position:relative}
+    .field .input-wrap .toggle{
+      position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:var(--gray-500);cursor:pointer;
+      font-size:.8rem;
+    }
+    .field .input-wrap .toggle:hover{color:var(--gray-300)}
+
+    .row{
+      display:flex;align-items:center;justify-content:space-between;
+      font-size:.8rem;margin-bottom:24px;
+    }
+    .row label{display:flex;align-items:center;gap:8px;color:var(--gray-400);cursor:pointer}
+    .row input[type=checkbox]{accent-color:var(--yellow);width:15px;height:15px;cursor:pointer}
+    .row a{font-weight:500;font-size:.8rem}
+    .row a:hover{color:var(--yellow-light)}
+
+    .btn{
+      width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;
+      font-family:inherit;font-size:.92rem;font-weight:700;transition:all .2s;
+    }
+    .btn-primary{background:var(--yellow);color:var(--black)}
+    .btn-primary:hover{background:var(--yellow-light)}
+    .btn-primary:active{transform:scale(0.99)}
+    .btn-ghost{
+      width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:13px;border-radius:12px;background:var(--black-2);
+      border:1px solid var(--black-4);color:var(--gray-200);cursor:pointer;
+      font-family:inherit;font-size:.88rem;font-weight:600;transition:all .2s;
+    }
+    .btn-ghost:hover{background:var(--black-3);border-color:var(--gray-700)}
+    .btn-ghost .g{font-weight:700}
+    .btn-ghost .g.g1{color:#4285F4}.btn-ghost .g.g2{color:#EA4335}
+    .btn-ghost .g.g3{color:#FBBC05}.btn-ghost .g.g4{color:#34A853}
+
+    .divider{
+      display:flex;align-items:center;gap:12px;margin:22px 0;
+      font-size:.72rem;color:var(--gray-600);text-transform:uppercase;letter-spacing:1px;
+    }
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--black-4)}
+
+    .error{
+      display:none;align-items:center;gap:8px;background:var(--red-bg);
+      border:1px solid rgba(240,20,84,0.2);color:var(--red);
+      border-radius:10px;padding:10px 14px;font-size:.78rem;margin-bottom:18px;
+    }
+    .error.show{display:flex}
+
+    .auth-foot{margin-top:28px;text-align:center;font-size:.8rem;color:var(--gray-500)}
+    .auth-foot a{font-weight:600}
+    .auth-foot a:hover{color:var(--yellow-light)}
+
+    @media(min-width:860px){
+      .brand{display:flex}
+      .auth .mobile-mark{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Brand panel -->
+  <section class="brand">
+    <div class="brand-mark">🚴</div>
+    <h1>Crit <span>Virgilio</span></h1>
+    <p>La comunidad de critériums del Virgilio Barco en Bogotá. Corre, compite y hazte un nombre en las tablas.</p>
+    <span class="tag">⚡ Próximo crit en 02 días</span>
+  </section>
+
+  <!-- Auth panel -->
+  <section class="auth">
+    <div class="auth-inner">
+
+      <div class="auth-head">
+        <div class="mobile-mark">
+          <div class="mark">CV</div>
+          <span>Crit Virgilio</span>
+        </div>
+        <h2>Bienvenido de vuelta</h2>
+        <p>Inicia sesión para ver tu perfil, resultados y clasificación.</p>
+      </div>
+
+      <div class="error" id="error"><span>⚠</span><span>Credenciales incorrectas. Inténtalo de nuevo.</span></div>
+
+      <form id="loginForm" onsubmit="return false">
+        <div class="field">
+          <label for="email">Correo o usuario</label>
+          <input type="text" id="email" placeholder="ej. diego@critvirgilio.co" autocomplete="username">
+        </div>
+
+        <div class="field">
+          <label for="password">Contraseña</label>
+          <div class="input-wrap">
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+            <button class="toggle" id="togglePass" type="button">Mostrar</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label><input type="checkbox" checked> Recuérdame</label>
+          <a href="#">Olvidé mi contraseña</a>
+        </div>
+
+        <button class="btn btn-primary" id="submitBtn">Entrar</button>
+      </form>
+
+      <div class="divider">o continúa con</div>
+
+      <button class="btn-ghost">
+        <span class="g"><span class="g1">G</span><span class="g2">o</span><span class="g3">o</span><span class="g4">g</span><span class="g1">l</span><span class="g2">e</span></span>
+        Continuar con Google
+      </button>
+
+      <div class="auth-foot">
+        ¿No tienes cuenta? <a href="#">Regístrate</a>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // ── Mostrar/ocultar contraseña ──
+    const togglePass = document.getElementById('togglePass');
+    const password = document.getElementById('password');
+    togglePass.addEventListener('click', () => {
+      const hidden = password.type === 'password';
+      password.type = hidden ? 'text' : 'password';
+      togglePass.textContent = hidden ? 'Ocultar' : 'Mostrar';
+    });
+
+    // ── Mockup: simula validación básica (demo) ──
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const error = document.getElementById('error');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!email.value.trim()) {
+        error.classList.add('show');
+        setTimeout(() => error.classList.remove('show'), 3000);
+      } else {
+        // En un mockup, cualquier valor válido "entra"
+        window.location.href = 'landing.html';
+      }
+    });
+  </script>
+</body>
+</html>
