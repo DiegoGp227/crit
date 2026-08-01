@@ -14,7 +14,7 @@ export default function BikeInfo() {
             <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
                 <div className="card relative aspect-4/3 overflow-hidden">
                     <Image
-                        src="/photos/grupo.jpg"
+                        src="/photos/bike.jpeg"
                         alt="La bicicleta"
                         fill
                         className="object-cover"

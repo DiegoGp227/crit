@@ -22,7 +22,7 @@ export default function ProfileInfo() {
             <div className="relative grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr_auto] lg:justify-items-center">
                 <div className="relative h-40 w-40 justify-self-center overflow-hidden rounded-full border-2 border-border-hover">
                     <Image
-                        src="/photos/grupo.jpg"
+                        src="/photos/profile.jpeg"
                         alt="Foto del grupo"
                         fill
                         className="object-cover"
