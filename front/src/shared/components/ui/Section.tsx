@@ -15,7 +15,7 @@ export default function Section({
 }: SectionProps) {
   return (
     <section
-      className={cn("flex w-full flex-col items-center py-24", className)}
+      className={cn("flex w-full flex-col items-center py-28", className)}
       {...props}
     >
       {container ? <Container>{children}</Container> : children}

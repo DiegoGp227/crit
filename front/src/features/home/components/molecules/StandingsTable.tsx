@@ -71,7 +71,7 @@ export default function StandingsTable() {
           return (
             <div className="flex items-center gap-2.5">
               <div
-                className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold ${
                   position <= 3 ? "border-border-yellow text-text-secondary" : "border-border bg-surface-raised text-text-muted"
                 }`}
               >
@@ -86,7 +86,7 @@ export default function StandingsTable() {
                 </Link>
                 <div className="hidden text-[0.68rem] text-text-dim md:block">{team}</div>
               </div>
-              <span className={`ml-1.5 hidden flex-shrink-0 text-[0.68rem] sm:inline-flex ${trendStyles[trend.direction]}`}>
+              <span className={`ml-1.5 hidden shrink-0 text-[0.68rem] sm:inline-flex ${trendStyles[trend.direction]}`}>
                 {trendIcon[trend.direction]} {trend.direction === "same" ? "0" : `${trend.value > 0 ? "+" : "-"}${Math.abs(trend.value)}`}
               </span>
             </div>
