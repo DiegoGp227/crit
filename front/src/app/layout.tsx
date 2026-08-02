@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "crit",
+  title: "Crit Virgilium",
   description: "fullstack application",
   icons: {
     icon: "/favicon.ico",
