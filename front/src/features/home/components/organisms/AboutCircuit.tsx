@@ -39,7 +39,7 @@ export default function AboutCircuit() {
                         alt="Virgilio Barco"
                         width={623}
                         height={500}
-                        style={{ height: "500px", width: "auto" }}
+                        className="h-auto w-full max-w-[560px]"
                     />
                 </div>
             </div>

@@ -19,24 +19,24 @@ export default function NextRaceCountdown() {
                 <div>
                     <h2 className="text-3xl font-bold">Próximo crit</h2>
                 </div>
-                <div className="flex items-center gap-0">
+                <div className="flex items-center justify-center gap-0">
                     <div className="flex flex-col items-center">
-                        <span className="text-[10rem] font-bold leading-none text-text-primary">02</span>
+                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">02</span>
                         <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Días</span>
                     </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-cta animate-pulse mx-6 -mt-10" />
+                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
                     <div className="flex flex-col items-center">
-                        <span className="text-[10rem] font-bold leading-none text-text-primary">07</span>
+                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">07</span>
                         <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Horas</span>
                     </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-cta animate-pulse mx-6 -mt-10" />
+                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
                     <div className="flex flex-col items-center">
-                        <span className="text-[10rem] font-bold leading-none text-text-primary">32</span>
+                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">32</span>
                         <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Minutos</span>
                     </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-cta animate-pulse mx-6 -mt-10" />
+                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
                     <div className="flex flex-col items-center">
-                        <span className="text-[10rem] font-bold leading-none text-text-primary">24</span>
+                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">24</span>
                         <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Segundos</span>
                     </div>
                 </div>

@@ -21,8 +21,8 @@ export default function NavStanding() {
 
     return (
         <div className="flex w-full flex-col gap-5">
-            <nav className="w-full flex items-center justify-center">
-                <ul className="inline-flex w-auto justify-center gap-5 rounded-2xl bg-surface-raised">
+            <nav className="flex w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <ul className="mx-auto inline-flex w-max items-center gap-2 rounded-2xl bg-surface-raised p-2 sm:w-auto sm:gap-5">
                     {categories.map((c) => (
                         <li key={c}>
                             <Button
@@ -38,15 +38,15 @@ export default function NavStanding() {
                 </ul>
             </nav>
             <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <h2 className="font-bold text-2xl text-text-primary">General - Crit Virgilio</h2>
                     <span className="badge border border-border-yellow bg-bg-yellow-tint text-text-secondary">
                         <span aria-hidden="true" className="text-sm">⚡</span>
                         <span>En Curso</span>
                     </span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <div className="flex gap-2 rounded-2xl bg-surface">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                    <div className="flex shrink-0 items-center gap-2 rounded-2xl bg-surface">
                         <Button
                             variant={view === "general" ? "surface" : "ghost"}
                             size="sm"
@@ -68,7 +68,7 @@ export default function NavStanding() {
                         value={race}
                         onChange={(e) => setRace(e.target.value)}
                         aria-label="Seleccionar carrera"
-                        className="cursor-pointer rounded-full border border-border bg-surface px-4 py-2 text-xs font-medium text-text transition-colors hover:border-border-hover focus:border-border-yellow focus:outline-none"
+                        className="min-w-0 max-w-full cursor-pointer rounded-full border border-border bg-surface px-4 py-2 text-xs font-medium text-text transition-colors hover:border-border-hover focus:border-border-yellow focus:outline-none"
                     >
                         {races.map((r) => (
                             <option key={r} value={r}>
