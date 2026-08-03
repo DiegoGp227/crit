@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Crit Virgilium",
   description: "fullstack application",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/brand/favicon.png",
   },
 };
 
