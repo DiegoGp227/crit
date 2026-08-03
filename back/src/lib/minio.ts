@@ -4,7 +4,7 @@ import { logger } from "../utils/logger.js";
 
 export const minioClient = new Client({
   endPoint: env.MINIO_ENDPOINT,
-  port: env.MINIO_PORT,
+  port: 9000,
   useSSL: false,
   accessKey: env.MINIO_ROOT_USER,
   secretKey: env.MINIO_ROOT_PASSWORD,
