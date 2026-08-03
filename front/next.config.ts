@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
         port: parsedMinioUrl.port || "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "minio.critvirgilio.devdiego.work",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
