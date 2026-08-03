@@ -19,19 +19,32 @@ export const createUser = async (
 
   const passwordHash = await bcrypt.hash(userData.password, 10);
 
-  const user = await prisma.user.create({
-    data: {
-      email: userData.email,
-      passwordHash,
-    },
-    select: {
-      id: true,
-      email: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
+  let user;
+  try {
+    user = await prisma.user.create({
+      data: {
+        email: userData.email,
+        passwordHash,
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  } catch (error) {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "P2002"
+    ) {
+      throw new EmailAlreadyInUseError(userData.email);
+    }
+    throw error;
+  }
 
   const token = jwt.sign({ id: user.id, email: user.email }, env.JWT_SECRET, {
     expiresIn: env.TOKEN_EXPIRATION as SignOptions["expiresIn"],
@@ -48,7 +61,7 @@ export const validateUser = async (
   });
 
   if (!existingUser) {
-    throw new InvalidCredentialsError(userData.email);
+    throw new InvalidCredentialsError();
   }
 
   const isPasswordValid = await bcrypt.compare(
@@ -57,7 +70,7 @@ export const validateUser = async (
   );
 
   if (!isPasswordValid) {
-    throw new InvalidCredentialsError(userData.email);
+    throw new InvalidCredentialsError();
   }
 
   const user = {
