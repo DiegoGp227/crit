@@ -91,14 +91,14 @@ export default function HomeCountdownMask() {
     <div className="fixed inset-0 z-40">
       <div
         aria-hidden
-        className="absolute inset-0 -bottom-[40vh] bg-bg/70 backdrop-blur-lg"
+        className="absolute inset-0 bottom-[-40vh] bg-bg/70 backdrop-blur-lg"
       />
       <div className="relative flex h-full flex-col items-center justify-center gap-6 px-4 text-center sm:gap-8 sm:px-6">
         <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-text-muted sm:text-xs">
           Próximo crit · Virgilio Barco
         </p>
         <h1 className="text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl lg:text-5xl">
-          La Leña comienza el jueves a las 7:00 PM
+          La leña comienza el jueves a las 7:00 PM
         </h1>
         <div className="flex items-center justify-center gap-0">
           {cells.map((cell, index) => (
