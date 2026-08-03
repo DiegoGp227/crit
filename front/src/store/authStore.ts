@@ -3,9 +3,9 @@ import { persist } from "zustand/middleware";
 
 export interface IAuthResponse {
   user: {
-    id: string;
+    id: number;
     email: string;
-    name: string;
+    role: string;
     createdAt: string;
     updatedAt: string;
   } | null;
