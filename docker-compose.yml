@@ -53,6 +53,8 @@ services:
   front:
     build:
       context: ./front
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     container_name: crit-frontend
     restart: unless-stopped
     ports:
