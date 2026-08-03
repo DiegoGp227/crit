@@ -95,7 +95,7 @@ export default function HomeCountdownMask() {
       />
       <div className="relative flex h-full flex-col items-center justify-center gap-6 px-4 text-center sm:gap-8 sm:px-6">
         <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-text-muted sm:text-xs">
-          Próximo crit · Virgilio Barco
+          Próximo crit · Virgilio Barco 
         </p>
         <h1 className="text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl lg:text-5xl">
           La leña comienza el jueves a las 7:00 PM
