@@ -206,6 +206,7 @@ export default function ProfileForm({
   const [selectedBib, setSelectedBib] = useState<number | null>(
     initial?.bibNumber ?? null,
   );
+  const [bibError, setBibError] = useState<string | null>(null);
 
   const {
     register,
@@ -225,6 +226,11 @@ export default function ProfileForm({
   });
 
   const onSubmit: SubmitHandler<ProfileFormValues> = async (values) => {
+    if (!bibAssigned && selectedBib === null) {
+      setBibError("El dorsal es obligatorio");
+      return;
+    }
+
     const data: UpdateProfileDTO = {
       fullName: values.fullName.trim(),
       avatarUrl: avatar ?? "",
@@ -325,7 +331,10 @@ export default function ProfileForm({
                         key={bibNumber}
                         type="button"
                         disabled={taken}
-                        onClick={() => setSelectedBib(bibNumber)}
+                        onClick={() => {
+                          setSelectedBib(bibNumber);
+                          setBibError(null);
+                        }}
                         className={cn(
                           "h-9 rounded-lg text-sm font-semibold transition-colors",
                           taken &&
@@ -344,6 +353,7 @@ export default function ProfileForm({
                 <span className="text-xs text-text-dim">
                   Los dorsales tachados ya están asignados.
                 </span>
+                {bibError && <span className="text-xs text-red-500">{bibError}</span>}
               </>
             )}
           </div>
