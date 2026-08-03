@@ -43,7 +43,7 @@ export default function AuthCard() {
             </div>
 
             <div className="flex min-h-screen items-center justify-center px-6 py-20">
-                <div className="w-full max-w-[400px]">
+                <div className="w-full max-w-100">
                     <div className="mb-8 lg:hidden">
                         <Image
                             src="/brand/CritVirgilium.png"
