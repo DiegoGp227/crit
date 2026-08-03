@@ -1,14 +1,14 @@
-// RM: Types Example — replace with your own types
+import { UserRole } from "@prisma/client";
+
 export interface ICreateUser {
-  name: string;
   email: string;
   password: string;
 }
 
 export interface IUserResponse {
-  id: string;
-  name: string;
+  id: number;
   email: string;
+  role: UserRole;
   createdAt: Date;
   updatedAt: Date;
 }

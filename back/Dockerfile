@@ -20,8 +20,9 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 8000
 
-CMD ["node", "dist/app/index.js"]
+CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/app/index.js"]

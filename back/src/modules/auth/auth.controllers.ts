@@ -7,7 +7,7 @@ import { loginSchema, signupSchema } from "./auth.schemas.js";
 
 /**
  * @route POST /signup
- * @body { email, password, name }
+ * @body { email, password }
  * @returns { message, token, userInfo }
  */
 export const signup = asyncHandler(async (req: Request, res: Response) => {
@@ -31,8 +31,8 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
     token,
     userInfo: {
       id: user.id,
-      name: user.name,
       email: user.email,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     },
@@ -65,8 +65,8 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     token,
     userInfo: {
       id: user.id,
-      name: user.name,
       email: user.email,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     },

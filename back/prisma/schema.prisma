@@ -1,4 +1,3 @@
-// RM: replace models with your own schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,12 +6,108 @@ datasource db {
   provider = "postgresql"
 }
 
-// RM: Example model — replace with your own
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum CompetitionType {
+  EXPERTOS
+  FEMENINO
+}
+
+enum RaceStatus {
+  SCHEDULED
+  FINISHED
+  CANCELLED
+}
+
+enum CategoryType {
+  PRINCIPIANTE
+  NOVATO
+  EXPERTO
+  RUTA
+  MUJER
+}
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  profile      Profile?
+
+  @@map("users")
+}
+
+model Profile {
+  id           Int           @id @default(autoincrement())
+  userId       Int           @unique @map("user_id")
+  fullName     String        @map("full_name")
+  avatarUrl    String?       @map("avatar_url")
+  bibNumber    Int           @unique @map("bib_number")
+  kilometers   Int?
+  category     CategoryType?
+  team         String?
+  bikePhotoUrl String?       @map("bike_photo_url")
+  bikeNickname String?       @map("bike_nickname")
+  bikeFrame    String?       @map("bike_frame")
+  bikeRatio    String?       @map("bike_ratio")
+  bikeWeight   Decimal?      @map("bike_weight")
+  bikeSize     String?       @map("bike_size")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  registration Registration?
+  results      Result[]
+
+  @@map("profiles")
+}
+
+model Registration {
+  id                     Int             @id @default(autoincrement())
+  profileId              Int             @unique @map("profile_id")
+  competitionType        CompetitionType @map("competition_type")
+  document               String          @unique
+  phone                  String
+  eps                    String
+  emergencyContactName   String          @map("emergency_contact_name")
+  emergencyContactPhone  String          @map("emergency_contact_phone")
+  createdAt              DateTime        @default(now()) @map("created_at")
+  updatedAt              DateTime        @updatedAt @map("updated_at")
+
+  profile                Profile         @relation(fields: [profileId], references: [id], onDelete: Restrict)
+
+  @@map("registrations")
+}
+
+model RaceDate {
+  id          Int        @id @default(autoincrement())
+  roundNumber Int        @unique @map("round_number")
+  title       String?
+  raceDate    DateTime   @map("race_date")
+  status      RaceStatus @default(SCHEDULED)
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  results     Result[]
+
+  @@map("race_dates")
+}
+
+model Result {
+  id         Int      @id @default(autoincrement())
+  profileId  Int      @map("profile_id")
+  raceDateId Int      @map("race_date_id")
+  points     Int
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  raceDate   RaceDate @relation(fields: [raceDateId], references: [id], onDelete: Restrict)
+
+  @@unique([raceDateId, profileId])
+  @@map("results")
 }

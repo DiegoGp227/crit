@@ -21,14 +21,13 @@ export const createUser = async (
 
   const user = await prisma.user.create({
     data: {
-      name: userData.name,
       email: userData.email,
-      password: passwordHash,
+      passwordHash,
     },
     select: {
       id: true,
       email: true,
-      name: true,
+      role: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -54,7 +53,7 @@ export const validateUser = async (
 
   const isPasswordValid = await bcrypt.compare(
     userData.password,
-    existingUser.password,
+    existingUser.passwordHash,
   );
 
   if (!isPasswordValid) {
@@ -63,8 +62,8 @@ export const validateUser = async (
 
   const user = {
     id: existingUser.id,
-    name: existingUser.name,
     email: existingUser.email,
+    role: existingUser.role,
     createdAt: existingUser.createdAt,
     updatedAt: existingUser.updatedAt,
   };
