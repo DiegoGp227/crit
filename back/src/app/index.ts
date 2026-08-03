@@ -4,6 +4,7 @@ import { router } from "../routes/index.routes";
 import { errorHandler } from "../middlewares/errorHandler.middleware";
 import { logger } from "../utils/logger";
 import { env } from "../config/env";
+import { ensureBucket } from "../lib/minio.js";
 
 const app = express();
 
@@ -30,6 +31,11 @@ app.use((req, res) => {
 });
 app.use(errorHandler);
 
-app.listen(env.PORT, () => {
+app.listen(env.PORT, async () => {
+  try {
+    await ensureBucket();
+  } catch (error) {
+    logger.error("Failed to ensure MinIO bucket", error);
+  }
   logger.info(`Server listening on port ${env.PORT}`);
 });
