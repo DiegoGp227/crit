@@ -11,7 +11,7 @@ export default function HeroHome() {
                         alt="CritVirgilium logo"
                         width={623}
                         height={390}
-                        className="h-24 w-auto sm:h-32 md:h-40 lg:h-[300px]"
+                        className="h-24 w-auto sm:h-32 md:h-40 lg:h-75"
                     />
                     <div className="flex flex-col items-center text-center">
                         <p className="text-xl font-bold sm:text-2xl">&ldquo;Hecho por nosotros y para nosostros&rdquo;</p>

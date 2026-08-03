@@ -13,9 +13,7 @@ export class AppError extends Error {
     details?: any
   ) {
     super(message);
-    
-    Object.setPrototypeOf(this, AppError.prototype);
-    
+
     this.statusCode = statusCode;
     this.code = code;
     this.isOperational = isOperational;
