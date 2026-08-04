@@ -93,7 +93,13 @@ export const getMyProfile = async (userId: number) => {
   }
 
   const { profile, ...userData } = user;
-  return { user: userData, profile };
+  const registration = profile
+    ? await prisma.registration.findUnique({
+        where: { profileId: profile.id },
+      })
+    : null;
+
+  return { user: userData, profile, registration };
 };
 
 export const upsertMyProfile = async (userId: number, data: UpdateProfileDTO) => {

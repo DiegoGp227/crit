@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "../modules/profile/profile.controllers.js";
 import { upload } from "../modules/upload/upload.controllers.js";
+import { registerForChampionship } from "../modules/registration/registration.controllers.js";
 export const router: Router = Router();
 
 const uploadMiddleware = multer({
@@ -32,3 +33,6 @@ router.get("/me", authMiddleware, getProfile);
 router.patch("/me/profile", authMiddleware, updateProfile);
 router.get("/riders/:id", getRiderProfile);
 router.get("/bibs", getBibs);
+
+// Registration Routes
+router.post("/me/registration", authMiddleware, registerForChampionship);
