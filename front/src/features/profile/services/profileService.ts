@@ -6,6 +6,7 @@ import {
   RiderURL,
   UploadURL,
 } from "@/src/shared/constants/urls";
+import type { Registration } from "./registrationService";
 
 export type CategoryType =
   | "PRINCIPIANTE"
@@ -50,6 +51,7 @@ export interface MyProfileResponse {
     updatedAt: string;
   };
   profile: Profile | null;
+  registration: Registration | null;
 }
 
 export interface ProfileStats {
