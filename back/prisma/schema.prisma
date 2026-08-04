@@ -13,7 +13,8 @@ enum UserRole {
 
 enum CompetitionType {
   EXPERTOS
-  FEMENINO
+  FEMENINOFIJA
+  FEMENINORUTA
 }
 
 enum RaceStatus {
