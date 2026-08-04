@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CheckCircle2, User } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
 import Button from "@/src/shared/components/ui/Button";
@@ -57,13 +56,11 @@ export default function ProfileInfo({
         <div className="relative grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr_auto] lg:justify-items-center">
           <div className="relative flex h-40 w-40 items-center justify-center justify-self-center overflow-hidden rounded-full border-2 border-border-hover bg-surface">
             {profile.avatarUrl ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={profile.avatarUrl}
                 alt="Foto de perfil"
-                fill
-                className="object-cover"
-                sizes="160px"
-                priority
+                className="h-full w-full object-cover"
               />
             ) : (
               <User className="h-16 w-16 text-text-dim" />

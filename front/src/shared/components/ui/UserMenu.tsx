@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -51,12 +50,11 @@ export default function UserMenu() {
                 className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition-colors hover:border-border-hover"
             >
                 {avatarUrl ? (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                         src={avatarUrl}
                         alt="Foto de perfil"
-                        width={40}
-                        height={40}
-                        className="object-cover"
+                        className="h-full w-full object-cover"
                     />
                 ) : (
                     <User className="h-5 w-5 text-text-dim" />

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Bike } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
 import { cn } from "@/src/shared/utils/cn";
@@ -24,13 +23,11 @@ export default function BikeInfo({ profile }: BikeInfoProps) {
       <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div className="card relative flex aspect-4/3 items-center justify-center overflow-hidden">
           {profile.bikePhotoUrl ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={profile.bikePhotoUrl}
               alt="La bicicleta"
-              fill
-              className="object-cover"
-              sizes="50vw"
-              priority
+              className="h-full w-full object-cover"
             />
           ) : (
             <Bike className="h-24 w-24 text-text-dim" />
