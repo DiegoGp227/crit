@@ -9,3 +9,4 @@ export const MeProfileURL = new URL("me/profile", BaseURL);
 export const RiderURL = (id: number) => new URL(`riders/${id}`, BaseURL);
 export const BibsURL = new URL("bibs", BaseURL);
 export const MeRegistrationURL = new URL("me/registration", BaseURL);
+export const AdminRegistrationsURL = new URL("admin/registrations", BaseURL);
