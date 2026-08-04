@@ -34,12 +34,12 @@ export default function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/60 p-4 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[60] flex overflow-y-auto bg-black/60 p-4 sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className={cn("w-full max-w-100", className)}>{children}</div>
+      <div className={cn("m-auto w-full max-w-100", className)}>{children}</div>
     </div>,
     document.body,
   );
