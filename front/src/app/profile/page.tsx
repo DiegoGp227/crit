@@ -1,11 +1,5 @@
-import BikeInfo from "@/src/features/profile/components/organisms/BikeInfo";
-import ProfileInfo from "@/src/features/profile/components/organisms/ProfileInfo";
+import ProfileView from "@/src/features/profile/components/organisms/ProfileView";
 
 export default function ProfilePage() {
-    return (
-        <>
-            <ProfileInfo />
-            <BikeInfo />
-        </>
-    )
+  return <ProfileView />;
 }

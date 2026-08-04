@@ -77,6 +77,50 @@ export interface UpdateProfileDTO {
   bikeSize?: string | null;
 }
 
+export interface ProfileFormValues {
+  fullName: string;
+  category: string;
+  team: string;
+  avatarUrl: string | null;
+  bikePhotoUrl: string | null;
+  bibNumber: number | null;
+  bikeNickname: string;
+  bikeFrame: string;
+  bikeRatio: string;
+  bikeWeight: string;
+  bikeSize: string;
+}
+
+const toOptionalNumber = (value: string): number | undefined => {
+  const trimmed = value.trim();
+  if (trimmed === "") return undefined;
+  const parsed = Number(trimmed);
+  return Number.isNaN(parsed) ? undefined : parsed;
+};
+
+export function toUpdateProfileDTO(values: ProfileFormValues): UpdateProfileDTO {
+  const team = values.team.trim();
+  const bikeNickname = values.bikeNickname.trim();
+  const bikeFrame = values.bikeFrame.trim();
+  const bikeRatio = values.bikeRatio.trim();
+  const bikeSize = values.bikeSize.trim();
+  const bikeWeight = toOptionalNumber(values.bikeWeight);
+
+  return {
+    fullName: values.fullName.trim(),
+    avatarUrl: values.avatarUrl ?? "",
+    bikePhotoUrl: values.bikePhotoUrl ?? "",
+    ...(values.bibNumber !== null && { bibNumber: values.bibNumber }),
+    ...(values.category && { category: values.category as CategoryType }),
+    ...(team && { team }),
+    ...(bikeNickname && { bikeNickname }),
+    ...(bikeFrame && { bikeFrame }),
+    ...(bikeRatio && { bikeRatio }),
+    ...(bikeWeight !== undefined && { bikeWeight }),
+    ...(bikeSize && { bikeSize }),
+  };
+}
+
 export const getMyProfile = async (): Promise<MyProfileResponse> => {
   const response = await apiClient.get<MyProfileResponse>(MeURL.href);
   return response.data;
