@@ -1,3 +1,4 @@
+import { CompetitionType } from "@prisma/client";
 import prisma from "../../db/prisma.js";
 import { ConflictError, NotFoundError } from "../../errors/appError.js";
 import type { CreateRegistrationDTO } from "./registration.schemas.js";
@@ -56,4 +57,29 @@ export const createRegistration = async (
   } catch (error) {
     throwIfDocumentInUse(error);
   }
+};
+
+export const listRegistrations = async (competitionType?: CompetitionType) => {
+  return prisma.registration.findMany({
+    where: competitionType ? { competitionType } : undefined,
+    select: {
+      id: true,
+      profileId: true,
+      competitionType: true,
+      document: true,
+      phone: true,
+      eps: true,
+      emergencyContactName: true,
+      emergencyContactPhone: true,
+      createdAt: true,
+      updatedAt: true,
+      profile: {
+        select: {
+          fullName: true,
+          bibNumber: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "asc" },
+  });
 };
