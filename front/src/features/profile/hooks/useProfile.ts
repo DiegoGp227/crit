@@ -35,6 +35,14 @@ export const useProfileStats = (profileId: number | null | undefined) => {
   return { stats: data?.stats, error, isLoading };
 };
 
+export const usePublicProfile = (profileId: number | null | undefined) => {
+  const { data, error, isLoading } = useSWR<PublicProfileResponse>(
+    profileId ? RiderURL(profileId).href : null,
+    () => getPublicProfile(profileId as number),
+  );
+  return { profile: data?.profile ?? null, stats: data?.stats, error, isLoading };
+};
+
 export const useBibs = () => {
   const { data, error, isLoading } = useSWR<{ used: number[] }>(
     BibsURL.href,

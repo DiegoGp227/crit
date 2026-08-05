@@ -19,8 +19,6 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
-const PUBLIC_ROUTES = ["/", "/auth"];
-
 export const SWRProvider = ({ children }: { children: ReactNode }) => {
   const [isClient, setIsClient] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
@@ -35,7 +33,11 @@ export const SWRProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isClient) return;
 
-    if (PUBLIC_ROUTES.includes(pathname)) {
+    if (
+      pathname === "/" ||
+      pathname === "/auth" ||
+      pathname.startsWith("/profiles")
+    ) {
       setAuthChecked(true);
       return;
     }

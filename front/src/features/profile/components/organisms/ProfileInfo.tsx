@@ -16,14 +16,16 @@ interface ProfileInfoProps {
   profile: Profile;
   stats?: ProfileStats;
   registration?: Registration | null;
-  onEdit: () => void;
-  onRegister: () => void;
+  title?: string;
+  onEdit?: () => void;
+  onRegister?: () => void;
 }
 
 export default function ProfileInfo({
   profile,
   stats,
   registration,
+  title = "Mi perfil",
   onEdit,
   onRegister,
 }: ProfileInfoProps) {
@@ -47,10 +49,12 @@ export default function ProfileInfo({
       />
       <div className="relative flex w-full flex-col gap-6">
         <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-widest text-text-muted">Mi perfil</p>
-          <Button variant="surface" size="sm" onClick={onEdit}>
-            Editar perfil
-          </Button>
+          <p className="text-xs uppercase tracking-widest text-text-muted">{title}</p>
+          {onEdit && (
+            <Button variant="surface" size="sm" onClick={onEdit}>
+              Editar perfil
+            </Button>
+          )}
         </div>
 
         <div className="relative grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr_auto] lg:justify-items-center">
@@ -109,11 +113,11 @@ export default function ProfileInfo({
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 Inscrito · {COMPETITION_LABELS[registration.competitionType]}
               </span>
-            ) : (
+            ) : onRegister ? (
               <Button size="sm" onClick={onRegister}>
                 Inscribirse al campeonato
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
