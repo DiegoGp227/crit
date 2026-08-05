@@ -7,15 +7,10 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-});
-
-// Interceptor para agregar tokens de autenticación
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  // withCredentials: el navegador adjunta la cookie de sesión (HttpOnly)
+  // automáticamente en cada request. El token ya NO se lee de localStorage.
+  // Requiere que el backend tenga CORS con `credentials: true` (ya lo tiene).
+  withCredentials: true,
 });
 
 // Interceptor para manejar errores globalmente.

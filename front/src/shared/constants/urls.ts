@@ -3,6 +3,7 @@ export const BaseURL =
 
 export const LoginURL = new URL("login", BaseURL);
 export const SignupURL = new URL("signup", BaseURL);
+export const LogoutURL = new URL("logout", BaseURL);
 export const UploadURL = new URL("upload", BaseURL);
 export const MeURL = new URL("me", BaseURL);
 export const MeProfileURL = new URL("me/profile", BaseURL);

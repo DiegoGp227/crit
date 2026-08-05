@@ -16,8 +16,8 @@ export const useLogin = () => {
     );
 
     const signIn = async (data: AuthDTO) => {
-        const { token, userInfo } = await trigger(data);
-        setAuth({ token, user: userInfo });
+        const { userInfo } = await trigger(data);
+        setAuth(userInfo);
         router.push(userInfo.role === "ADMIN" ? "/admin" : "/profile");
     };
 

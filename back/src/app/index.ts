@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { router } from "../routes/index.routes";
 import { errorHandler } from "../middlewares/errorHandler.middleware";
 import { logger } from "../utils/logger";
@@ -12,12 +13,16 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+// Parsea las cookies del request y las expone en `req.cookies`.
+// Sin esto, Express no sabe leer la cookie de sesión HttpOnly.
+app.use(cookieParser());
+
 app.use(
   cors({
     origin: env.CORS_ORIGIN.split(",").map((o) => o.trim()),
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   }),
 );
 

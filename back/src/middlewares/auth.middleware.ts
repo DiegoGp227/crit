@@ -5,13 +5,19 @@ import { env } from "../config/env.js";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    const authHeader = req.headers.authorization;
+    // 1) Prioridad: cookie HttpOnly (autenticación web).
+    // 2) Fallback: header "Authorization: Bearer" (clientes externos o curl).
+    const token =
+      req.cookies?.[env.COOKIE_NAME] ??
+      (() => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader?.startsWith("Bearer ")) return undefined;
+        return authHeader.split(" ")[1];
+      })();
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!token) {
       throw new UnauthorizedError("No token provided");
     }
-
-    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(
       token,

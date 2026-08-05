@@ -2,13 +2,16 @@
 import { Request, Response } from "express";
 import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
+import { cookieOptions } from "../../utils/cookie.js";
+import { env } from "../../config/env.js";
 import { createUser, validateUser } from "./auth.services.js";
 import { loginSchema, signupSchema } from "./auth.schemas.js";
 
 /**
  * @route POST /signup
  * @body { email, password }
- * @returns { message, token, userInfo }
+ * @returns { message, userInfo }
+ * @setCookie crit_token (HttpOnly)
  */
 export const signup = asyncHandler(async (req: Request, res: Response) => {
   const validation = signupSchema.safeParse(req.body);
@@ -26,9 +29,12 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
 
   const { user, token } = await createUser(validation.data);
 
+  // El JWT viaja en una cookie HttpOnly: el frontend nunca lo ve,
+  // solo devuelve los datos del usuario en el body.
+  res.cookie(env.COOKIE_NAME, token, cookieOptions());
+
   res.status(201).json({
     message: "User successfully created",
-    token,
     userInfo: {
       id: user.id,
       email: user.email,
@@ -42,7 +48,8 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
 /**
  * @route POST /login
  * @body { email, password }
- * @returns { message, token, userInfo }
+ * @returns { message, userInfo }
+ * @setCookie crit_token (HttpOnly)
  */
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const validation = loginSchema.safeParse(req.body);
@@ -60,9 +67,10 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
   const { user, token } = await validateUser(validation.data);
 
+  res.cookie(env.COOKIE_NAME, token, cookieOptions());
+
   res.status(200).json({
     message: "Login successful",
-    token,
     userInfo: {
       id: user.id,
       email: user.email,
@@ -71,4 +79,17 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
       updatedAt: user.updatedAt,
     },
   });
+});
+
+/**
+ * @route POST /logout
+ * @returns { message }
+ * @clearCookie crit_token
+ *
+ * Como la cookie es HttpOnly, el frontend NO puede borrarla desde JS.
+ * Por eso el backend la invalida con una respuesta de expiración inmediata.
+ */
+export const logout = asyncHandler(async (_req: Request, res: Response) => {
+  res.clearCookie(env.COOKIE_NAME, cookieOptions());
+  res.status(200).json({ message: "Logged out successfully" });
 });

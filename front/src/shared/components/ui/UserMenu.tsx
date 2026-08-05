@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
 import { useAuthStore } from "@/src/store/authStore";
 import { useProfile } from "@/src/features/profile/hooks/useProfile";
+import { logout } from "@/src/features/auth/services/authService";
 
 export default function UserMenu() {
     const [open, setOpen] = useState(false);
@@ -34,10 +35,16 @@ export default function UserMenu() {
         };
     }, []);
 
-    const handleLogout = () => {
-        clearAuth();
-        setOpen(false);
-        router.push("/auth");
+    const handleLogout = async () => {
+        try {
+            // Borra la cookie HttpOnly en el servidor (no borrable desde JS).
+            await logout();
+        } finally {
+            // Limpia el store local y redirige aunque el request falle.
+            clearAuth();
+            setOpen(false);
+            router.push("/auth");
+        }
     };
 
     return (

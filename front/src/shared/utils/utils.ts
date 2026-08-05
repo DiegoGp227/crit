@@ -17,7 +17,7 @@ export const fetcher = async <T>(url: string): Promise<T> => {
 
 export const postFetcher = async <T>(
   url: string,
-  params: Record<string, any>,
+  params: Record<string, unknown>,
   contentType?: string
 ): Promise<T> => {
   try {
@@ -60,7 +60,7 @@ export const deleteFetcher = async (
 
 export const putFetcher = async <T>(
   url: string,
-  params: Record<string, any>,
+  params: Record<string, unknown>,
   contentType?: string
 ): Promise<T> => {
   try {
@@ -86,10 +86,11 @@ export const uploadFileFetcher = async <T>(
   formData: FormData
 ): Promise<T> => {
   try {
-    // No establecer Content-Type para que axios lo maneje automáticamente con el boundary
+    // No fijar Content-Type: axios lo resuelve solo (multipart con boundary)
+    // cuando el body es FormData, anulando el header por defecto del client.
     const response = await apiClient.post<T>(url, formData, {
       headers: {
-        "Content-Type": undefined as any,
+        "Content-Type": undefined as unknown as string,
       },
     });
 
@@ -105,7 +106,7 @@ export const uploadFileFetcher = async <T>(
 
 export const patchFetcher = async <T>(
   url: string,
-  params: Record<string, any> | FormData,
+  params: Record<string, unknown> | FormData,
   contentType?: string
 ): Promise<T> => {
   try {

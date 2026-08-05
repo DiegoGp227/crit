@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Button from "@/src/shared/components/ui/Button";
 import LoginForm from "../../forms/LoginForm";
 import RegisterForm from "../../forms/RegisterForm";
 
