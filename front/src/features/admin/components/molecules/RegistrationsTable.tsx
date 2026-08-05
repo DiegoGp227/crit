@@ -1,19 +1,31 @@
 "use client";
 
-import { useMemo } from "react";
+import { Fragment, useMemo, useState } from "react";
+import {
+  CalendarDays,
+  ChevronDown,
+  ChevronRight,
+  FileText,
+  HeartPulse,
+  Phone,
+  User,
+} from "lucide-react";
 import {
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   useReactTable,
   type ColumnDef,
+  type ExpandedState,
 } from "@tanstack/react-table";
 import { padBib } from "@/src/shared/utils/format";
+import { cn } from "@/src/shared/utils/cn";
 import type { AdminRegistration } from "../../services/registrationsService";
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("es-CO", {
     day: "2-digit",
-    month: "2-digit",
+    month: "short",
     year: "numeric",
   });
 
@@ -32,11 +44,32 @@ interface RegistrationsTableProps {
 export default function RegistrationsTable({
   registrations,
 }: RegistrationsTableProps) {
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+
   const columns = useMemo<ColumnDef<AdminRegistration>[]>(
     () => [
       {
+        id: "expand",
+        header: "",
+        cell: ({ row }) => (
+          <button
+            type="button"
+            onClick={row.getToggleExpandedHandler()}
+            aria-expanded={row.getIsExpanded()}
+            aria-label={row.getIsExpanded() ? "Ocultar detalles" : "Ver detalles"}
+            className="flex h-8 w-8 items-center justify-center rounded-xl text-text-dim transition-colors hover:bg-surface-raised hover:text-text-primary"
+          >
+            {row.getIsExpanded() ? (
+              <ChevronDown className="size-4" />
+            ) : (
+              <ChevronRight className="size-4" />
+            )}
+          </button>
+        ),
+      },
+      {
         id: "bib",
-        header: "#",
+        header: "Bib",
         cell: ({ row }) => (
           <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
             {padBib(row.original.profile.bibNumber)}
@@ -48,24 +81,39 @@ export default function RegistrationsTable({
         header: "Corredor",
         cell: ({ row }) => {
           const { fullName } = row.original.profile;
+          const avatarUrl = row.original.profile.avatarUrl;
           return (
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface-raised text-[0.65rem] font-bold text-text-muted">
-                {initials(fullName)}
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-surface-raised text-[0.7rem] font-bold text-text-muted">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={avatarUrl}
+                    alt={`Foto de ${fullName}`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  initials(fullName)
+                )}
               </div>
-              <span className="min-w-0 text-sm font-semibold text-text-primary">
-                {fullName}
-              </span>
+              <div className="min-w-0">
+                <span className="block truncate text-sm font-semibold text-text-primary">
+                  {fullName}
+                </span>
+                <span className="block text-xs text-text-dim">
+                  {row.original.phone}
+                </span>
+              </div>
             </div>
           );
         },
       },
       {
-        id: "phone",
-        header: "Teléfono",
+        id: "category",
+        header: "Categoría",
         cell: ({ row }) => (
           <span className="whitespace-nowrap text-sm text-text">
-            {row.original.phone}
+            {row.original.competitionType}
           </span>
         ),
       },
@@ -88,7 +136,7 @@ export default function RegistrationsTable({
         ),
       },
       {
-        id: "emergencyName",
+        id: "emergency",
         header: "Contacto emergencia",
         cell: ({ row }) => (
           <span className="whitespace-nowrap text-sm text-text">
@@ -109,7 +157,7 @@ export default function RegistrationsTable({
         id: "createdAt",
         header: "Inscrito",
         cell: ({ row }) => (
-          <span className="whitespace-nowrap text-sm text-text-dim">
+          <span className="whitespace-nowrap text-sm text-text-muted">
             {formatDate(row.original.createdAt)}
           </span>
         ),
@@ -118,10 +166,14 @@ export default function RegistrationsTable({
     [],
   );
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: registrations,
     columns,
+    state: { expanded },
+    onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
   });
 
   if (registrations.length === 0) {
@@ -140,16 +192,18 @@ export default function RegistrationsTable({
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-border bg-surface">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-180 border-collapse">
+        <table className="w-full min-w-160 border-collapse">
           <thead className="bg-surface-raised">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header, index) => (
                   <th
                     key={header.id}
-                    className={`whitespace-nowrap px-4 py-3.5 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim ${
-                      index === 0 ? "w-14 pl-5" : "text-left"
-                    } ${index === headerGroup.headers.length - 1 ? "pr-5" : ""}`}
+                    className={cn(
+                      "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
+                      index === 0 ? "w-12 pl-5" : "text-left",
+                      index === headerGroup.headers.length - 1 ? "pr-5" : "",
+                    )}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
@@ -159,18 +213,55 @@ export default function RegistrationsTable({
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-t border-border transition-colors hover:bg-white/2">
-                {row.getVisibleCells().map((cell, index) => (
-                  <td
-                    key={cell.id}
-                    className={`px-4 py-3 ${index === 0 ? "pl-5" : ""} ${
-                      index === row.getVisibleCells().length - 1 ? "pr-5" : ""
-                    }`}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
+              <Fragment key={row.id}>
+                <tr className="border-t border-border transition-colors hover:bg-white/2">
+                  {row.getVisibleCells().map((cell, index) => (
+                    <td
+                      key={cell.id}
+                      className={cn(
+                        "px-4 py-3.5",
+                        index === 0 ? "pl-5" : "",
+                        index === row.getVisibleCells().length - 1 ? "pr-5" : "",
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+                {row.getIsExpanded() && (
+                  <tr className="border-t-0 bg-surface-raised/40">
+                    <td colSpan={row.getVisibleCells().length} className="px-5 py-4">
+                      <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <Detail
+                          icon={FileText}
+                          label="Documento"
+                          value={row.original.document}
+                        />
+                        <Detail
+                          icon={HeartPulse}
+                          label="EPS"
+                          value={row.original.eps}
+                        />
+                        <Detail
+                          icon={User}
+                          label="Contacto emergencia"
+                          value={row.original.emergencyContactName}
+                        />
+                        <Detail
+                          icon={Phone}
+                          label="Tel. emergencia"
+                          value={row.original.emergencyContactPhone}
+                        />
+                        <Detail
+                          icon={CalendarDays}
+                          label="Inscrito"
+                          value={formatDate(row.original.createdAt)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>
@@ -178,6 +269,30 @@ export default function RegistrationsTable({
       <p className="hidden items-center justify-center gap-1.5 py-2 text-[0.7rem] text-text-dim max-[600px]:flex">
         <span aria-hidden>←</span> Desliza para ver más <span aria-hidden>→</span>
       </p>
+    </div>
+  );
+}
+
+function Detail({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof FileText;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-surface text-text-dim">
+        <Icon className="size-3.5" />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[0.65rem] font-medium uppercase tracking-wider text-text-dim">
+          {label}
+        </span>
+        <span className="block truncate text-sm text-text-primary">{value}</span>
+      </span>
     </div>
   );
 }

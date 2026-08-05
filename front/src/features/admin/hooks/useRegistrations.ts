@@ -6,17 +6,37 @@ import type { CompetitionType } from "@/src/features/profile/services/registrati
 import {
   fetchRegistrations,
   type AdminRegistration,
+  type PaginationMeta,
 } from "../services/registrationsService";
 
-export const useRegistrations = (competitionType?: CompetitionType) => {
-  const key = competitionType
-    ? `${AdminRegistrationsURL.href}?competitionType=${competitionType}`
-    : AdminRegistrationsURL.href;
+interface UseRegistrationsParams {
+  competitionType?: CompetitionType;
+  search?: string;
+  page?: number;
+  pageSize?: number;
+}
 
-  const { data, error, isLoading, mutate } = useSWR<AdminRegistration[]>(
-    key,
-    () => fetchRegistrations(competitionType),
+export const useRegistrations = (params: UseRegistrationsParams = {}) => {
+  const { competitionType, search, page = 1, pageSize = 25 } = params;
+
+  const query = new URLSearchParams();
+  if (competitionType) query.set("competitionType", competitionType);
+  if (search) query.set("search", search);
+  query.set("page", String(page));
+  query.set("pageSize", String(pageSize));
+  const key = `${AdminRegistrationsURL.href}?${query.toString()}`;
+
+  const { data, error, isLoading, mutate } = useSWR(key, () =>
+    fetchRegistrations({ competitionType, search, page, pageSize }),
   );
 
-  return { registrations: data ?? [], error, isLoading, mutate };
+  return {
+    registrations: data?.registrations ?? [],
+    pagination: data?.pagination,
+    error,
+    isLoading,
+    mutate,
+  };
 };
+
+export type { PaginationMeta, AdminRegistration };
