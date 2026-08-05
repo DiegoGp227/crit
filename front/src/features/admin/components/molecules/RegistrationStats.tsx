@@ -38,7 +38,7 @@ export default function RegistrationStats({
   const totalActive = active === "ALL";
 
   return (
-    <div className="grid w-full grid-cols-2 gap-3 lg:flex lg:[&>*]:flex-1">
+    <div className="grid w-full grid-cols-2 gap-3 lg:flex lg:*:flex-1">
       <button
         type="button"
         onClick={() => onSelect("ALL")}
