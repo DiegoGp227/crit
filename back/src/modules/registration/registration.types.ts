@@ -12,3 +12,15 @@ export interface IRegistrationResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IPaginationMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface IRegistrationsPaginatedResponse {
+  registrations: IRegistrationResponse[];
+  pagination: IPaginationMeta;
+}

@@ -3,12 +3,10 @@ import { z } from "zod";
 import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import { createRegistration, listRegistrations } from "./registration.services.js";
-import { createRegistrationSchema } from "./registration.schemas.js";
-import { CompetitionType } from "@prisma/client";
-
-const listRegistrationsQuerySchema = z.object({
-  competitionType: z.nativeEnum(CompetitionType).optional(),
-});
+import {
+  createRegistrationSchema,
+  listRegistrationsQuerySchema,
+} from "./registration.schemas.js";
 
 /**
  * @route POST /me/registration
@@ -41,8 +39,8 @@ export const registerForChampionship = asyncHandler(
 
 /**
  * @route GET /admin/registrations
- * @query { competitionType? }
- * @returns { registrations }
+ * @query { competitionType?, search?, page?, pageSize? }
+ * @returns { registrations, pagination }
  */
 export const getRegistrations = asyncHandler(
   async (req: Request, res: Response) => {
@@ -59,10 +57,20 @@ export const getRegistrations = asyncHandler(
       throw new ValidationError("Validation errors", errors);
     }
 
-    const registrations = await listRegistrations(
-      query.data.competitionType,
-    );
+    const { competitionType, search, page, pageSize } = query.data;
 
-    res.status(200).json({ registrations });
+    const { registrations, total } = await listRegistrations({
+      competitionType,
+      search,
+      page,
+      pageSize,
+    });
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    res.status(200).json({
+      registrations,
+      pagination: { page, pageSize, total, totalPages },
+    });
   },
 );

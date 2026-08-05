@@ -12,3 +12,12 @@ export const createRegistrationSchema = z.object({
 });
 
 export type CreateRegistrationDTO = z.infer<typeof createRegistrationSchema>;
+
+export const listRegistrationsQuerySchema = z.object({
+  competitionType: z.nativeEnum(CompetitionType).optional(),
+  search: z.string().trim().max(120).optional(),
+  page: z.coerce.number().int().positive().default(1),
+  pageSize: z.coerce.number().int().positive().max(100).default(25),
+});
+
+export type ListRegistrationsQuery = z.infer<typeof listRegistrationsQuerySchema>;

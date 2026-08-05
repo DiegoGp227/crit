@@ -59,27 +59,62 @@ export const createRegistration = async (
   }
 };
 
-export const listRegistrations = async (competitionType?: CompetitionType) => {
-  return prisma.registration.findMany({
-    where: competitionType ? { competitionType } : undefined,
+const registrationsSelect = {
+  id: true,
+  profileId: true,
+  competitionType: true,
+  document: true,
+  phone: true,
+  eps: true,
+  emergencyContactName: true,
+  emergencyContactPhone: true,
+  createdAt: true,
+  updatedAt: true,
+  profile: {
     select: {
-      id: true,
-      profileId: true,
-      competitionType: true,
-      document: true,
-      phone: true,
-      eps: true,
-      emergencyContactName: true,
-      emergencyContactPhone: true,
-      createdAt: true,
-      updatedAt: true,
-      profile: {
-        select: {
-          fullName: true,
-          bibNumber: true,
-        },
-      },
+      fullName: true,
+      bibNumber: true,
+      avatarUrl: true,
     },
-    orderBy: { createdAt: "asc" },
-  });
+  },
+} as const;
+
+export const listRegistrations = async ({
+  competitionType,
+  search,
+  page = 1,
+  pageSize = 25,
+}: {
+  competitionType?: CompetitionType;
+  search?: string;
+  page?: number;
+  pageSize?: number;
+}) => {
+  const bibNumber = search && /^\d+$/.test(search) ? Number(search) : undefined;
+
+  const where = {
+    ...(competitionType ? { competitionType } : {}),
+    ...(search
+      ? {
+          OR: [
+            { profile: { fullName: { contains: search, mode: "insensitive" as const } } },
+            { document: { contains: search, mode: "insensitive" as const } },
+            ...(bibNumber !== undefined ? [{ profile: { bibNumber } }] : []),
+          ],
+        }
+      : {}),
+  };
+
+  const [registrations, total] = await prisma.$transaction([
+    prisma.registration.findMany({
+      where,
+      select: registrationsSelect,
+      orderBy: { createdAt: "asc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.registration.count({ where }),
+  ]);
+
+  return { registrations, total };
 };
