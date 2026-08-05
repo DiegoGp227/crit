@@ -6,11 +6,11 @@ import { useRegistrations } from "../../hooks/useRegistrations";
 import RegistrationStats from "../molecules/RegistrationStats";
 import type { RegistrationView } from "../molecules/RegistrationStats";
 import RegistrationsTable from "../molecules/RegistrationsTable";
-import Button from "@/src/shared/components/ui/Button";
+import Pagination from "../molecules/Pagination";
 import type { CompetitionType } from "@/src/features/profile/services/registrationService";
 
 const TAB_ORDER: CompetitionType[] = ["EXPERTOS", "FEMENINO"];
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 export default function RegistrationsPanel() {
   const [active, setActive] = useState<RegistrationView>("ALL");
@@ -55,6 +55,7 @@ export default function RegistrationsPanel() {
   };
 
   const totalPages = pagination?.totalPages ?? 0;
+  const currentPage = pagination?.page ?? 1;
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -90,31 +91,11 @@ export default function RegistrationsPanel() {
         <>
           <RegistrationsTable registrations={registrations} />
 
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-text-muted">
-                Página {pagination?.page} de {totalPages}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="surface"
-                  size="sm"
-                  disabled={page <= 1}
-                  onClick={() => setPage(page - 1)}
-                >
-                  Anterior
-                </Button>
-                <Button
-                  variant="surface"
-                  size="sm"
-                  disabled={page >= totalPages}
-                  onClick={() => setPage(page + 1)}
-                >
-                  Siguiente
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            page={currentPage}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </>
       )}
     </div>
