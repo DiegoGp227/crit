@@ -3,13 +3,11 @@ import { MeRegistrationURL } from "@/src/shared/constants/urls";
 
 export type CompetitionType =
   | "EXPERTOS"
-  | "FEMENINOFIJA"
-  | "FEMENINORUTA";
+  | "FEMENINO";
 
 export const COMPETITION_LABELS: Record<CompetitionType, string> = {
   EXPERTOS: "Expertos",
-  FEMENINOFIJA: "Femenino Fija",
-  FEMENINORUTA: "Femenino Ruta",
+  FEMENINO: "Femenino",
 };
 
 export interface Registration {

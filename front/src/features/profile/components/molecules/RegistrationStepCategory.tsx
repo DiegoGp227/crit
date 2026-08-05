@@ -7,8 +7,7 @@ import {
 
 const OPTIONS: { value: CompetitionType; description: string }[] = [
   { value: "EXPERTOS", description: "Competencia general" },
-  { value: "FEMENINOFIJA", description: "Categoría femenina" },
-  { value: "FEMENINORUTA", description: "Categoría femenina ruta" },
+  { value: "FEMENINO", description: "Categoría femenina" },
 ];
 
 interface RegistrationStepCategoryProps {
@@ -21,7 +20,7 @@ export default function RegistrationStepCategory({
   onChange,
 }: RegistrationStepCategoryProps) {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       {OPTIONS.map((option) => {
         const selected = value === option.value;
         return (
