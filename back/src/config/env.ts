@@ -6,8 +6,6 @@ function requireEnv(key: string): string {
   return value;
 }
 
-// Convierte una duración tipo "1h" / "30m" / "7d" a milisegundos.
-// Se usa para alinear la expiración de la cookie con la del JWT.
 function parseDurationToMs(value: string): number {
   const match = /^(\d+)([smhd])$/.exec(value.trim());
   if (!match) return 0;
@@ -27,13 +25,7 @@ export const env = {
   TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION ?? "1h",
   CORS_ORIGIN:      process.env.CORS_ORIGIN || "http://localhost:3000",
   COOKIE_NAME:      process.env.COOKIE_NAME || "crit_token",
-  // "Secure" hace que el navegador solo envíe la cookie por HTTPS.
-  // En producción (HTTPS) debe ser "true"; en dev local basta con false.
   COOKIE_SECURE:    process.env.COOKIE_SECURE === "true",
-  // Si el front y el back viven en subdominios distintos del mismo dominio
-  // (ej. app.midominio.com y api.midominio.com), la cookie debe fijar el
-  // dominio raíz ("midominio.com") para que ambos la compartan.
-  COOKIE_DOMAIN:    process.env.COOKIE_DOMAIN || undefined,
   MINIO_ENDPOINT:   process.env.MINIO_ENDPOINT || "minio",
   MINIO_ROOT_USER:  process.env.MINIO_ROOT_USER || "minioadmin",
   MINIO_ROOT_PASSWORD: process.env.MINIO_ROOT_PASSWORD || "minioadmin",
