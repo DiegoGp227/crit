@@ -59,6 +59,10 @@ services:
     restart: unless-stopped
     ports:
       - "${FRONT_PORT:-3000}:3000"
+    environment:
+      # URL interna del backend para las rewrites de Next (BFF).
+      # En producción externa hay que apuntar a la URL pública del backend.
+      - API_URL=http://back:8000
     depends_on:
       - back
 

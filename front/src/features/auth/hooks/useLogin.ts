@@ -11,7 +11,7 @@ export const useLogin = () => {
     const setAuth = useAuthStore((s) => s.setAuth);
 
     const { trigger, isMutating, error } = useSWRMutation(
-        LoginURL.href,
+        LoginURL,
         (_key: string, { arg }: { arg: AuthDTO }) => login(arg),
     );
 

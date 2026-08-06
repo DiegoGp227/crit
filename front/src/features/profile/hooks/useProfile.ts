@@ -21,7 +21,7 @@ import {
 
 export const useProfile = () => {
   const { data, error, isLoading, mutate } = useSWR<MyProfileResponse>(
-    MeURL.href,
+    MeURL,
     () => getMyProfile(),
   );
   return { data, error, isLoading, mutate };
@@ -29,7 +29,7 @@ export const useProfile = () => {
 
 export const useProfileStats = (profileId: number | null | undefined) => {
   const { data, error, isLoading } = useSWR<PublicProfileResponse>(
-    profileId ? RiderURL(profileId).href : null,
+    profileId ? RiderURL(profileId) : null,
     () => getPublicProfile(profileId as number),
   );
   return { stats: data?.stats, error, isLoading };
@@ -37,7 +37,7 @@ export const useProfileStats = (profileId: number | null | undefined) => {
 
 export const usePublicProfile = (profileId: number | null | undefined) => {
   const { data, error, isLoading } = useSWR<PublicProfileResponse>(
-    profileId ? RiderURL(profileId).href : null,
+    profileId ? RiderURL(profileId) : null,
     () => getPublicProfile(profileId as number),
   );
   return { profile: data?.profile ?? null, stats: data?.stats, error, isLoading };
@@ -45,7 +45,7 @@ export const usePublicProfile = (profileId: number | null | undefined) => {
 
 export const useBibs = () => {
   const { data, error, isLoading } = useSWR<{ used: number[] }>(
-    BibsURL.href,
+    BibsURL,
     () => getUsedBibs(),
   );
   return { used: data?.used ?? [], error, isLoading };
@@ -54,16 +54,16 @@ export const useBibs = () => {
 export const useUpdateProfile = () => {
   const { mutate } = useSWRConfig();
   const { trigger, isMutating, error } = useSWRMutation(
-    MeProfileURL.href,
+    MeProfileURL,
     (_key: string, { arg }: { arg: UpdateProfileDTO }) =>
       updateMyProfile(arg),
   );
 
   const saveProfile = async (data: UpdateProfileDTO) => {
     const profile = await trigger(data);
-    await mutate(MeURL.href, () => getMyProfile());
+    await mutate(MeURL, () => getMyProfile());
     if (profile) {
-      await mutate(RiderURL(profile.id).href, () => getPublicProfile(profile.id));
+      await mutate(RiderURL(profile.id), () => getPublicProfile(profile.id));
     }
     return profile;
   };

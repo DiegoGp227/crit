@@ -67,7 +67,7 @@ export const createRegistration = async (
   data: CreateRegistrationDTO,
 ): Promise<CreateRegistrationResponse> => {
   const response = await apiClient.post<CreateRegistrationResponse>(
-    MeRegistrationURL.href,
+    MeRegistrationURL,
     data,
   );
   return response.data;

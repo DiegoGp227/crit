@@ -11,7 +11,7 @@ export const useRegister = () => {
     const setAuth = useAuthStore((s) => s.setAuth);
 
     const { trigger, isMutating, error } = useSWRMutation(
-        SignupURL.href,
+        SignupURL,
         (_key: string, { arg }: { arg: AuthDTO }) => signup(arg),
     );
 

@@ -1,13 +1,12 @@
-export const BaseURL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/";
+export const BaseURL = "/api/";
 
-export const LoginURL = new URL("login", BaseURL);
-export const SignupURL = new URL("signup", BaseURL);
-export const LogoutURL = new URL("logout", BaseURL);
-export const UploadURL = new URL("upload", BaseURL);
-export const MeURL = new URL("me", BaseURL);
-export const MeProfileURL = new URL("me/profile", BaseURL);
-export const RiderURL = (id: number) => new URL(`riders/${id}`, BaseURL);
-export const BibsURL = new URL("bibs", BaseURL);
-export const MeRegistrationURL = new URL("me/registration", BaseURL);
-export const AdminRegistrationsURL = new URL("admin/registrations", BaseURL);
+export const LoginURL = `${BaseURL}login`;
+export const SignupURL = `${BaseURL}signup`;
+export const LogoutURL = `${BaseURL}logout`;
+export const UploadURL = `${BaseURL}upload`;
+export const MeURL = `${BaseURL}me`;
+export const MeProfileURL = `${BaseURL}me/profile`;
+export const RiderURL = (id: number) => `${BaseURL}riders/${id}`;
+export const BibsURL = `${BaseURL}bibs`;
+export const MeRegistrationURL = `${BaseURL}me/registration`;
+export const AdminRegistrationsURL = `${BaseURL}admin/registrations`;

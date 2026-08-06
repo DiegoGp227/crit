@@ -24,7 +24,7 @@ export const useRegistrations = (params: UseRegistrationsParams = {}) => {
   if (search) query.set("search", search);
   query.set("page", String(page));
   query.set("pageSize", String(pageSize));
-  const key = `${AdminRegistrationsURL.href}?${query.toString()}`;
+  const key = `${AdminRegistrationsURL}?${query.toString()}`;
 
   const { data, error, isLoading, mutate } = useSWR(key, () =>
     fetchRegistrations({ competitionType, search, page, pageSize }),

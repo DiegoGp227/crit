@@ -35,17 +35,18 @@ export interface FetchRegistrationsParams {
 export const fetchRegistrations = async (
   params: FetchRegistrationsParams = {},
 ): Promise<RegistrationsResponse> => {
-  const url = new URL(AdminRegistrationsURL.href);
-
+  const searchParams = new URLSearchParams();
   if (params.competitionType) {
-    url.searchParams.set("competitionType", params.competitionType);
+    searchParams.set("competitionType", params.competitionType);
   }
   if (params.search) {
-    url.searchParams.set("search", params.search);
+    searchParams.set("search", params.search);
   }
-  url.searchParams.set("page", String(params.page ?? 1));
-  url.searchParams.set("pageSize", String(params.pageSize ?? 25));
+  searchParams.set("page", String(params.page ?? 1));
+  searchParams.set("pageSize", String(params.pageSize ?? 25));
 
-  const response = await apiClient.get<RegistrationsResponse>(url.href);
+  const response = await apiClient.get<RegistrationsResponse>(
+    `${AdminRegistrationsURL}?${searchParams.toString()}`,
+  );
   return response.data;
 };

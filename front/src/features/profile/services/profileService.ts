@@ -124,19 +124,19 @@ export function toUpdateProfileDTO(values: ProfileFormValues): UpdateProfileDTO 
 }
 
 export const getMyProfile = async (): Promise<MyProfileResponse> => {
-  const response = await apiClient.get<MyProfileResponse>(MeURL.href);
+  const response = await apiClient.get<MyProfileResponse>(MeURL);
   return response.data;
 };
 
 export const getPublicProfile = async (
   id: number,
 ): Promise<PublicProfileResponse> => {
-  const response = await apiClient.get<PublicProfileResponse>(RiderURL(id).href);
+  const response = await apiClient.get<PublicProfileResponse>(RiderURL(id));
   return response.data;
 };
 
 export const getUsedBibs = async (): Promise<{ used: number[] }> => {
-  const response = await apiClient.get<{ used: number[] }>(BibsURL.href);
+  const response = await apiClient.get<{ used: number[] }>(BibsURL);
   return response.data;
 };
 
@@ -144,7 +144,7 @@ export const updateMyProfile = async (
   data: UpdateProfileDTO,
 ): Promise<Profile> => {
   const response = await apiClient.patch<{ message: string; profile: Profile }>(
-    MeProfileURL.href,
+    MeProfileURL,
     data,
   );
   return response.data.profile;
@@ -154,7 +154,7 @@ export const uploadImage = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append("image", file);
   const response = await apiClient.post<{ message: string; url: string }>(
-    UploadURL.href,
+    UploadURL,
     formData,
     { headers: { "Content-Type": "multipart/form-data" } },
   );

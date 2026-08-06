@@ -11,14 +11,14 @@ import {
 export const useRegisterChampionship = () => {
   const { mutate } = useSWRConfig();
   const { trigger, isMutating, error } = useSWRMutation(
-    MeRegistrationURL.href,
+    MeRegistrationURL,
     (_key: string, { arg }: { arg: CreateRegistrationDTO }) =>
       createRegistration(arg),
   );
 
   const register = async (data: CreateRegistrationDTO) => {
     const result = await trigger(data);
-    await mutate(MeURL.href);
+    await mutate(MeURL);
     return result;
   };
 

@@ -11,7 +11,6 @@ import { loginSchema, signupSchema } from "./auth.schemas.js";
  * @route POST /signup
  * @body { email, password }
  * @returns { message, userInfo }
- * @setCookie crit_token (HttpOnly)
  */
 export const signup = asyncHandler(async (req: Request, res: Response) => {
   const validation = signupSchema.safeParse(req.body);
@@ -47,7 +46,6 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
  * @route POST /login
  * @body { email, password }
  * @returns { message, userInfo }
- * @setCookie crit_token (HttpOnly)
  */
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const validation = loginSchema.safeParse(req.body);
@@ -83,13 +81,6 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
  * @route POST /logout
  * @returns { message }
  * @clearCookie crit_token
- *
- * La cookie es HttpOnly, así que el frontend NO puede borrarla desde JS.
- * `res.clearCookie` responde con un Set-Cookie del MISMO nombre, path y
- * dominio pero con expiración en el pasado (epoch). El navegador identifica
- * la cookie a borrar por esos tres atributos (name + path + domain), no por
- * un id: al recibir una cookie con expiración antigua, la reemplaza y la
- * elimina. Por eso clearCookie debe usar las mismas opciones que el set.
  */
 export const logout = asyncHandler(async (_req: Request, res: Response) => {
   res.clearCookie(env.COOKIE_NAME, cookieOptions());

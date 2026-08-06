@@ -13,15 +13,15 @@ export interface AuthResponse {
 }
 
 export const signup = async (data: AuthDTO): Promise<AuthResponse> => {
-    const response = await apiClient.post<AuthResponse>(SignupURL.href, data);
+    const response = await apiClient.post<AuthResponse>(SignupURL, data);
     return response.data;
 };
 
 export const login = async (data: AuthDTO): Promise<AuthResponse> => {
-    const response = await apiClient.post<AuthResponse>(LoginURL.href, data);
+    const response = await apiClient.post<AuthResponse>(LoginURL, data);
     return response.data;
 };
 
 export const logout = async (): Promise<void> => {
-    await apiClient.post(LogoutURL.href);
+    await apiClient.post(LogoutURL);
 };
