@@ -19,7 +19,12 @@ enum CompetitionType {
 enum RaceStatus {
   SCHEDULED
   FINISHED
-  CANCELLED
+  POSTPONED
+}
+
+enum ResultStatus {
+  PRESENT
+  ABSENT
 }
 
 enum CategoryType {
@@ -86,27 +91,26 @@ model Registration {
 }
 
 model RaceDate {
-  id          Int        @id @default(autoincrement())
-  roundNumber Int        @unique @map("round_number")
-  title       String?
-  raceDate    DateTime   @map("race_date")
-  status      RaceStatus @default(SCHEDULED)
-  updatedAt   DateTime   @updatedAt @map("updated_at")
+  id        Int        @id @default(autoincrement())
+  raceDate  DateTime   @map("race_date")
+  status    RaceStatus @default(SCHEDULED)
+  updatedAt DateTime   @updatedAt @map("updated_at")
 
-  results     Result[]
+  results   Result[]
 
   @@map("race_dates")
 }
 
 model Result {
-  id         Int      @id @default(autoincrement())
-  profileId  Int      @map("profile_id")
-  raceDateId Int      @map("race_date_id")
+  id         Int          @id @default(autoincrement())
+  profileId  Int          @map("profile_id")
+  raceDateId Int          @map("race_date_id")
+  status     ResultStatus @default(PRESENT)
   points     Int
-  createdAt  DateTime @default(now()) @map("created_at")
+  createdAt  DateTime     @default(now()) @map("created_at")
 
-  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Restrict)
-  raceDate   RaceDate @relation(fields: [raceDateId], references: [id], onDelete: Restrict)
+  profile    Profile      @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  raceDate   RaceDate     @relation(fields: [raceDateId], references: [id], onDelete: Restrict)
 
   @@unique([raceDateId, profileId])
   @@map("results")
