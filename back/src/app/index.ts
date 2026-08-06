@@ -13,8 +13,6 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// Parsea las cookies del request y las expone en `req.cookies`.
-// Sin esto, Express no sabe leer la cookie de sesión HttpOnly.
 app.use(cookieParser());
 
 app.use(
@@ -27,11 +25,10 @@ app.use(
 );
 
 app.use("/api", router);
-// RM: remove or replace
 app.get("/ping", (req, res) => res.send("pong"));
 app.use((req, res) => {
   res.status(404).json({
-    message: "RM: Not Found", // RM: replace with your own message
+    message: "RM: Not Found", 
   });
 });
 app.use(errorHandler);

@@ -7,8 +7,6 @@ export interface AuthDTO {
     password: string;
 }
 
-// El backend ya NO devuelve `token` en el body: la sesión viaja en una
-// cookie HttpOnly que el navegador adjunta sola en cada request.
 export interface AuthResponse {
     message: string;
     userInfo: AuthUser;
@@ -24,8 +22,6 @@ export const login = async (data: AuthDTO): Promise<AuthResponse> => {
     return response.data;
 };
 
-// Cierra la sesión en el backend: borra la cookie HttpOnly server-side
-// (el frontend no puede borrarla solo, porque es invisible a JavaScript).
 export const logout = async (): Promise<void> => {
     await apiClient.post(LogoutURL.href);
 };

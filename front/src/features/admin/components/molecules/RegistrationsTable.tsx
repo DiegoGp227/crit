@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   CalendarDays,
   ChevronDown,
@@ -44,6 +45,7 @@ interface RegistrationsTableProps {
 export default function RegistrationsTable({
   registrations,
 }: RegistrationsTableProps) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const columns = useMemo<ColumnDef<AdminRegistration>[]>(
@@ -54,7 +56,10 @@ export default function RegistrationsTable({
         cell: ({ row }) => (
           <button
             type="button"
-            onClick={row.getToggleExpandedHandler()}
+            onClick={(event) => {
+              event.stopPropagation();
+              row.getToggleExpandedHandler()();
+            }}
             aria-expanded={row.getIsExpanded()}
             aria-label={row.getIsExpanded() ? "Ocultar detalles" : "Ver detalles"}
             className="flex h-8 w-8 items-center justify-center rounded-xl text-text-dim transition-colors hover:bg-surface-raised hover:text-text-primary"
@@ -214,7 +219,10 @@ export default function RegistrationsTable({
           <tbody>
             {table.getRowModel().rows.map((row) => (
               <Fragment key={row.id}>
-                <tr className="border-t border-border transition-colors hover:bg-white/2">
+                <tr
+                  onClick={() => router.push(`/profiles/${row.original.profileId}`)}
+                  className="cursor-pointer border-t border-border transition-colors hover:bg-white/2"
+                >
                   {row.getVisibleCells().map((cell, index) => (
                     <td
                       key={cell.id}

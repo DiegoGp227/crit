@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Nombre de la cookie de sesión. Debe coincidir con COOKIE_NAME del backend.
 const SESSION_COOKIE = process.env.COOKIE_NAME ?? "crit_token";
 
-// Ruta al login para redirigir cuando no hay sesión válida.
 const LOGIN_PATH = "/auth";
 
 /**

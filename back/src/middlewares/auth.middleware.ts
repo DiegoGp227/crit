@@ -5,8 +5,6 @@ import { env } from "../config/env.js";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    // 1) Prioridad: cookie HttpOnly (autenticación web).
-    // 2) Fallback: header "Authorization: Bearer" (clientes externos o curl).
     const token =
       req.cookies?.[env.COOKIE_NAME] ??
       (() => {

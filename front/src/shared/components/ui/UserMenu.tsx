@@ -37,10 +37,8 @@ export default function UserMenu() {
 
     const handleLogout = async () => {
         try {
-            // Borra la cookie HttpOnly en el servidor (no borrable desde JS).
             await logout();
         } finally {
-            // Limpia el store local y redirige aunque el request falle.
             clearAuth();
             setOpen(false);
             router.push("/auth");
