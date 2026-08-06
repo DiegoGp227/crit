@@ -9,6 +9,8 @@ RUN pnpm install --frozen-lockfile
 
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG API_URL
+ENV API_URL=$API_URL
 COPY . .
 RUN pnpm run build
 
