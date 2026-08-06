@@ -26,7 +26,9 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
-    const apiUrl = process.env.API_URL ?? "http://localhost:8000";
+    const apiUrl = (process.env.API_URL ?? "http://localhost:8000")
+      .replace(/\/+$/, "")
+      .replace(/\/api$/i, "");
     return [
       {
         source: "/api/:path*",

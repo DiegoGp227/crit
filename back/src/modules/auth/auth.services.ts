@@ -1,4 +1,3 @@
-// RM: Services Example — replace with your own services
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { EmailAlreadyInUseError, InvalidCredentialsError } from "../../errors/appError.js";

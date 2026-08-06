@@ -1,4 +1,3 @@
-// RM: Controller Example — replace with your own logic
 import { Request, Response } from "express";
 import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";

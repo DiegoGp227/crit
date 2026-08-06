@@ -1,9 +1,7 @@
 import axios, { AxiosError } from "axios";
-import { BaseURL } from "../constants/urls";
 import { logger } from "../utils/logger";
 
 const apiClient = axios.create({
-  baseURL: BaseURL,
   headers: {
     "Content-Type": "application/json",
   },

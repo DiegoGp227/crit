@@ -12,6 +12,9 @@ export function parseAuthError(err: unknown): string {
         case 401:
           errorMessage = "Credenciales incorrectas. Inténtalo de nuevo.";
           break;
+        case 404:
+          errorMessage = "El servicio no está disponible. Inténtalo más tarde.";
+          break;
         case 409:
           errorMessage = "El usuario ya existe.";
           break;

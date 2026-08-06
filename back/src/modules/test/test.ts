@@ -1,4 +1,3 @@
-// RM: Health-check example — remove/replace in production
 import { Request, Response } from "express";
 import prisma from "../../lib/prisma";
 import { logger } from "../../utils/logger";

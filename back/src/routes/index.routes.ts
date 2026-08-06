@@ -22,10 +22,8 @@ const uploadMiddleware = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-// RM: Test Routes — remove/replace in production
 router.get("/db", dbCheck);
 
-// RM: Auth Routes — replace with your own routes
 router.post("/signup", signup);
 router.post("/login", login);
 // Cierra la sesión borrando la cookie HttpOnly server-side.

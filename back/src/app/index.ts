@@ -27,8 +27,9 @@ app.use(
 app.use("/api", router);
 app.get("/ping", (req, res) => res.send("pong"));
 app.use((req, res) => {
+  logger.warn(`Ruta no encontrada: ${req.method} ${req.path}`);
   res.status(404).json({
-    message: "RM: Not Found", 
+    message: "Ruta no encontrada",
   });
 });
 app.use(errorHandler);

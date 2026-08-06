@@ -33,13 +33,6 @@ function isValidSessionToken(token: string | undefined): boolean {
   return payload.exp * 1000 > Date.now();
 }
 
-/**
- * Proxy de Next.js (antes "middleware"; corre en el servidor/edge, ANTES de
- * renderizar). Protege rutas privadas: /admin y /profile.
- *
- * Las rutas públicas (/, /auth, /profiles/*) NO están en el matcher,
- * así que pasan directo sin este chequeo.
- */
 export function proxy(request: NextRequest) {
   const sessionToken = request.cookies.get(SESSION_COOKIE)?.value;
 
