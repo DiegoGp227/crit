@@ -75,6 +75,7 @@ const registrationsSelect = {
       fullName: true,
       bibNumber: true,
       avatarUrl: true,
+      team: true,
     },
   },
 } as const;

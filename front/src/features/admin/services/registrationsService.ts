@@ -10,6 +10,7 @@ export interface AdminRegistration extends Registration {
     fullName: string;
     bibNumber: number;
     avatarUrl: string | null;
+    team: string | null;
   };
 }
 

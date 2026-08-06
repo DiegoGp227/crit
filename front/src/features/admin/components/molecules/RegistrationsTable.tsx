@@ -114,6 +114,15 @@ export default function RegistrationsTable({
         },
       },
       {
+        id: "team",
+        header: "Equipo",
+        cell: ({ row }) => (
+          <span className="whitespace-nowrap text-sm text-text">
+            {row.original.profile.team ?? "—"}
+          </span>
+        ),
+      },
+      {
         id: "category",
         header: "Categoría",
         cell: ({ row }) => (
