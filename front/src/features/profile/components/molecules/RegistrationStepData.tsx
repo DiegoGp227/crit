@@ -34,7 +34,7 @@ export default function RegistrationStepData({
       <Input
         label="Equipo"
         optional
-        placeholder="ej. Team Bogotá Elite"
+        placeholder="Nombre de tu equipo"
         {...register("team")}
       />
       <Input

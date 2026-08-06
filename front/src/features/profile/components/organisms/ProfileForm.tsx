@@ -78,7 +78,7 @@ export default function ProfileForm({
         />
         <Input
           label="Nombre completo"
-          placeholder="ej. Diego Gongora"
+          placeholder="Nombre y apellido"
           error={errors.fullName?.message}
           {...register("fullName", {
             required: "El nombre completo es obligatorio",
@@ -95,7 +95,7 @@ export default function ProfileForm({
         <Input
           label="Equipo"
           optional
-          placeholder="ej. Team Bogotá Elite"
+          placeholder="Nombre de tu equipo"
           {...register("team")}
         />
         <Controller
@@ -122,13 +122,13 @@ export default function ProfileForm({
         <Input
           label="Apodo"
           optional
-          placeholder="ej. Mi Bbncita"
+          placeholder="Un nombre para tu bici"
           {...register("bikeNickname")}
         />
         <Input
           label="Marco"
           optional
-          placeholder="ej. Ontrail"
+          placeholder="Marca y modelo"
           {...register("bikeFrame")}
         />
         <Input
