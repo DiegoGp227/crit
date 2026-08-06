@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ClipboardList, FileUp, ShieldCheck } from "lucide-react";
+import { CalendarPlus, ClipboardList, FileUp, ShieldCheck } from "lucide-react";
 import { useAuthStore } from "@/src/store/authStore";
 import Button from "@/src/shared/components/ui/Button";
 import Section from "@/src/shared/components/ui/Section";
 import RegistrationsPanel from "./RegistrationsPanel";
-import ResultsUploader from "../molecules/ResultsUploader";
+import CreateRacePanel from "./CreateRacePanel";
+import ResultsPanel from "./ResultsPanel";
 
-type AdminTab = "inscripciones" | "resultados";
+type AdminTab = "inscripciones" | "crear-carrera" | "resultados";
 
 const TABS = [
   { key: "inscripciones", label: "Inscripciones", icon: ClipboardList },
-  { key: "resultados", label: "Resultados", icon: FileUp },
+  { key: "crear-carrera", label: "Crear carrera", icon: CalendarPlus },
+  { key: "resultados", label: "Subir resultados", icon: FileUp },
 ] as const;
 
 export default function AdminPanel() {
@@ -66,7 +68,13 @@ export default function AdminPanel() {
       </nav>
 
       <div className="mt-8">
-        {tab === "inscripciones" ? <RegistrationsPanel /> : <ResultsUploader />}
+        {tab === "inscripciones" ? (
+          <RegistrationsPanel />
+        ) : tab === "crear-carrera" ? (
+          <CreateRacePanel />
+        ) : (
+          <ResultsPanel />
+        )}
       </div>
     </Section>
   );
