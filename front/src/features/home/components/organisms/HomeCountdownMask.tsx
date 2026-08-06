@@ -1,51 +1,14 @@
 "use client";
 
 import { Fragment, useEffect, useSyncExternalStore } from "react";
+import Link from "next/link";
+import Button from "@/src/shared/components/ui/Button";
 
-const BOGOTA_TZ = "America/Bogota";
-
-const getNextThursday7pm = (): number => {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: BOGOTA_TZ,
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    weekday: "short",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  }).formatToParts(new Date());
-
-  const get = (type: string) => parts.find((part) => part.type === type)?.value;
-
-  const weekdays: Record<string, number> = {
-    Sun: 0,
-    Mon: 1,
-    Tue: 2,
-    Wed: 3,
-    Thu: 4,
-    Fri: 5,
-    Sat: 6,
-  };
-
-  const weekday = weekdays[get("weekday") ?? "Mon"] ?? 0;
-  const year = Number(get("year"));
-  const month = Number(get("month"));
-  const day = Number(get("day"));
-  const hour = Number(get("hour"));
-  const minute = Number(get("minute"));
-
-  let daysUntil = (4 - weekday + 7) % 7;
-  if (daysUntil === 0 && (hour > 19 || (hour === 19 && minute > 0))) {
-    daysUntil = 7;
-  }
-
-  // 19:00 Bogotá (UTC-5) == 24:00 UTC del mismo día
-  return Date.UTC(year, month - 1, day + daysUntil, 24, 0, 0);
-};
+// Viernes 21 de agosto de 2026, 19:00 Bogotá (UTC-5) == 24:00 UTC del mismo día
+const EVENT_UTC = Date.UTC(2026, 7, 21, 24, 0, 0);
 
 const getSecondsLeft = () =>
-  Math.max(0, Math.floor((getNextThursday7pm() - Date.now()) / 1000));
+  Math.max(0, Math.floor((EVENT_UTC - Date.now()) / 1000));
 
 const subscribe = (callback: () => void) => {
   callback();
@@ -98,7 +61,7 @@ export default function HomeCountdownMask() {
           Próximo crit · Virgilio Barco
         </p>
         <h1 className="text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl lg:text-5xl">
-          La leña comienza el jueves a las 7:00 PM
+          La leña comienza el viernes 21 de agosto a las 7:00 PM
         </h1>
         <div className="flex items-center justify-center gap-0">
           {cells.map((cell, index) => (
@@ -117,7 +80,18 @@ export default function HomeCountdownMask() {
             </Fragment>
           ))}
         </div>
-        <p className="mt-2 max-w-md text-xs text-text-muted sm:text-sm">
+        <div className="mt-2 flex w-full max-w-sm flex-col items-center gap-3 rounded-2xl border border-border bg-surface/60 px-6 py-5 backdrop-blur-sm sm:max-w-md">
+          <p className="flex items-center gap-2 text-sm font-medium text-text-secondary sm:text-base">
+            <span aria-hidden className="h-2 w-2 animate-pulse rounded-full bg-cta" />
+            Puedes ir inscribiéndote
+          </p>
+          <Link href="/auth" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto">
+              Inscríbete
+            </Button>
+          </Link>
+        </div>
+        <p className="max-w-md text-xs text-text-muted sm:text-sm">
           La página estará disponible cuando inicie el evento.
         </p>
       </div>
