@@ -15,6 +15,18 @@ import {
   getRegistrations,
   registerForChampionship,
 } from "../modules/registration/registration.controllers.js";
+import {
+  createRaceController,
+  deleteRaceController,
+  getRaceController,
+  listRacesController,
+  updateRaceController,
+} from "../modules/races/races.controllers.js";
+import {
+  getRaceResultsController,
+  setRaceResultsController,
+} from "../modules/results/results.controllers.js";
+import { getClassificationController } from "../modules/classification/classification.controllers.js";
 export const router: Router = Router();
 
 const uploadMiddleware = multer({
@@ -47,4 +59,29 @@ router.get(
   authMiddleware,
   adminMiddleware,
   getRegistrations,
+);
+
+// Public Race Routes
+router.get("/races", listRacesController);
+router.get("/races/:id", getRaceController);
+router.get("/races/:id/results", getRaceResultsController);
+router.get("/classification", getClassificationController);
+
+// Admin Race Routes
+router.get("/admin/races", authMiddleware, adminMiddleware, listRacesController);
+router.post("/admin/races", authMiddleware, adminMiddleware, createRaceController);
+router.get("/admin/races/:id", authMiddleware, adminMiddleware, getRaceController);
+router.patch("/admin/races/:id", authMiddleware, adminMiddleware, updateRaceController);
+router.delete("/admin/races/:id", authMiddleware, adminMiddleware, deleteRaceController);
+router.get(
+  "/admin/races/:id/results",
+  authMiddleware,
+  adminMiddleware,
+  getRaceResultsController,
+);
+router.put(
+  "/admin/races/:id/results",
+  authMiddleware,
+  adminMiddleware,
+  setRaceResultsController,
 );
