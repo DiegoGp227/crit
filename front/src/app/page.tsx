@@ -10,7 +10,7 @@ import Footer from "../features/home/components/organisms/Footer";
 export default function HomePage() {
   return (
     <>
-      <HomeCountdownMask />
+      {/* <HomeCountdownMask /> */}
       <HeroHome />
       <NextRaceCountdown />
       <SeasonTimeline />
