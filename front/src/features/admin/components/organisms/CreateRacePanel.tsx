@@ -1,19 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, CalendarPlus, Clock3, Info } from "lucide-react";
+import { Calendar, CalendarPlus, Clock3, Info, Loader2 } from "lucide-react";
 import Button from "@/src/shared/components/ui/Button";
 import Input from "@/src/shared/components/ui/Input";
 import { cn } from "@/src/shared/utils/cn";
 import { padBib } from "@/src/shared/utils/format";
 import {
-  RACES,
   RACE_STATUS_META,
+  createRace,
   formatRaceDate,
+  updateRace,
+  type Race,
+  type RaceStatus,
 } from "../../services/racesService";
+import { useRaces } from "../../hooks/useRaces";
+
+const STATUS_OPTIONS: RaceStatus[] = ["SCHEDULED", "FINISHED", "POSTPONED"];
+
+const parseError = (err: unknown): string => {
+  if (err && typeof err === "object" && "response" in err) {
+    const error = err as {
+      response?: { data?: { message?: string } };
+      request?: unknown;
+    };
+    if (error.response?.data?.message) return error.response.data.message;
+    if (error.request) return "Error de conexión. Verifica tu conexión a internet.";
+  }
+  return "Ocurrió un error inesperado. Inténtalo de nuevo.";
+};
 
 export default function CreateRacePanel() {
+  const { races, isLoading, mutate } = useRaces();
   const [raceDate, setRaceDate] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const dateLabel = raceDate
     ? new Date(`${raceDate}T00:00:00`).toLocaleDateString("es-CO", {
@@ -23,6 +44,30 @@ export default function CreateRacePanel() {
         year: "numeric",
       })
     : null;
+
+  const handleCreate = async () => {
+    if (!raceDate || creating) return;
+    setCreating(true);
+    setError(null);
+    try {
+      await createRace(`${raceDate}T19:00:00.000Z`);
+      setRaceDate("");
+      await mutate();
+    } catch (err) {
+      setError(parseError(err));
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleStatusChange = async (race: Race, status: RaceStatus) => {
+    try {
+      await updateRace(race.id, { status });
+      await mutate();
+    } catch (err) {
+      setError(parseError(err));
+    }
+  };
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -82,9 +127,21 @@ export default function CreateRacePanel() {
             )}
           </div>
 
-          <Button disabled={!raceDate} className="gap-2 self-start">
-            <CalendarPlus className="size-4" />
-            Crear carrera
+          {error && (
+            <p className="text-sm font-medium text-accent-bright">{error}</p>
+          )}
+
+          <Button
+            disabled={!raceDate || creating}
+            onClick={handleCreate}
+            className="gap-2 self-start"
+          >
+            {creating ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <CalendarPlus className="size-4" />
+            )}
+            {creating ? "Creando…" : "Crear carrera"}
           </Button>
         </div>
       </section>
@@ -103,54 +160,90 @@ export default function CreateRacePanel() {
             </div>
           </div>
           <span className="badge border border-border bg-surface-raised text-text-muted">
-            {RACES.length} carreras
+            {races.length} carreras
           </span>
         </div>
 
         <div className="mt-5 overflow-x-auto">
-          <table className="w-full min-w-120 border-collapse">
-            <thead>
-              <tr className="border-y border-border bg-surface-raised">
-                {["Carrera", "Fecha", "Estado"].map((heading, index) => (
-                  <th
-                    key={heading}
-                    className={cn(
-                      "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
-                      index === 0 ? "pl-6 text-left" : "text-left",
-                      index === 2 ? "pr-6" : "",
-                    )}
-                  >
-                    {heading}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {RACES.map((race) => {
-                const statusMeta = RACE_STATUS_META[race.status];
-                return (
-                  <tr
-                    key={race.id}
-                    className="border-t border-border transition-colors hover:bg-white/2"
-                  >
-                    <td className="whitespace-nowrap px-4 py-3.5 pl-6">
-                      <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
-                        {padBib(race.id)}
-                      </span>
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-3.5 text-sm text-text-primary">
-                      {formatRaceDate(race.raceDate)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-3.5 pr-6">
-                      <span className={cn("badge", statusMeta.className)}>
-                        {statusMeta.label}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2 px-6 py-10 text-sm text-text-muted">
+              <Loader2 className="size-4 animate-spin" />
+              Cargando carreras…
+            </div>
+          ) : races.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-1 px-6 py-10 text-center">
+              <Calendar className="size-6 text-text-dim" />
+              <p className="text-sm font-semibold text-text-primary">
+                Aún no hay carreras creadas
+              </p>
+              <p className="text-xs text-text-muted">
+                Crea la primera carrera con el formulario de arriba.
+              </p>
+            </div>
+          ) : (
+            <table className="w-full min-w-140 border-collapse">
+              <thead>
+                <tr className="border-y border-border bg-surface-raised">
+                  {["Carrera", "Fecha", "Estado"].map((heading, index) => (
+                    <th
+                      key={heading}
+                      className={cn(
+                        "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
+                        index === 0 ? "pl-6 text-left" : "text-left",
+                        index === 2 ? "pr-6" : "",
+                      )}
+                    >
+                      {heading}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {races.map((race) => {
+                  const statusMeta = RACE_STATUS_META[race.status];
+                  return (
+                    <tr
+                      key={race.id}
+                      className="border-t border-border transition-colors hover:bg-white/2"
+                    >
+                      <td className="whitespace-nowrap px-4 py-3.5 pl-6">
+                        <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
+                          {padBib(race.id)}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3.5 text-sm text-text-primary">
+                        {formatRaceDate(race.raceDate)}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3.5 pr-6">
+                        <div className="flex items-center gap-2">
+                          <span className={cn("badge", statusMeta.className)}>
+                            {statusMeta.label}
+                          </span>
+                          <select
+                            value={race.status}
+                            onChange={(event) =>
+                              handleStatusChange(
+                                race,
+                                event.target.value as RaceStatus,
+                              )
+                            }
+                            aria-label={`Cambiar estado de la carrera #${race.id}`}
+                            className="rounded-xl border border-border bg-surface px-2.5 py-1.5 text-xs text-text-muted outline-none transition-colors focus:border-border-yellow"
+                          >
+                            {STATUS_OPTIONS.map((status) => (
+                              <option key={status} value={status}>
+                                {RACE_STATUS_META[status].label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </section>
 

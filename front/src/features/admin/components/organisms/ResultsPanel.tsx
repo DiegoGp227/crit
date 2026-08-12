@@ -8,6 +8,7 @@ import {
   FileSpreadsheet,
   FileUp,
   Info,
+  Loader2,
   TriangleAlert,
   UserCheck,
   UserX,
@@ -17,20 +18,59 @@ import Select from "@/src/shared/components/ui/Select";
 import { cn } from "@/src/shared/utils/cn";
 import { padBib } from "@/src/shared/utils/format";
 import {
-  RACES,
   RACE_STATUS_META,
+  downloadRaceExcel,
   raceLabel,
-  type RaceOption,
+  uploadRaceExcel,
+  type Race,
 } from "../../services/racesService";
-import {
-  RACE_RESULTS,
-  type PreviewResult,
-} from "../../services/resultsService";
+import { toResultView } from "../../services/resultsService";
+import { useRaces, useRaceResults } from "../../hooks/useRaces";
 
 const formatFileSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
+const parseError = (err: unknown): string => {
+  if (err && typeof err === "object" && "response" in err) {
+    const error = err as {
+      response?: { data?: { message?: string } };
+      request?: unknown;
+    };
+    if (error.response?.data?.message) return error.response.data.message;
+    if (error.request) return "Error de conexión. Verifica tu conexión a internet.";
+  }
+  return "Ocurrió un error inesperado. Inténtalo de nuevo.";
+};
+
+interface ExcelRowError {
+  fila: string;
+  motivo: string;
+}
+
+const parseUploadError = (
+  err: unknown,
+): { message: string; errors: string[] } => {
+  const message = parseError(err);
+
+  if (err && typeof err === "object" && "response" in err) {
+    const error = err as {
+      response?: {
+        data?: { details?: { errors?: ExcelRowError[] } };
+      };
+    };
+    const items = error.response?.data?.details?.errors;
+    if (Array.isArray(items) && items.length > 0) {
+      return {
+        message,
+        errors: items.map((item) => `${item.fila}: ${item.motivo}`),
+      };
+    }
+  }
+
+  return { message, errors: [] };
 };
 
 const VALIDATION_RULES = [
@@ -45,32 +85,80 @@ const VALIDATION_RULES = [
 ];
 
 export default function ResultsPanel() {
-  const [race, setRace] = useState<RaceOption>(RACES[0]);
+  const { races, isLoading: racesLoading } = useRaces();
+  const [selectedRaceId, setSelectedRaceId] = useState<number | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const race: Race | null =
+    races.find((r) => r.id === selectedRaceId) ?? races[0] ?? null;
+
+  const { results, isLoading: resultsLoading, mutate: mutateResults } =
+    useRaceResults(race?.id ?? null);
+
+  const rows = useMemo(
+    () => results.map(toResultView).sort((a, b) => b.points - a.points),
+    [results],
+  );
+
   const selectFile = (next: File | null) => {
-    if (next && /\.(xls|xlsx|csv)$/i.test(next.name)) {
+    if (next && /\.xlsx$/i.test(next.name)) {
       setFile(next);
+      setUploadSuccess(null);
+      setUploadError(null);
+      setUploadErrors([]);
     }
   };
 
-  const results = useMemo<PreviewResult[]>(
-    () =>
-      (RACE_RESULTS[race.id] ?? [])
-        .slice()
-        .sort((a, b) => b.points - a.points),
-    [race.id],
-  );
+  const handleDownload = async (raceId: number) => {
+    if (downloading) return;
+    setDownloading(true);
+    setDownloadError(null);
+    try {
+      await downloadRaceExcel(raceId);
+    } catch (err) {
+      setDownloadError(parseError(err));
+    } finally {
+      setDownloading(false);
+    }
+  };
 
-  const statusMeta = RACE_STATUS_META[race.status];
-  const raceDateLabel = new Date(race.raceDate).toLocaleDateString("es-CO", {
-    weekday: "short",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const handleUpload = async () => {
+    if (!race || !file || uploading) return;
+    setUploading(true);
+    setUploadError(null);
+    setUploadErrors([]);
+    setUploadSuccess(null);
+    try {
+      await uploadRaceExcel(race.id, file);
+      setFile(null);
+      setUploadSuccess("Resultados guardados correctamente.");
+      await mutateResults();
+    } catch (err) {
+      const parsed = parseUploadError(err);
+      setUploadError(parsed.message);
+      setUploadErrors(parsed.errors);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const statusMeta = race ? RACE_STATUS_META[race.status] : null;
+  const raceDateLabel = race
+    ? new Date(race.raceDate).toLocaleDateString("es-CO", {
+        weekday: "short",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -102,33 +190,49 @@ export default function ResultsPanel() {
         </div>
 
         <div className="mt-6 flex flex-col gap-5 lg:flex-row lg:items-end">
-          <Select
-            label="Carrera"
-            value={race.id}
-            onChange={(event) =>
-              setRace(
-                RACES.find((r) => r.id === Number(event.target.value)) ?? RACES[0],
-              )
-            }
-            className="w-full lg:max-w-md"
-          >
-            {RACES.map((r) => (
-              <option key={r.id} value={r.id}>
-                {raceLabel(r)}
-              </option>
-            ))}
-          </Select>
+          {racesLoading ? (
+            <div className="flex items-center gap-2 pb-0.5 text-sm text-text-muted">
+              Cargando carreras…
+            </div>
+          ) : races.length === 0 ? (
+            <p className="pb-0.5 text-sm text-text-muted">
+              Crea una carrera primero desde la pestaña «Crear carrera».
+            </p>
+          ) : (
+            <>
+              <Select
+                label="Carrera"
+                value={race?.id ?? ""}
+                onChange={(event) =>
+                  setSelectedRaceId(Number(event.target.value))
+                }
+                className="w-full lg:max-w-md"
+              >
+                {races.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {raceLabel(r)}
+                  </option>
+                ))}
+              </Select>
 
-          <div className="flex flex-wrap items-center gap-2 pb-0.5">
-            <span className="badge border border-border bg-surface font-mono text-text-primary">
-              #{race.id}
-            </span>
-            <span className="badge text-text-muted">
-              <Calendar className="size-3.5" />
-              {raceDateLabel}
-            </span>
-            <span className={cn("badge", statusMeta.className)}>{statusMeta.label}</span>
-          </div>
+              {race && (
+                <div className="flex flex-wrap items-center gap-2 pb-0.5">
+                  <span className="badge border border-border bg-surface font-mono text-text-primary">
+                    #{race.id}
+                  </span>
+                  <span className="badge text-text-muted">
+                    <Calendar className="size-3.5" />
+                    {raceDateLabel}
+                  </span>
+                  {statusMeta && (
+                    <span className={cn("badge", statusMeta.className)}>
+                      {statusMeta.label}
+                    </span>
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </section>
 
@@ -144,7 +248,8 @@ export default function ResultsPanel() {
                 Descargar plantilla
               </h3>
               <p className="text-sm text-text-muted">
-                Genera el Excel con una fila por corredor inscrito.
+                Genera un Excel con dos hojas (Expertos y Femenino), una fila por
+                corredor inscrito.
               </p>
             </div>
           </div>
@@ -166,15 +271,31 @@ export default function ResultsPanel() {
               </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-text-muted">
-              Solo modifica <span className="text-text-primary">Asistencia</span> y{" "}
-              <span className="text-text-primary">Puntos</span>. Los puntos pueden
-              ser positivos, cero o negativos.
+              <span className="text-text-primary">Asistencia</span> usa un listado
+              (PRESENT / ABSENT). Solo modifica esa columna y{" "}
+              <span className="text-text-primary">Puntos</span> (pueden ser
+              positivos, cero o negativos). Si la carrera ya tiene resultados, se
+              descargan con sus valores.
             </p>
           </div>
 
-          <Button className="mt-5 gap-2 self-start">
-            <FileDown className="size-4" />
-            Descargar Excel
+          {downloadError && (
+            <p className="mt-4 text-sm font-medium text-accent-bright">
+              {downloadError}
+            </p>
+          )}
+
+          <Button
+            disabled={!race || downloading}
+            onClick={() => race && handleDownload(race.id)}
+            className="mt-5 gap-2 self-start"
+          >
+            {downloading ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <FileDown className="size-4" />
+            )}
+            {downloading ? "Generando…" : "Descargar Excel"}
           </Button>
         </section>
 
@@ -231,7 +352,7 @@ export default function ResultsPanel() {
                   Arrastra tu archivo aquí o haz clic para elegirlo
                 </span>
                 <span className="text-xs text-text-muted">
-                  Formatos: .xls, .xlsx o .csv
+                  Solo archivos .xlsx (la plantilla descargada)
                 </span>
               </>
             )}
@@ -240,15 +361,23 @@ export default function ResultsPanel() {
           <input
             ref={inputRef}
             type="file"
-            accept=".xls,.xlsx,.csv"
+            accept=".xlsx"
             className="hidden"
             onChange={(event) => selectFile(event.target.files?.[0] ?? null)}
           />
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <Button disabled={!file} className="gap-2">
-              <FileUp className="size-4" />
-              Subir resultado
+            <Button
+              disabled={!file || uploading}
+              onClick={handleUpload}
+              className="gap-2"
+            >
+              {uploading ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <FileUp className="size-4" />
+              )}
+              {uploading ? "Subiendo…" : "Subir resultado"}
             </Button>
             {file && (
               <button
@@ -260,6 +389,34 @@ export default function ResultsPanel() {
               </button>
             )}
           </div>
+
+          {uploadError && (
+            <div className="mt-4 rounded-xl border border-accent-bright/25 bg-accent-bright/5 p-4">
+              <p className="text-sm font-medium text-accent-bright">
+                {uploadError}
+              </p>
+              {uploadErrors.length > 0 && (
+                <ul className="mt-2.5 space-y-1">
+                  {uploadErrors.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex items-start gap-1.5 text-xs text-text-muted"
+                    >
+                      <TriangleAlert className="mt-0.5 size-3 shrink-0 text-accent-bright" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {uploadSuccess && (
+            <p className="mt-4 flex items-center gap-1.5 text-sm font-medium text-green">
+              <CheckCircle2 className="size-4" />
+              {uploadSuccess}
+            </p>
+          )}
 
           <p className="mt-4 flex items-start gap-1.5 text-xs text-text-muted">
             <TriangleAlert className="mt-0.5 size-3.5 shrink-0 text-amber" />
@@ -305,11 +462,15 @@ export default function ResultsPanel() {
             </p>
           </div>
           <span className="badge border border-border bg-surface-raised text-text-muted">
-            {results.length} corredores
+            {rows.length} corredores
           </span>
         </div>
 
-        {results.length === 0 ? (
+        {resultsLoading ? (
+          <div className="flex items-center justify-center gap-2 px-6 py-10 text-sm text-text-muted">
+            Cargando resultados…
+          </div>
+        ) : rows.length === 0 ? (
           <div className="mx-6 my-6 flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border-hover bg-surface-raised/40 px-6 py-10 text-center">
             <FileSpreadsheet className="size-6 text-text-dim" />
             <p className="text-sm font-semibold text-text-primary">
@@ -341,7 +502,7 @@ export default function ResultsPanel() {
                 </tr>
               </thead>
               <tbody>
-                {results.map((row, index) => (
+                {rows.map((row, index) => (
                   <tr
                     key={row.bib}
                     className="border-t border-border transition-colors hover:bg-white/2"
