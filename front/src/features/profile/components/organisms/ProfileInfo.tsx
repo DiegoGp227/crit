@@ -102,11 +102,20 @@ export default function ProfileInfo({
           </div>
 
           <div className="flex flex-col items-center gap-3 lg:border-l lg:border-border lg:pl-10">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-8xl leading-none font-bold text-text-secondary">
+            <div className="relative flex aspect-1350/902 w-56 flex-col items-center justify-center gap-1 overflow-hidden rounded-3xl border border-border bg-surface sm:w-64">
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: "url(/brand/Target.jpeg)",
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+              />
+              <span className="relative -translate-y-3 text-7xl font-bold leading-none text-white [text-shadow:_-2.5px_-2.5px_0_#000,2.5px_-2.5px_0_#000,-2.5px_2.5px_0_#000,2.5px_2.5px_0_#000,0_-2.5px_0_#000,0_2.5px_0_#000,-2.5px_0_0_#000,2.5px_0_0_#000] sm:text-8xl">
                 {padBib(profile.bibNumber)}
               </span>
-              <span className="text-xs uppercase tracking-widest text-text-muted">Dorsal</span>
             </div>
             {registration ? (
               <span className="badge bg-cta text-cta-ink">
