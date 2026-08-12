@@ -1,4 +1,5 @@
 import AboutCircuit from "../features/home/components/organisms/AboutCircuit";
+import DevPromoSection from "../features/home/components/organisms/DevPromoSection";
 import HeroHome from "../features/home/components/organisms/HeroHome";
 import HomeCountdownMask from "../features/home/components/organisms/HomeCountdownMask";
 import NextRaceCountdown from "../features/home/components/organisms/NextRaceCountdown";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <StandingsSection />
       <AboutCircuit />
       <SponsorsSection />
+      <DevPromoSection />
       <Footer />
     </>
   );
