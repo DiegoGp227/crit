@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { ValidationError } from "../../errors/appError.js";
+import { BadRequestError, ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import {
   listRaceResults,
   setRaceResults,
+  uploadRaceResults,
 } from "./results.services.js";
 import {
   raceIdParamSchema,
@@ -55,5 +56,28 @@ export const setRaceResultsController = asyncHandler(
     await setRaceResults(params.data.id, body.data.results);
 
     res.status(200).json({ message: "Results saved" });
+  },
+);
+
+/**
+ * @route POST /admin/races/:id/excel
+ * @body multipart/form-data { file }
+ * @returns { message, count }
+ */
+export const uploadRaceExcelController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const params = raceIdParamSchema.safeParse(req.params);
+
+    if (!params.success) {
+      throw new ValidationError("Validation errors", parseErrors(params.error.issues));
+    }
+
+    if (!req.file) {
+      throw new BadRequestError("No se recibió ningún archivo");
+    }
+
+    const count = await uploadRaceResults(params.data.id, req.file.buffer);
+
+    res.status(200).json({ message: "Results saved", count });
   },
 );

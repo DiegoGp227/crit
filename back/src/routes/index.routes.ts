@@ -18,6 +18,7 @@ import {
 import {
   createRaceController,
   deleteRaceController,
+  downloadRaceExcelController,
   getRaceController,
   listRacesController,
   updateRaceController,
@@ -25,6 +26,7 @@ import {
 import {
   getRaceResultsController,
   setRaceResultsController,
+  uploadRaceExcelController,
 } from "../modules/results/results.controllers.js";
 import { getClassificationController } from "../modules/classification/classification.controllers.js";
 export const router: Router = Router();
@@ -42,7 +44,12 @@ router.post("/login", login);
 router.post("/logout", logout);
 
 // Upload Routes
-router.post("/upload", authMiddleware, uploadMiddleware.single("image"), upload);
+router.post(
+  "/upload",
+  authMiddleware,
+  uploadMiddleware.single("image"),
+  upload,
+);
 
 // Profile Routes
 router.get("/me", authMiddleware, getProfile);
@@ -68,11 +75,49 @@ router.get("/races/:id/results", getRaceResultsController);
 router.get("/classification", getClassificationController);
 
 // Admin Race Routes
-router.get("/admin/races", authMiddleware, adminMiddleware, listRacesController);
-router.post("/admin/races", authMiddleware, adminMiddleware, createRaceController);
-router.get("/admin/races/:id", authMiddleware, adminMiddleware, getRaceController);
-router.patch("/admin/races/:id", authMiddleware, adminMiddleware, updateRaceController);
-router.delete("/admin/races/:id", authMiddleware, adminMiddleware, deleteRaceController);
+router.get(
+  "/admin/races",
+  authMiddleware,
+  adminMiddleware,
+  listRacesController,
+);
+router.post(
+  "/admin/races",
+  authMiddleware,
+  adminMiddleware,
+  createRaceController,
+);
+router.get(
+  "/admin/races/:id",
+  authMiddleware,
+  adminMiddleware,
+  getRaceController,
+);
+router.patch(
+  "/admin/races/:id",
+  authMiddleware,
+  adminMiddleware,
+  updateRaceController,
+);
+router.delete(
+  "/admin/races/:id",
+  authMiddleware,
+  adminMiddleware,
+  deleteRaceController,
+);
+router.get(
+  "/admin/races/:id/excel",
+  authMiddleware,
+  adminMiddleware,
+  downloadRaceExcelController,
+);
+router.post(
+  "/admin/races/:id/excel",
+  authMiddleware,
+  adminMiddleware,
+  uploadMiddleware.single("file"),
+  uploadRaceExcelController,
+);
 router.get(
   "/admin/races/:id/results",
   authMiddleware,

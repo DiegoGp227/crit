@@ -4,6 +4,7 @@ import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import {
   createRace,
   deleteRace,
+  generateRaceExcel,
   getRace,
   listRaces,
   updateRace,
@@ -121,5 +122,32 @@ export const deleteRaceController = asyncHandler(
     await deleteRace(params.data.id);
 
     res.status(200).json({ message: "Race deleted" });
+  },
+);
+
+/**
+ * @route GET /admin/races/:id/excel
+ * @returns { xlsx file }
+ */
+export const downloadRaceExcelController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const params = raceIdParamSchema.safeParse(req.params);
+
+    if (!params.success) {
+      throw new ValidationError("Validation errors", parseErrors(params.error.issues));
+    }
+
+    const buffer = await generateRaceExcel(params.data.id);
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="carrera-${params.data.id}.xlsx"`,
+    );
+    res.setHeader("Content-Length", String(buffer.length));
+    res.send(buffer);
   },
 );
