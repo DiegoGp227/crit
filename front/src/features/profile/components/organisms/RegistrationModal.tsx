@@ -8,6 +8,7 @@ import Button from "@/src/shared/components/ui/Button";
 import { cn } from "@/src/shared/utils/cn";
 import { parseProfileError } from "@/src/shared/utils/parseProfileError";
 import { useRegisterChampionship } from "../../hooks/useRegistration";
+import { useBibs } from "../../hooks/useProfile";
 import {
   toCreateRegistrationDTO,
   type CompetitionType,
@@ -40,9 +41,11 @@ export default function RegistrationModal({
   const [step, setStep] = useState(0);
   const [competitionType, setCompetitionType] =
     useState<CompetitionType | null>(null);
+  const [selectedBib, setSelectedBib] = useState<number | null>(null);
   const [accepted, setAccepted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { register, isRegistering, error } = useRegisterChampionship();
+  const { used, isLoading: bibsLoading } = useBibs();
 
   const {
     register: registerField,
@@ -60,8 +63,8 @@ export default function RegistrationModal({
   });
 
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (values) => {
-    if (!competitionType) return;
-    await register(toCreateRegistrationDTO(values, competitionType));
+    if (!competitionType || selectedBib === null) return;
+    await register(toCreateRegistrationDTO(values, competitionType, selectedBib));
     setSubmitted(true);
   };
 
@@ -118,10 +121,18 @@ export default function RegistrationModal({
               register={registerField}
               errors={errors}
               profile={profile}
+              used={used}
+              selectedBib={selectedBib}
+              onSelectBib={setSelectedBib}
+              bibsLoading={bibsLoading}
             />
           )}
           {step === 3 && (
-            <RegistrationStepConfirm accepted={accepted} onChange={setAccepted} />
+            <RegistrationStepConfirm
+              bibNumber={selectedBib}
+              accepted={accepted}
+              onChange={setAccepted}
+            />
           )}
 
           {error && (
@@ -153,6 +164,7 @@ export default function RegistrationModal({
             {step === 2 && (
               <Button
                 className="flex-1"
+                disabled={selectedBib === null}
                 onClick={handleSubmit(() => setStep(3))}
               >
                 Continuar

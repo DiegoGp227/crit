@@ -1,11 +1,11 @@
 import Label from "@/src/shared/components/ui/Label";
 import { cn } from "@/src/shared/utils/cn";
-import { pad2, padBib } from "@/src/shared/utils/format";
+import { padBib } from "@/src/shared/utils/format";
 
-const BIB_NUMBERS = Array.from({ length: 100 }, (_, index) => index);
+const BIB_NUMBERS = Array.from({ length: 100 }, (_, index) => index + 400);
 
 interface BibPickerProps {
-  bibAssigned: boolean;
+  bibAssigned?: boolean;
   bibNumber?: number | null;
   used: number[];
   selected: number | null;
@@ -15,7 +15,7 @@ interface BibPickerProps {
 }
 
 export default function BibPicker({
-  bibAssigned,
+  bibAssigned = false,
   bibNumber,
   used,
   selected,
@@ -66,7 +66,7 @@ export default function BibPicker({
                       "cursor-pointer bg-surface-raised text-text-primary hover:bg-bg-yellow-tint hover:text-text-secondary",
                   )}
                 >
-                  {pad2(bibNumberOption)}
+                  {bibNumberOption}
                 </button>
               );
             })}

@@ -13,6 +13,7 @@ export const COMPETITION_LABELS: Record<CompetitionType, string> = {
 export interface Registration {
   id: number;
   profileId: number;
+  bibNumber: number;
   competitionType: CompetitionType;
   document: string;
   phone: string;
@@ -25,6 +26,7 @@ export interface Registration {
 
 export interface CreateRegistrationDTO {
   competitionType: CompetitionType;
+  bibNumber: number;
   document: string;
   phone: string;
   team?: string;
@@ -45,10 +47,12 @@ export interface RegistrationFormValues {
 export function toCreateRegistrationDTO(
   values: RegistrationFormValues,
   competitionType: CompetitionType,
+  bibNumber: number,
 ): CreateRegistrationDTO {
   const team = values.team.trim();
   return {
     competitionType,
+    bibNumber,
     document: values.document.trim(),
     phone: values.phone.trim(),
     eps: values.eps.trim(),
