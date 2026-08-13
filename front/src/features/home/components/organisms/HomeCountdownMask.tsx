@@ -1,32 +1,12 @@
 "use client";
 
-import { Fragment, useEffect, useSyncExternalStore } from "react";
+import { Fragment, useEffect } from "react";
 import Link from "next/link";
 import Button from "@/src/shared/components/ui/Button";
-
-// Viernes 21 de agosto de 2026, 19:00 Bogotá (UTC-5) == 24:00 UTC del mismo día
-const EVENT_UTC = Date.UTC(2026, 7, 21, 24, 0, 0);
-
-const getSecondsLeft = () =>
-  Math.max(0, Math.floor((EVENT_UTC - Date.now()) / 1000));
-
-const subscribe = (callback: () => void) => {
-  callback();
-  const timer = setInterval(callback, 1000);
-  return () => clearInterval(timer);
-};
-
-const getSnapshot = () => String(getSecondsLeft());
-
-const getServerSnapshot = () => "0";
-
-const pad = (value: number) => String(value).padStart(2, "0");
+import { useCountdown, pad } from "@/src/shared/hooks/useCountdown";
 
 export default function HomeCountdownMask() {
-  const totalSeconds = Number(
-    useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot),
-  );
-  const done = totalSeconds === 0;
+  const { days, hours, minutes, seconds, done } = useCountdown();
 
   useEffect(() => {
     if (done) return;
@@ -37,11 +17,6 @@ export default function HomeCountdownMask() {
   }, [done]);
 
   if (done) return null;
-
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
 
   const cells = [
     { label: "Días", value: pad(days) },

@@ -1,7 +1,20 @@
+"use client";
+
+import { Fragment } from "react";
 import Section from "@/src/shared/components/ui/Section";
 import Button from "@/src/shared/components/ui/Button";
+import { useCountdown, pad } from "@/src/shared/hooks/useCountdown";
 
 export default function NextRaceCountdown() {
+    const { days, hours, minutes, seconds } = useCountdown();
+
+    const cells = [
+        { label: "Días", value: pad(days) },
+        { label: "Horas", value: pad(hours) },
+        { label: "Minutos", value: pad(minutes) },
+        { label: "Segundos", value: pad(seconds) },
+    ];
+
     return (
         <Section className="relative overflow-hidden">
             <div
@@ -20,25 +33,21 @@ export default function NextRaceCountdown() {
                     <h2 className="text-3xl font-bold">Próximo crit</h2>
                 </div>
                 <div className="flex items-center justify-center gap-0">
-                    <div className="flex flex-col items-center">
-                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">02</span>
-                        <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Días</span>
-                    </div>
-                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
-                    <div className="flex flex-col items-center">
-                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">07</span>
-                        <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Horas</span>
-                    </div>
-                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
-                    <div className="flex flex-col items-center">
-                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">32</span>
-                        <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Minutos</span>
-                    </div>
-                    <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
-                    <div className="flex flex-col items-center">
-                        <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary">24</span>
-                        <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">Segundos</span>
-                    </div>
+                    {cells.map((cell, index) => (
+                        <Fragment key={cell.label}>
+                            {index > 0 && (
+                                <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
+                            )}
+                            <div className="flex flex-col items-center">
+                                <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary tabular-nums">
+                                    {cell.value}
+                                </span>
+                                <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">
+                                    {cell.label}
+                                </span>
+                            </div>
+                        </Fragment>
+                    ))}
                 </div>
                 <div className="mt-4">
                     <Button>Registrarse</Button>
