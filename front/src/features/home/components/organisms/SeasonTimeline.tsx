@@ -1,142 +1,128 @@
 import Section from "@/src/shared/components/ui/Section";
 import { cn } from "@/src/shared/utils/cn";
 
-type EventType = "race" | "training" | "finale";
+type EventType = "race" | "finale";
 
-interface SeasonEvent {
+interface SeasonRace {
     type: EventType;
+    date: string;
     name: string;
     icon: string;
 }
 
-interface SeasonMonth {
-    name: string;
-    past?: boolean;
-    current?: boolean;
-    event?: SeasonEvent;
-}
-
-const months: SeasonMonth[] = [
-    { name: "Ene" },
-    { name: "Feb", past: true, event: { type: "training", name: "Fondo", icon: "🚴" } },
-    { name: "Mar", past: true, event: { type: "race", name: "Crit #10", icon: "🏁" } },
-    { name: "Abr", past: true, event: { type: "training", name: "Sprint", icon: "🚴" } },
-    { name: "May", past: true, event: { type: "race", name: "Crit #12", icon: "🏁" } },
-    { name: "Jun", past: true, event: { type: "training", name: "Técnica", icon: "🚴" } },
-    { name: "Jul", current: true, event: { type: "race", name: "Crit #19", icon: "🏁" } },
-    { name: "Ago", event: { type: "training", name: "Fuerza", icon: "🚴" } },
-    { name: "Sep", event: { type: "race", name: "Crit #21", icon: "🏁" } },
-    { name: "Oct", event: { type: "training", name: "Cadencia", icon: "🚴" } },
-    { name: "Nov", event: { type: "race", name: "Crit #24", icon: "🏁" } },
-    { name: "Dic", event: { type: "finale", name: "Gran Final", icon: "🏆" } },
+const races: SeasonRace[] = [
+    { type: "race", date: "21 Ago", name: "Crit #1", icon: "🏁" },
+    { type: "race", date: "28 Ago", name: "Crit #2", icon: "🏁" },
+    { type: "race", date: "04 Sep", name: "Crit #3", icon: "🏁" },
+    { type: "race", date: "11 Sep", name: "Crit #4", icon: "🏁" },
+    { type: "race", date: "18 Sep", name: "Crit #5", icon: "🏁" },
+    { type: "finale", date: "25 Sep", name: "Gran Final", icon: "🏆" },
 ];
 
 export default function SeasonTimeline() {
     return (
-        <Section>
-            <div className="mb-12">
-                <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-[2px] text-text-muted">
+        <Section className="relative overflow-hidden">
+            <div
+                className="pointer-events-none absolute inset-x-0 top-10 h-96 -translate-y-1/2 rounded-full"
+                style={{
+                    background: "radial-gradient(ellipse, rgba(254, 243, 0, 0.05), transparent 60%)",
+                }}
+            />
+
+            <div className="relative mb-14 flex flex-col items-center gap-3 text-center">
+                <span className="badge border-border-yellow bg-bg-yellow-tint text-text-secondary">
                     Temporada 2026
-                </p>
-                <h2 className="text-3xl font-bold text-text-primary">El viaje</h2>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-text-muted">
-                    Cinco carreras, cinco entrenamientos y una Gran Final que lo decide todo.
+                </span>
+                <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">El viaje</h2>
+                <p className="max-w-md text-sm leading-relaxed text-text-muted">
+                    Seis carreras cada viernes y una Gran Final que lo decide todo.
                 </p>
             </div>
 
             <div className="relative">
-                <div
-                    className="pointer-events-none absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 rounded-full"
-                    style={{
-                        background: "radial-gradient(ellipse, rgba(254, 243, 0, 0.06), transparent 65%)",
-                    }}
-                />
-
                 <div className="relative overflow-x-auto px-5 pb-4">
                     <div className="flex items-start">
-                        {months.map((month) => {
-                            const event = month.event;
+                        {races.map((race, index) => {
+                            const isNext = index === 0;
+                            const isFinale = race.type === "finale";
                             return (
                                 <div
-                                    key={month.name}
-                                    className="flex min-w-[80px] flex-1 flex-col items-center transition-transform duration-300 hover:-translate-y-1"
+                                    key={race.date}
+                                    className="group flex min-w-[124px] flex-1 flex-col items-center transition-transform duration-300 hover:-translate-y-1"
                                 >
-                                    <div className="flex h-18 w-full flex-col items-center justify-end">
-                                        {month.current && (
-                                            <span className="badge mb-1.5 border-border-yellow bg-bg-yellow-tint text-text-secondary">
-                                                Próximo
-                                            </span>
+                                    <div
+                                        className={cn(
+                                            "relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl border text-2xl transition-all duration-300",
+                                            isFinale
+                                                ? "border-gold/40 bg-gradient-to-br from-bg-yellow-tint to-surface shadow-[0_0_28px_rgba(254,243,0,0.18)]"
+                                                : isNext
+                                                  ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
+                                                  : "border-border bg-surface-raised group-hover:border-border-hover"
                                         )}
-                                        {event && (
-                                            <div
-                                                className={cn(
-                                                    "flex h-10 w-10 items-center justify-center rounded-2xl border text-lg",
-                                                    event.type === "finale"
-                                                        ? "border-gold/40 bg-bg-yellow-tint shadow-[0_0_24px_rgba(254,243,0,0.12)]"
-                                                        : event.type === "race"
-                                                          ? month.current
-                                                              ? "border-border-yellow bg-bg-yellow-tint"
-                                                              : month.past
-                                                                ? "border-border bg-surface opacity-70 grayscale"
-                                                                : "border-border bg-surface-raised"
-                                                          : cn(
-                                                                "border-dashed border-border bg-surface",
-                                                                month.past && "opacity-70"
-                                                            )
-                                                )}
-                                            >
-                                                {event.icon}
-                                            </div>
+                                    >
+                                        {race.icon}
+                                        {isNext && (
+                                            <span className="absolute -right-1 -top-1 flex h-3 w-3">
+                                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cta opacity-60" />
+                                                <span className="relative inline-flex h-3 w-3 rounded-full bg-cta" />
+                                            </span>
                                         )}
                                     </div>
 
-                                    <div className="relative mt-3 h-3.5 w-full">
-                                        <div className="absolute top-1/2 right-0 left-0 h-0.5 -translate-y-1/2 bg-border-hover" />
-                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                            {month.current && (
+                                    <div className="relative mt-3 h-4 w-full">
+                                        <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-border-hover" />
+                                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                            {isNext && (
                                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cta opacity-50" />
                                             )}
                                             <span
                                                 className={cn(
                                                     "block rounded-full border-2 border-bg",
-                                                    month.current
-                                                        ? "relative h-3.5 w-3.5 bg-cta shadow-[0_0_16px_rgba(254,243,0,0.5)]"
-                                                        : event?.type === "finale"
+                                                    isNext
+                                                        ? "h-3.5 w-3.5 bg-cta shadow-[0_0_16px_rgba(254,243,0,0.5)]"
+                                                        : isFinale
                                                           ? "h-3.5 w-3.5 bg-gold ring-4 ring-gold/15"
-                                                          : event?.type === "race"
-                                                            ? month.past
-                                                                ? "h-3 w-3 bg-green"
-                                                                : "h-3 w-3 bg-border-hover"
-                                                            : event?.type === "training"
-                                                              ? "h-2.5 w-2.5 bg-text-dim"
-                                                              : "h-2.5 w-2.5 bg-border-hover"
+                                                          : "h-3 w-3 bg-border-hover group-hover:bg-cta/60"
                                                 )}
                                             />
                                         </div>
                                     </div>
 
-                                    <span
+                                    <div
                                         className={cn(
-                                            "mt-2 text-[0.7rem] uppercase tracking-wide",
-                                            event ? "font-semibold text-text-primary" : "font-medium text-text-muted"
+                                            "mt-3 w-full rounded-2xl border px-3 py-3 text-center transition-all duration-300",
+                                            isFinale
+                                                ? "border-gold/40 bg-gradient-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
+                                                : isNext
+                                                  ? "border-border-yellow bg-surface-raised"
+                                                  : "border-border bg-surface group-hover:border-border-hover"
                                         )}
                                     >
-                                        {month.name}
-                                    </span>
-                                    {event && (
                                         <span
                                             className={cn(
-                                                "mt-1 max-w-[70px] text-center text-[0.62rem] font-semibold uppercase tracking-wider",
-                                                event.type === "finale"
-                                                    ? "text-text-secondary"
-                                                    : month.current
-                                                      ? "text-text-primary"
+                                                "block text-[0.62rem] font-semibold uppercase tracking-widest",
+                                                isFinale
+                                                    ? "text-gold"
+                                                    : isNext
+                                                      ? "text-text-secondary"
                                                       : "text-text-dim"
                                             )}
                                         >
-                                            {event.name}
+                                            {race.date}
                                         </span>
-                                    )}
+                                        <span
+                                            className={cn(
+                                                "mt-1 block text-sm font-bold",
+                                                isFinale
+                                                    ? "text-text-primary"
+                                                    : isNext
+                                                      ? "text-text-primary"
+                                                      : "text-text-muted group-hover:text-text-secondary"
+                                            )}
+                                        >
+                                            {race.name}
+                                        </span>
+                                    </div>
                                 </div>
                             );
                         })}
@@ -144,14 +130,10 @@ export default function SeasonTimeline() {
                 </div>
             </div>
 
-            <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
                 <span className="flex items-center gap-2 text-xs text-text-muted">
-                    <span className="h-2.5 w-2.5 rounded-full bg-green" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-border-hover" />
                     Carrera
-                </span>
-                <span className="flex items-center gap-2 text-xs text-text-muted">
-                    <span className="h-2.5 w-2.5 rounded-full bg-text-dim" />
-                    Entrenamiento
                 </span>
                 <span className="flex items-center gap-2 text-xs text-text-muted">
                     <span className="h-2.5 w-2.5 rounded-full bg-cta" />
