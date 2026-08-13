@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Section from "@/src/shared/components/ui/Section";
+import HeroCarousel from "./HeroCarousel";
 
 export default function HeroHome() {
     return (
@@ -25,16 +26,7 @@ export default function HeroHome() {
                         style={{ height: "70px", width: "auto" }}
                     />
                 </div>
-                <div className="relative min-h-[60vh] overflow-hidden lg:min-h-0">
-                    <Image
-                        src="/photos/grupo.jpg"
-                        alt="Grupo"
-                        fill
-                        className="object-cover"
-                        sizes="50vw"
-                        priority
-                    />
-                </div>
+                <HeroCarousel />
             </div>
         </Section>
     )
