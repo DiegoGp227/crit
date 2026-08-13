@@ -60,10 +60,10 @@ export default function DevPromoSection() {
             <div className="relative grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
                 <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
                     <span className="badge bg-accent-bg text-accent-bright">Desarrollo web</span>
-                    <h2 className="text-4xl font-bold leading-tight text-text-primary">
+                    <h2 className="text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
                         ¿Quieres un <em className="text-accent not-italic">desarrollo</em> para tu proyecto?
                     </h2>
-                    <p className="max-w-md text-text-muted">
+                    <p className="max-w-md text-sm text-text-muted">
                         Soy Diego, desarrollador full-stack. Detrás del Crit hay una plataforma completa:
                         inscripciones, puntuación, clasificación en tiempo real, panel de administración
                         e identidad visual propia — Contactame y Hagamos algo

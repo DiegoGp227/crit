@@ -30,7 +30,7 @@ export default function NextRaceCountdown() {
             />
             <div className="relative flex flex-col items-center gap-5">
                 <div>
-                    <h2 className="text-3xl font-bold">Próximo crit</h2>
+                    <h2 className="text-3xl font-bold sm:text-4xl">Próximo crit</h2>
                 </div>
                 <div className="flex items-center justify-center gap-0">
                     {cells.map((cell, index) => (
@@ -39,7 +39,7 @@ export default function NextRaceCountdown() {
                                 <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-cta animate-pulse mx-2 -mt-1 sm:mx-4 md:mx-6" />
                             )}
                             <div className="flex flex-col items-center">
-                                <span className="text-[clamp(2.5rem,12.5vw,10rem)] font-bold leading-none text-text-primary tabular-nums">
+                                <span className="text-countdown font-bold leading-none text-text-primary tabular-nums">
                                     {cell.value}
                                 </span>
                                 <span className="text-xs tracking-widest text-text-secondary uppercase font-semibold -mt-2">

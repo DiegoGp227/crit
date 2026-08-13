@@ -10,7 +10,7 @@ export default function ProfileEmptyState({ onCreate }: ProfileEmptyStateProps) 
     <Section>
       <div className="flex w-full flex-col items-start gap-6">
         <div>
-          <h1 className="mt-2 text-3xl font-bold text-text-primary">
+          <h1 className="mt-2 text-4xl font-bold text-text-primary">
             Completa tu perfil
           </h1>
           <p className="mt-2 text-sm text-text-muted">

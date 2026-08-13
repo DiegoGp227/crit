@@ -56,7 +56,7 @@ export default function StandingsTable({
           return (
             <div className="flex items-center gap-2.5">
               <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-2xs font-bold ${
                   position <= 3
                     ? "border-border-yellow text-text-secondary"
                     : "border-border bg-surface-raised text-text-muted"
@@ -71,7 +71,7 @@ export default function StandingsTable({
                 >
                   {name}
                 </Link>
-                <div className="hidden text-[0.68rem] text-text-dim md:block">
+                <div className="hidden text-xs text-text-dim md:block">
                   {team}
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function StandingsTable({
                 {headerGroup.headers.map((header, index) => (
                   <th
                     key={header.id}
-                    className={`whitespace-nowrap px-4 py-3.5 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim ${
+                    className={`whitespace-nowrap px-4 py-3.5 text-xs font-semibold uppercase tracking-widest text-text-dim ${
                       index === 0 ? "w-10 pl-5" : ""
                     } ${header.id === "points" ? "hidden text-right min-[401px]:table-cell" : "text-left"} ${
                       index === headerGroup.headers.length - 1 ? "pr-5" : ""
@@ -172,7 +172,7 @@ export default function StandingsTable({
           </tbody>
         </table>
       </div>
-      <p className="hidden items-center justify-center gap-1.5 py-2 text-[0.7rem] text-text-dim max-[600px]:flex">
+      <p className="hidden items-center justify-center gap-1.5 py-2 text-2xs text-text-dim max-[600px]:flex">
         <span aria-hidden>←</span> Desliza para ver más <span aria-hidden>→</span>
       </p>
     </div>

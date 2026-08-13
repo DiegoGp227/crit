@@ -91,6 +91,10 @@
 
   /* fonts */
   --font-sans: var(--font-inter), var(--font-dm-sans), system-ui, sans-serif;
+
+  /* typography scale */
+  --text-2xs: 0.625rem;
+  --text-countdown: clamp(2.5rem, 12.5vw, 9rem);
 }
 
 body {

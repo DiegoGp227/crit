@@ -50,7 +50,7 @@ export default function SponsorsSection() {
             <div className="relative flex flex-col items-center">
                 <div className="flex flex-col items-center gap-2">
                     <span className="badge bg-bg-yellow-tint text-text-secondary">Patrocinadores</span>
-                    <h2 className="text-4xl font-bold leading-tight text-text-primary">
+                    <h2 className="text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
                         Aliados que hacen <em className="text-text-secondary not-italic">posible</em> el Crit
                     </h2>
                 </div>

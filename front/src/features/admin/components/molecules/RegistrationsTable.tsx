@@ -76,7 +76,7 @@ export default function RegistrationsTable({
         id: "bib",
         header: "Bib",
         cell: ({ row }) => (
-          <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
+          <span className="font-mono text-sm font-semibold text-text-secondary">
             {padBib(row.original.bibNumber)}
           </span>
         ),
@@ -89,7 +89,7 @@ export default function RegistrationsTable({
           const avatarUrl = row.original.profile.avatarUrl;
           return (
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-surface-raised text-[0.7rem] font-bold text-text-muted">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-surface-raised text-2xs font-bold text-text-muted">
                 {avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -214,7 +214,7 @@ export default function RegistrationsTable({
                   <th
                     key={header.id}
                     className={cn(
-                      "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
+                      "whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-widest text-text-dim",
                       index === 0 ? "w-12 pl-5" : "text-left",
                       index === headerGroup.headers.length - 1 ? "pr-5" : "",
                     )}
@@ -283,7 +283,7 @@ export default function RegistrationsTable({
           </tbody>
         </table>
       </div>
-      <p className="hidden items-center justify-center gap-1.5 py-2 text-[0.7rem] text-text-dim max-[600px]:flex">
+      <p className="hidden items-center justify-center gap-1.5 py-2 text-2xs text-text-dim max-[600px]:flex">
         <span aria-hidden>←</span> Desliza para ver más <span aria-hidden>→</span>
       </p>
     </div>
@@ -305,7 +305,7 @@ function Detail({
         <Icon className="size-3.5" />
       </span>
       <span className="min-w-0">
-        <span className="block text-[0.65rem] font-medium uppercase tracking-wider text-text-dim">
+        <span className="block text-2xs font-medium uppercase tracking-wider text-text-dim">
           {label}
         </span>
         <span className="block truncate text-sm text-text-primary">{value}</span>

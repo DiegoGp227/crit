@@ -32,7 +32,7 @@ export default function Button({
     <button
       type={type}
       className={cn(
-        "inline-flex cursor-pointer select-none items-center justify-center rounded-2xl font-semibold transition-all duration-500 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex cursor-pointer select-none items-center justify-center rounded-2xl text-sm font-semibold transition-all duration-500 disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className

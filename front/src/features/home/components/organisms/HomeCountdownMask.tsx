@@ -32,7 +32,7 @@ export default function HomeCountdownMask() {
         className="absolute inset-0 bottom-[-40vh] bg-bg/70 backdrop-blur-lg"
       />
       <div className="relative flex h-full flex-col items-center justify-center gap-6 px-4 text-center sm:gap-8 sm:px-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-text-muted sm:text-xs">
+        <p className="text-2xs font-semibold uppercase tracking-[0.3em] text-text-muted sm:text-xs">
           Próximo crit · Virgilio Barco
         </p>
         <h1 className="text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl lg:text-5xl">
@@ -45,10 +45,10 @@ export default function HomeCountdownMask() {
                 <span className="mx-1.5 -mt-1 h-2 w-2 shrink-0 animate-pulse rounded-full bg-cta sm:mx-4 sm:h-2.5 sm:w-2.5" />
               )}
               <div className="flex flex-col items-center">
-                <span className="text-[clamp(2.25rem,11vw,7.5rem)] leading-none font-bold text-text-primary tabular-nums">
+                <span className="text-countdown leading-none font-bold text-text-primary tabular-nums">
                   {cell.value}
                 </span>
-                <span className="-mt-2 text-[10px] font-semibold uppercase tracking-widest text-text-secondary sm:text-xs">
+                <span className="-mt-2 text-2xs font-semibold uppercase tracking-widest text-text-secondary sm:text-xs">
                   {cell.label}
                 </span>
               </div>

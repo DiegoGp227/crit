@@ -255,7 +255,7 @@ export default function ResultsPanel() {
           </div>
 
           <div className="mt-5 rounded-xl border border-border bg-surface-raised p-4">
-            <p className="text-[0.7rem] font-medium uppercase tracking-widest text-text-dim">
+            <p className="text-2xs font-medium uppercase tracking-widest text-text-dim">
               Columnas
             </p>
             <div className="mt-2.5 flex flex-wrap gap-x-5 gap-y-1.5">
@@ -490,7 +490,7 @@ export default function ResultsPanel() {
                       <th
                         key={heading}
                         className={cn(
-                          "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
+                          "whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-widest text-text-dim",
                           index === 0 ? "pl-6 text-right" : "text-left",
                           index === 5 ? "pr-6 text-right" : "",
                         )}
@@ -513,7 +513,7 @@ export default function ResultsPanel() {
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3.5">
-                      <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
+                      <span className="font-mono text-sm font-semibold text-text-secondary">
                         {padBib(row.bib)}
                       </span>
                     </td>

@@ -188,7 +188,7 @@ export default function CreateRacePanel() {
                     <th
                       key={heading}
                       className={cn(
-                        "whitespace-nowrap px-4 py-3 text-[0.68rem] font-semibold uppercase tracking-widest text-text-dim",
+                        "whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-widest text-text-dim",
                         index === 0 ? "pl-6 text-left" : "text-left",
                         index === 2 ? "pr-6" : "",
                       )}
@@ -207,7 +207,7 @@ export default function CreateRacePanel() {
                       className="border-t border-border transition-colors hover:bg-white/2"
                     >
                       <td className="whitespace-nowrap px-4 py-3.5 pl-6">
-                        <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
+                        <span className="font-mono text-sm font-semibold text-text-secondary">
                           {padBib(race.id)}
                         </span>
                       </td>

@@ -100,7 +100,7 @@ export default function SeasonTimeline() {
                                     >
                                         <span
                                             className={cn(
-                                                "block text-[0.62rem] font-semibold uppercase tracking-widest",
+                                                "block text-2xs font-semibold uppercase tracking-widest",
                                                 isFinale
                                                     ? "text-gold"
                                                     : isNext

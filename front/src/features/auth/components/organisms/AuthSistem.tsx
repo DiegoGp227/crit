@@ -51,7 +51,7 @@ export default function AuthSistem() {
 
                 {mode === "login" ? (
                     <>
-                        <h1 className="mt-8 text-3xl font-bold text-text-primary">Bienvenido de vuelta</h1>
+                        <h1 className="mt-8 text-4xl font-bold text-text-primary">Bienvenido de vuelta</h1>
                         <p className="mt-2 text-sm text-text-muted">
                             Inicia sesión para ver tu perfil, resultados y clasificación.
                         </p>
@@ -59,7 +59,7 @@ export default function AuthSistem() {
                     </>
                 ) : (
                     <>
-                        <h1 className="mt-8 text-3xl font-bold text-text-primary">Crea tu cuenta</h1>
+                        <h1 className="mt-8 text-4xl font-bold text-text-primary">Crea tu cuenta</h1>
                         <p className="mt-2 text-sm text-text-muted">
                             Regístrate para competir, ver resultados y escalar en la clasificación.
                         </p>

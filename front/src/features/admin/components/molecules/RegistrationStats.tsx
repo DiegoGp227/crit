@@ -59,7 +59,7 @@ export default function RegistrationStats({
           <Users className="size-5" />
         </span>
         <span className="min-w-0">
-          <span className="block text-[0.7rem] font-medium uppercase tracking-wider text-text-muted">
+          <span className="block text-2xs font-medium uppercase tracking-wider text-text-muted">
             Total inscritos
           </span>
           <span
@@ -98,7 +98,7 @@ export default function RegistrationStats({
               <Icon className="size-5" />
             </span>
             <span className="min-w-0">
-              <span className="block truncate text-[0.7rem] font-medium uppercase tracking-wider text-text-muted">
+              <span className="block truncate text-2xs font-medium uppercase tracking-wider text-text-muted">
                 {iconLabel[stat.key]}
               </span>
               <span className="block truncate text-sm font-semibold text-text-primary">
