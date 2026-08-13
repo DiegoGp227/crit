@@ -8,7 +8,6 @@ import type {
 export interface AdminRegistration extends Registration {
   profile: {
     fullName: string;
-    bibNumber: number;
     avatarUrl: string | null;
     team: string | null;
   };

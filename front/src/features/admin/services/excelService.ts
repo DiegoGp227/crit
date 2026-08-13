@@ -54,7 +54,7 @@ export const downloadRegistrationsExcel = (
   ];
 
   const rows = registrations.map((r) => [
-    r.profile.bibNumber,
+    r.bibNumber,
     r.profile.fullName,
     r.phone,
     r.document,

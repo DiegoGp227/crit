@@ -77,7 +77,7 @@ export default function RegistrationsTable({
         header: "Bib",
         cell: ({ row }) => (
           <span className="font-mono text-[0.82rem] font-semibold text-text-secondary">
-            {padBib(row.original.profile.bibNumber)}
+            {padBib(row.original.bibNumber)}
           </span>
         ),
       },

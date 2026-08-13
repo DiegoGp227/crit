@@ -15,8 +15,10 @@ export interface RaceResult {
   createdAt: string;
   profile: {
     fullName: string;
-    bibNumber: number;
     team: string | null;
+    registration: {
+      bibNumber: number;
+    } | null;
   };
 }
 
@@ -35,7 +37,7 @@ export interface ResultView {
 }
 
 export const toResultView = (result: RaceResult): ResultView => ({
-  bib: result.profile.bibNumber,
+  bib: result.profile.registration?.bibNumber ?? 0,
   name: result.profile.fullName,
   team: result.profile.team,
   attendance: result.status,
