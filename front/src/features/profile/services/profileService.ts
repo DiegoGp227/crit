@@ -28,7 +28,6 @@ export interface Profile {
   userId: number;
   fullName: string;
   avatarUrl: string | null;
-  bibNumber: number;
   kilometers: number | null;
   category: CategoryType | null;
   team: string | null;
@@ -61,12 +60,12 @@ export interface ProfileStats {
 
 export interface PublicProfileResponse {
   profile: Profile;
+  registration: Registration | null;
   stats: ProfileStats;
 }
 
 export interface UpdateProfileDTO {
   fullName: string;
-  bibNumber?: number | null;
   avatarUrl?: string | null;
   kilometers?: number | null;
   category?: CategoryType | null;
@@ -85,7 +84,6 @@ export interface ProfileFormValues {
   team: string;
   avatarUrl: string | null;
   bikePhotoUrl: string | null;
-  bibNumber: number | null;
   bikeNickname: string;
   bikeFrame: string;
   bikeRatio: string;
@@ -112,7 +110,6 @@ export function toUpdateProfileDTO(values: ProfileFormValues): UpdateProfileDTO 
     fullName: values.fullName.trim(),
     avatarUrl: values.avatarUrl ?? "",
     bikePhotoUrl: values.bikePhotoUrl ?? "",
-    ...(values.bibNumber !== null && { bibNumber: values.bibNumber }),
     ...(values.category && { category: values.category as CategoryType }),
     ...(team && { team }),
     ...(bikeNickname && { bikeNickname }),

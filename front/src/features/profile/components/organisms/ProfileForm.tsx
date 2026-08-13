@@ -6,9 +6,8 @@ import Input from "@/src/shared/components/ui/Input";
 import Select from "@/src/shared/components/ui/Select";
 import { parseProfileError } from "@/src/shared/utils/parseProfileError";
 import PhotoPicker from "../atoms/PhotoPicker";
-import BibPicker from "../molecules/BibPicker";
 import FormSection from "../molecules/FormSection";
-import { useBibs, useUpdateProfile } from "../../hooks/useProfile";
+import { useUpdateProfile } from "../../hooks/useProfile";
 import {
   CATEGORY_LABELS,
   toUpdateProfileDTO,
@@ -28,9 +27,7 @@ export default function ProfileForm({
   onCancel,
 }: ProfileFormProps) {
   const isCreate = !initial;
-  const bibAssigned = initial?.bibNumber != null;
   const { saveProfile, isSaving, error } = useUpdateProfile();
-  const { used, isLoading: bibsLoading } = useBibs();
 
   const {
     control,
@@ -44,7 +41,6 @@ export default function ProfileForm({
       team: initial?.team ?? "",
       avatarUrl: initial?.avatarUrl ?? null,
       bikePhotoUrl: initial?.bikePhotoUrl ?? null,
-      bibNumber: initial?.bibNumber ?? null,
       bikeNickname: initial?.bikeNickname ?? "",
       bikeFrame: initial?.bikeFrame ?? "",
       bikeRatio: initial?.bikeRatio ?? "",
@@ -97,24 +93,6 @@ export default function ProfileForm({
           optional
           placeholder="Nombre de tu equipo"
           {...register("team")}
-        />
-        <Controller
-          name="bibNumber"
-          control={control}
-          rules={{
-            required: bibAssigned ? false : "El dorsal es obligatorio",
-          }}
-          render={({ field, fieldState }) => (
-            <BibPicker
-              bibAssigned={bibAssigned}
-              bibNumber={initial?.bibNumber}
-              used={used}
-              selected={field.value}
-              onSelect={field.onChange}
-              isLoading={bibsLoading}
-              error={fieldState.error?.message}
-            />
-          )}
         />
       </FormSection>
 

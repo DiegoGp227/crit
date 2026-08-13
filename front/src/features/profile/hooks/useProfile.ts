@@ -40,7 +40,13 @@ export const usePublicProfile = (profileId: number | null | undefined) => {
     profileId ? RiderURL(profileId) : null,
     () => getPublicProfile(profileId as number),
   );
-  return { profile: data?.profile ?? null, stats: data?.stats, error, isLoading };
+  return {
+    profile: data?.profile ?? null,
+    registration: data?.registration ?? null,
+    stats: data?.stats,
+    error,
+    isLoading,
+  };
 };
 
 export const useBibs = () => {

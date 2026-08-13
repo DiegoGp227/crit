@@ -113,8 +113,8 @@ export default function ProfileInfo({
                   backgroundRepeat: "no-repeat",
                 }}
               />
-              <span className="relative -translate-y-3 text-7xl font-bold leading-none text-white [text-shadow:_-2.5px_-2.5px_0_#000,2.5px_-2.5px_0_#000,-2.5px_2.5px_0_#000,2.5px_2.5px_0_#000,0_-2.5px_0_#000,0_2.5px_0_#000,-2.5px_0_0_#000,2.5px_0_0_#000] sm:text-8xl">
-                {padBib(profile.bibNumber)}
+              <span className="relative -translate-y-3 text-7xl font-bold leading-none text-white [text-shadow:-2.5px_-2.5px_0_#000,2.5px_-2.5px_0_#000,-2.5px_2.5px_0_#000,2.5px_2.5px_0_#000,0_-2.5px_0_#000,0_2.5px_0_#000,-2.5px_0_0_#000,2.5px_0_0_#000] sm:text-8xl">
+                {registration ? padBib(registration.bibNumber) : "—"}
               </span>
             </div>
             {registration ? (

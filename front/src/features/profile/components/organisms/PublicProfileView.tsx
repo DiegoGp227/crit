@@ -10,7 +10,7 @@ export default function PublicProfileView() {
   const params = useParams<{ id: string }>();
   const profileId = params?.id ? Number(params.id) : undefined;
 
-  const { profile, stats, isLoading } = usePublicProfile(profileId);
+  const { profile, registration, stats, isLoading } = usePublicProfile(profileId);
 
   if (isLoading && !profile) {
     return (
@@ -37,7 +37,12 @@ export default function PublicProfileView() {
 
   return (
     <>
-      <ProfileInfo profile={profile} stats={stats} title="Perfil de corredor" />
+      <ProfileInfo
+        profile={profile}
+        stats={stats}
+        registration={registration}
+        title="Perfil de corredor"
+      />
       <BikeInfo profile={profile} />
     </>
   );
