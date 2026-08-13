@@ -7,7 +7,6 @@ const optionalUrl = z.union([z.string().url(), z.literal("")]).nullish();
 
 export const updateProfileSchema = z.object({
   fullName: z.string().trim().min(1).max(120),
-  bibNumber: z.number().int().min(0).max(99).nullish(),
   avatarUrl: optionalUrl,
   kilometers: z.number().int().min(0).nullish(),
   category: z.nativeEnum(CategoryType).nullish(),

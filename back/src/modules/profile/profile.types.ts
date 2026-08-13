@@ -5,7 +5,6 @@ export interface ProfileResponse {
   userId: number;
   fullName: string;
   avatarUrl: string | null;
-  bibNumber: number;
   kilometers: number | null;
   category: CategoryType | null;
   team: string | null;

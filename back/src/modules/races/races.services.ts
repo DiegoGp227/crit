@@ -98,13 +98,13 @@ export const generateRaceExcel = async (raceId: number): Promise<Buffer> => {
   await getRace(raceId);
 
   const registrations = await prisma.registration.findMany({
-    orderBy: { profile: { bibNumber: "asc" } },
+    orderBy: { profile: { registration: { bibNumber: "asc" } } },
     select: {
       profileId: true,
       competitionType: true,
+      bibNumber: true,
       profile: {
         select: {
-          bibNumber: true,
           fullName: true,
           team: true,
         },
@@ -160,7 +160,7 @@ export const generateRaceExcel = async (raceId: number): Promise<Buffer> => {
       const row = worksheet.getRow(index + 2);
 
       row.getCell(1).value = registration.profileId;
-      row.getCell(2).value = registration.profile.bibNumber;
+      row.getCell(2).value = registration.bibNumber;
       row.getCell(3).value = registration.profile.fullName;
       row.getCell(4).value = registration.profile.team ?? "";
       row.getCell(5).value = result?.status ?? "";

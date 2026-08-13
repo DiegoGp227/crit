@@ -1,10 +1,6 @@
 import type { Prisma } from "@prisma/client";
 import prisma from "../../db/prisma.js";
-import {
-  BadRequestError,
-  ConflictError,
-  NotFoundError,
-} from "../../errors/appError.js";
+import { NotFoundError } from "../../errors/appError.js";
 import type { UpdateProfileDTO } from "./profile.schemas.js";
 
 const emptyToNull = (value?: string | null): string | null =>
@@ -14,14 +10,9 @@ const buildCreateData = (
   userId: number,
   data: UpdateProfileDTO,
 ): Prisma.ProfileUncheckedCreateInput => {
-  if (data.bibNumber === undefined || data.bibNumber === null) {
-    throw new BadRequestError("bibNumber is required to create a profile");
-  }
-
   return {
     userId,
     fullName: data.fullName,
-    bibNumber: data.bibNumber,
     ...(data.avatarUrl !== undefined && { avatarUrl: emptyToNull(data.avatarUrl) }),
     ...(data.kilometers !== undefined && { kilometers: data.kilometers }),
     ...(data.category !== undefined && { category: data.category }),
@@ -59,22 +50,6 @@ const buildUpdateData = (
   ...(data.bikeSize !== undefined && { bikeSize: emptyToNull(data.bikeSize) }),
 });
 
-const throwIfBibInUse = (error: unknown, bibNumber?: number | null): never => {
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    error.code === "P2002"
-  ) {
-    throw new ConflictError(
-      bibNumber != null
-        ? `Bib number ${bibNumber} is already in use`
-        : "Bib number is already in use",
-    );
-  }
-  throw error;
-};
-
 export const getMyProfile = async (userId: number) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -105,28 +80,15 @@ export const getMyProfile = async (userId: number) => {
 export const upsertMyProfile = async (userId: number, data: UpdateProfileDTO) => {
   const existing = await prisma.profile.findUnique({ where: { userId } });
 
-  try {
-    if (existing) {
-      if (
-        data.bibNumber !== undefined &&
-        data.bibNumber !== null &&
-        data.bibNumber !== existing.bibNumber
-      ) {
-        throw new ConflictError(
-          "El dorsal ya está asignado y no se puede cambiar",
-        );
-      }
-      return await prisma.profile.update({
-        where: { id: existing.id },
-        data: buildUpdateData(data),
-      });
-    }
-    return await prisma.profile.create({
-      data: buildCreateData(userId, data),
+  if (existing) {
+    return await prisma.profile.update({
+      where: { id: existing.id },
+      data: buildUpdateData(data),
     });
-  } catch (error) {
-    throwIfBibInUse(error, data.bibNumber);
   }
+  return await prisma.profile.create({
+    data: buildCreateData(userId, data),
+  });
 };
 
 export const getPublicProfile = async (profileId: string) => {
@@ -137,26 +99,30 @@ export const getPublicProfile = async (profileId: string) => {
 
   const profile = await prisma.profile.findUnique({
     where: { id },
-    include: { results: true },
+    include: { results: true, registration: true },
   });
 
   if (!profile) {
     throw new NotFoundError("Profile");
   }
 
-  const { results, ...profileData } = profile;
+  const { results, registration, ...profileData } = profile;
   const stats = {
     points: results.reduce((acc, result) => acc + result.points, 0),
     races: results.length,
   };
 
-  return { profile: profileData, stats };
+  return {
+    profile: profileData,
+    registration,
+    stats,
+  };
 };
 
 export const getUsedBibNumbers = async (): Promise<number[]> => {
-  const profiles = await prisma.profile.findMany({
+  const registrations = await prisma.registration.findMany({
     select: { bibNumber: true },
   });
 
-  return profiles.map((profile) => profile.bibNumber);
+  return registrations.map((registration) => registration.bibNumber);
 };

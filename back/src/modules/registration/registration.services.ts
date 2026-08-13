@@ -33,6 +33,24 @@ export const createRegistration = async (
     throw new ConflictError("Ya estás inscrito al campeonato");
   }
 
+  const documentInUse = await prisma.registration.findUnique({
+    where: { document: data.document },
+    select: { id: true },
+  });
+
+  if (documentInUse) {
+    throw new ConflictError("El documento ya está registrado");
+  }
+
+  const bibInUse = await prisma.registration.findUnique({
+    where: { bibNumber: data.bibNumber },
+    select: { id: true },
+  });
+
+  if (bibInUse) {
+    throw new ConflictError("Ese dorsal ya está asignado");
+  }
+
   try {
     const { team, ...registrationData } = data;
 
@@ -46,6 +64,7 @@ export const createRegistration = async (
     return await prisma.registration.create({
       data: {
         profileId: profile.id,
+        bibNumber: registrationData.bibNumber,
         competitionType: registrationData.competitionType,
         document: registrationData.document,
         phone: registrationData.phone,
@@ -62,6 +81,7 @@ export const createRegistration = async (
 const registrationsSelect = {
   id: true,
   profileId: true,
+  bibNumber: true,
   competitionType: true,
   document: true,
   phone: true,
@@ -73,7 +93,6 @@ const registrationsSelect = {
   profile: {
     select: {
       fullName: true,
-      bibNumber: true,
       avatarUrl: true,
       team: true,
     },
@@ -100,7 +119,7 @@ export const listRegistrations = async ({
           OR: [
             { profile: { fullName: { contains: search, mode: "insensitive" as const } } },
             { document: { contains: search, mode: "insensitive" as const } },
-            ...(bibNumber !== undefined ? [{ profile: { bibNumber } }] : []),
+            ...(bibNumber !== undefined ? [{ bibNumber }] : []),
           ],
         }
       : {}),

@@ -37,11 +37,12 @@ export const getClassification = async (): Promise<IClassificationEntry[]> => {
     where: { id: { in: grouped.map((row) => row.profileId) } },
     select: {
       id: true,
-      bibNumber: true,
       fullName: true,
       team: true,
       category: true,
-      registration: { select: { competitionType: true } },
+      registration: {
+        select: { bibNumber: true, competitionType: true },
+      },
     },
   });
 
@@ -52,7 +53,7 @@ export const getClassification = async (): Promise<IClassificationEntry[]> => {
 
     return {
       profileId: row.profileId,
-      bibNumber: profile?.bibNumber ?? 0,
+      bibNumber: profile?.registration?.bibNumber ?? 0,
       fullName: profile?.fullName ?? "Corredor eliminado",
       team: profile?.team ?? null,
       category: profile?.category ?? null,

@@ -53,7 +53,6 @@ model Profile {
   userId       Int           @unique @map("user_id")
   fullName     String        @map("full_name")
   avatarUrl    String?       @map("avatar_url")
-  bibNumber    Int           @unique @map("bib_number")
   kilometers   Int?
   category     CategoryType?
   team         String?
@@ -76,6 +75,7 @@ model Profile {
 model Registration {
   id                     Int             @id @default(autoincrement())
   profileId              Int             @unique @map("profile_id")
+  bibNumber              Int             @unique @map("bib_number")
   competitionType        CompetitionType @map("competition_type")
   document               String          @unique
   phone                  String

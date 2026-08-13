@@ -120,14 +120,18 @@ export const uploadRaceResults = async (
   const registrations = await prisma.registration.findMany({
     select: {
       profileId: true,
-      profile: { select: { bibNumber: true, fullName: true } },
+      bibNumber: true,
+      profile: { select: { fullName: true } },
     },
   });
 
   const expected = new Map(
     registrations.map((registration) => [
       registration.profileId,
-      registration.profile,
+      {
+        fullName: registration.profile.fullName,
+        bibNumber: registration.bibNumber,
+      },
     ]),
   );
 
@@ -240,7 +244,7 @@ export const listRaceResults = async (raceId: number) => {
 
   return prisma.result.findMany({
     where: { raceDateId: raceId },
-    orderBy: { profile: { bibNumber: "asc" } },
+    orderBy: { profile: { registration: { bibNumber: "asc" } } },
     select: {
       id: true,
       profileId: true,
@@ -251,8 +255,10 @@ export const listRaceResults = async (raceId: number) => {
       profile: {
         select: {
           fullName: true,
-          bibNumber: true,
           team: true,
+          registration: {
+            select: { bibNumber: true },
+          },
         },
       },
     },

@@ -20,7 +20,7 @@ export const getProfile = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @route PATCH /me/profile
- * @body { fullName, bibNumber?, avatarUrl?, kilometers?, category?, team?, bike* }
+ * @body { fullName, avatarUrl?, kilometers?, category?, team?, bike* }
  * @returns { message, profile }
  */
 export const updateProfile = asyncHandler(async (req: Request, res: Response) => {
@@ -44,7 +44,7 @@ export const updateProfile = asyncHandler(async (req: Request, res: Response) =>
 
 /**
  * @route GET /riders/:id
- * @returns { profile, stats }
+ * @returns { profile, registration, stats }
  */
 export const getRiderProfile = asyncHandler(async (req: Request, res: Response) => {
   const result = await getPublicProfile(String(req.params.id));

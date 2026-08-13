@@ -9,7 +9,9 @@ export interface IResultResponse {
   createdAt: Date;
   profile: {
     fullName: string;
-    bibNumber: number;
     team: string | null;
+    registration: {
+      bibNumber: number;
+    } | null;
   };
 }
