@@ -4,14 +4,14 @@ import Section from "@/src/shared/components/ui/Section";
 export default function AboutCircuit() {
     const stats = [
         { label: "Longitud", value: "1.5 km" },
-        { label: "Vueltas", value: "10" },
+        { label: "Vueltas", value: "Varian segun categoria" },
         { label: "Superficie", value: "Asfalto" },
         { label: "Tráfico", value: "Sin tráfico" },
     ];
 
     return (
         <Section>
-            <div className="grid w-full grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="group grid w-full grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
                 <div className="flex flex-col gap-8">
                     <div>
                         <p className="text-xs uppercase tracking-widest text-text-muted">El circuito</p>
@@ -35,11 +35,11 @@ export default function AboutCircuit() {
                 </div>
                 <div className="flex items-center justify-center">
                     <Image
-                        src="/brand/Circuito2.png"
+                        src="/brand/Circuito3.png"
                         alt="Virgilio Barco"
                         width={623}
                         height={500}
-                        className="h-auto w-full max-w-[560px]"
+                        className="h-auto w-full max-w-140 transition-all duration-300 group-hover:drop-shadow-[0_0_25px_rgba(255,165,0,0.5)]"
                     />
                 </div>
             </div>

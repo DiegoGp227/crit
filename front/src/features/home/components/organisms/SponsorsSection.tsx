@@ -62,7 +62,7 @@ export default function SponsorsSection() {
                             href={sponsor.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex min-w-[220px] flex-1 flex-col items-center gap-5 rounded-3xl border border-border bg-surface px-10 py-10 transition-all duration-300 hover:-translate-y-1 hover:border-border-yellow hover:bg-surface-raised hover:shadow-[0_24px_50px_-24px_rgba(254,243,0,0.3)] sm:max-w-[320px]"
+                            className="group flex min-w-55 flex-1 flex-col items-center gap-5 rounded-3xl border border-border bg-surface px-10 py-10 transition-all duration-300 hover:-translate-y-1 hover:border-border-yellow hover:bg-surface-raised hover:shadow-[0_24px_50px_-24px_rgba(254,243,0,0.3)] sm:max-w-[320px]"
                         >
                             <div className="relative flex h-36 w-36 items-center justify-center overflow-hidden rounded-2xl bg-surface-raised transition-all duration-300 group-hover:bg-surface">
                                 {sponsor.logo ? (
