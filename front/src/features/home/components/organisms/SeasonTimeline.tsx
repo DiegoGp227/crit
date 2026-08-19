@@ -11,12 +11,12 @@ interface SeasonRace {
 }
 
 const races: SeasonRace[] = [
-    { type: "race", date: "21 Ago", name: "Crit #1", icon: "🏁" },
-    { type: "race", date: "28 Ago", name: "Crit #2", icon: "🏁" },
-    { type: "race", date: "04 Sep", name: "Crit #3", icon: "🏁" },
-    { type: "race", date: "11 Sep", name: "Crit #4", icon: "🏁" },
-    { type: "race", date: "18 Sep", name: "Crit #5", icon: "🏁" },
-    { type: "finale", date: "25 Sep", name: "Gran Final", icon: "🏆" },
+    { type: "race", date: "28 Ago", name: "Crit #1", icon: "🏁" },
+    { type: "race", date: "04 Sep", name: "Crit #2", icon: "🏁" },
+    { type: "race", date: "11 Sep", name: "Crit #3", icon: "🏁" },
+    { type: "race", date: "18 Sep", name: "Crit #4", icon: "🏁" },
+    { type: "race", date: "25 Sep", name: "Crit #5", icon: "🏁" },
+    { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆" },
 ];
 
 export default function SeasonTimeline() {
@@ -56,8 +56,8 @@ export default function SeasonTimeline() {
                                             isFinale
                                                 ? "border-gold/40 bg-gradient-to-br from-bg-yellow-tint to-surface shadow-[0_0_28px_rgba(254,243,0,0.18)]"
                                                 : isNext
-                                                  ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
-                                                  : "border-border bg-surface-raised group-hover:border-border-hover"
+                                                    ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
+                                                    : "border-border bg-surface-raised group-hover:border-border-hover"
                                         )}
                                     >
                                         {race.icon}
@@ -81,8 +81,8 @@ export default function SeasonTimeline() {
                                                     isNext
                                                         ? "h-3.5 w-3.5 bg-cta shadow-[0_0_16px_rgba(254,243,0,0.5)]"
                                                         : isFinale
-                                                          ? "h-3.5 w-3.5 bg-gold ring-4 ring-gold/15"
-                                                          : "h-3 w-3 bg-border-hover group-hover:bg-cta/60"
+                                                            ? "h-3.5 w-3.5 bg-gold ring-4 ring-gold/15"
+                                                            : "h-3 w-3 bg-border-hover group-hover:bg-cta/60"
                                                 )}
                                             />
                                         </div>
@@ -94,8 +94,8 @@ export default function SeasonTimeline() {
                                             isFinale
                                                 ? "border-gold/40 bg-gradient-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
                                                 : isNext
-                                                  ? "border-border-yellow bg-surface-raised"
-                                                  : "border-border bg-surface group-hover:border-border-hover"
+                                                    ? "border-border-yellow bg-surface-raised"
+                                                    : "border-border bg-surface group-hover:border-border-hover"
                                         )}
                                     >
                                         <span
@@ -104,8 +104,8 @@ export default function SeasonTimeline() {
                                                 isFinale
                                                     ? "text-gold"
                                                     : isNext
-                                                      ? "text-text-secondary"
-                                                      : "text-text-dim"
+                                                        ? "text-text-secondary"
+                                                        : "text-text-dim"
                                             )}
                                         >
                                             {race.date}
@@ -116,8 +116,8 @@ export default function SeasonTimeline() {
                                                 isFinale
                                                     ? "text-text-primary"
                                                     : isNext
-                                                      ? "text-text-primary"
-                                                      : "text-text-muted group-hover:text-text-secondary"
+                                                        ? "text-text-primary"
+                                                        : "text-text-muted group-hover:text-text-secondary"
                                             )}
                                         >
                                             {race.name}
