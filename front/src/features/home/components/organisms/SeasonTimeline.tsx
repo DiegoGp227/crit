@@ -48,13 +48,13 @@ export default function SeasonTimeline() {
                             return (
                                 <div
                                     key={race.date}
-                                    className="group flex min-w-[124px] flex-1 flex-col items-center transition-transform duration-300 hover:-translate-y-1"
+                                    className="group flex min-w-31 flex-1 flex-col items-center transition-transform duration-300 hover:-translate-y-1"
                                 >
                                     <div
                                         className={cn(
                                             "relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl border text-2xl transition-all duration-300",
                                             isFinale
-                                                ? "border-gold/40 bg-gradient-to-br from-bg-yellow-tint to-surface shadow-[0_0_28px_rgba(254,243,0,0.18)]"
+                                                ? "border-gold/40 bg-linear-to-br from-bg-yellow-tint to-surface shadow-[0_0_28px_rgba(254,243,0,0.18)]"
                                                 : isNext
                                                     ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
                                                     : "border-border bg-surface-raised group-hover:border-border-hover"
@@ -92,7 +92,7 @@ export default function SeasonTimeline() {
                                         className={cn(
                                             "mt-3 w-full rounded-2xl border px-3 py-3 text-center transition-all duration-300",
                                             isFinale
-                                                ? "border-gold/40 bg-gradient-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
+                                                ? "border-gold/40 bg-linear-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
                                                 : isNext
                                                     ? "border-border-yellow bg-surface-raised"
                                                     : "border-border bg-surface group-hover:border-border-hover"
