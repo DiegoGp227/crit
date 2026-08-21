@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Loader2, TriangleAlert } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
 import NavStanding, {
   type StandingCategory,
@@ -28,7 +28,6 @@ export default function StandingsSection() {
     classification,
     error: classificationError,
     isLoading: classificationLoading,
-    mutate: mutateClassification,
   } = useClassification();
 
   const { races, isLoading: racesLoading } = useRaces();
@@ -40,7 +39,6 @@ export default function StandingsSection() {
     results,
     error: resultsError,
     isLoading: resultsLoading,
-    mutate: mutateResults,
   } = useRaceResults(view === "etapa" ? (selectedRace?.id ?? null) : null);
 
   const categoryOfProfile = useMemo(() => {
@@ -91,7 +89,6 @@ export default function StandingsSection() {
   const isLoading =
     view === "general" ? classificationLoading : racesLoading || resultsLoading;
   const error = view === "general" ? classificationError : resultsError;
-  const retry = view === "general" ? mutateClassification : mutateResults;
 
   return (
     <Section className="flex flex-col gap-14">
@@ -111,19 +108,16 @@ export default function StandingsSection() {
           <Loader2 className="size-4 animate-spin" />
           Cargando clasificación…
         </div>
-      ) : error ? (
-        <div className="flex w-full flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-surface px-6 py-16 text-center">
-          <TriangleAlert className="size-6 text-accent-bright" />
-          <p className="text-sm font-semibold text-text-primary">
-            No se pudo cargar la información
-          </p>
-          <button
-            type="button"
-            onClick={() => retry()}
-            className="rounded-xl bg-surface-raised px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-white/5"
-          >
-            Reintentar
-          </button>
+      ) : error || rows.length === 0 ? (
+        <div className="w-full overflow-hidden rounded-2xl border border-border bg-surface">
+          <div className="flex flex-col items-center justify-center gap-1 px-6 py-16 text-center">
+            <p className="text-sm font-semibold text-text-primary">
+              Próximamente…
+            </p>
+            <p className="text-xs text-text-muted">
+              Los resultados estarán disponibles pronto.
+            </p>
+          </div>
         </div>
       ) : (
         <StandingsTable rows={rows} showRaces={view === "general"} />

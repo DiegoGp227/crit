@@ -112,21 +112,6 @@ export default function StandingsTable({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (rows.length === 0) {
-    return (
-      <div className="w-full overflow-hidden rounded-2xl border border-border bg-surface">
-        <div className="flex flex-col items-center justify-center gap-1 px-6 py-16 text-center">
-          <p className="text-sm font-semibold text-text-primary">
-            Sin datos para mostrar
-          </p>
-          <p className="text-xs text-text-muted">
-            Aún no hay resultados para esta categoría.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-border bg-surface">
       <div className="overflow-x-auto">

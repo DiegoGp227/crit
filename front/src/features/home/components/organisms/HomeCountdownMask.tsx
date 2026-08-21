@@ -36,7 +36,7 @@ export default function HomeCountdownMask() {
           Próximo crit · Virgilio Barco
         </p>
         <h1 className="text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl lg:text-5xl">
-          La leña comienza el viernes 21 de agosto a las 7:00 PM
+          La leña comienza el viernes 4 de septiembre a las 7:00 PM
         </h1>
         <div className="flex items-center justify-center gap-0">
           {cells.map((cell, index) => (
