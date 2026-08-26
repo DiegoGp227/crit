@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import Link from "next/link";
 import Section from "@/src/shared/components/ui/Section";
 import Button from "@/src/shared/components/ui/Button";
 import { useCountdown, pad } from "@/src/shared/hooks/useCountdown";
@@ -50,7 +51,9 @@ export default function NextRaceCountdown() {
                     ))}
                 </div>
                 <div className="mt-4">
-                    <Button>Registrarse</Button>
+                    <Link href="/auth">
+                        <Button>Registrarse</Button>
+                    </Link>
                 </div>
             </div>
         </Section>
