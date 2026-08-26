@@ -34,7 +34,7 @@ export default function SeasonTimeline() {
                 </span>
                 <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">El viaje</h2>
                 <p className="max-w-md text-sm leading-relaxed text-text-muted">
-                    Cuatro carreras cada viernes y una Gran Final que lo decide todo.
+                    Cinco carreras cada viernes, una Gran Final que lo decide todo.
                 </p>
             </div>
 

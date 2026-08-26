@@ -111,7 +111,7 @@ export default function SponsorsSection() {
                 <div className="mt-16 w-full border-t border-border pt-8">
                     <p className="text-sm text-text-muted">
                         ¿Tu marca quiere ser parte?{" "}
-                        <a href="#" className="font-semibold text-text-secondary transition-opacity hover:opacity-80">
+                        <a href="https://www.instagram.com/critvirgilium/" target="_blank" rel="noopener noreferrer" className="font-semibold text-text-secondary transition-opacity hover:opacity-80">
                             Contáctanos
                         </a>
                     </p>
