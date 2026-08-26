@@ -11,11 +11,10 @@ interface SeasonRace {
 }
 
 const races: SeasonRace[] = [
-    { type: "race", date: "28 Ago", name: "Crit #1", icon: "🏁" },
-    { type: "race", date: "04 Sep", name: "Crit #2", icon: "🏁" },
-    { type: "race", date: "11 Sep", name: "Crit #3", icon: "🏁" },
-    { type: "race", date: "18 Sep", name: "Crit #4", icon: "🏁" },
-    { type: "race", date: "25 Sep", name: "Crit #5", icon: "🏁" },
+    { type: "race", date: "04 Sep", name: "Crit #1", icon: "🏁" },
+    { type: "race", date: "11 Sep", name: "Crit #2", icon: "🏁" },
+    { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁" },
+    { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁" },
     { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆" },
 ];
 
@@ -35,7 +34,7 @@ export default function SeasonTimeline() {
                 </span>
                 <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">El viaje</h2>
                 <p className="max-w-md text-sm leading-relaxed text-text-muted">
-                    Seis carreras cada viernes y una Gran Final que lo decide todo.
+                    Cuatro carreras cada viernes y una Gran Final que lo decide todo.
                 </p>
             </div>
 
