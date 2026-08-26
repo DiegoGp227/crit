@@ -119,7 +119,7 @@ export default function DevPromoSection() {
                         </div>
                         <div className="flex flex-col gap-3 p-6 font-mono text-sm">
                             <p className="text-text-muted">
-                                <span className="text-green">$</span> quien construyó el crit?
+                                <span className="text-green">$</span> quien construyó la web de crit?
                             </p>
                             <p className="text-text-primary">
                                 Diego Gongora (@DiegoGp227), full-stack, de principio a fin.
