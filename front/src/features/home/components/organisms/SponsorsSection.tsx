@@ -19,6 +19,7 @@ const sponsors: Sponsor[] = [
         url: "https://www.instagram.com/bogofija/",
         gold: true,
     },
+    { name: "Sumerian Cycling", logo: "/brand/sponsors/Sumerian4-09.png", url: "https://www.instagram.com/sumeriancycling/", gold: true },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {

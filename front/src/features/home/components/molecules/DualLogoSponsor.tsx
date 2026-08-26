@@ -14,11 +14,11 @@ export default function DualLogoSponsor({ name, logos, url }: DualLogoSponsorPro
             rel="noopener noreferrer"
             className="group flex min-w-55 flex-1 flex-col items-center gap-5 rounded-3xl border border-border bg-surface px-8 py-10 transition-all duration-300 hover:-translate-y-1 hover:border-border-yellow hover:bg-surface-raised hover:shadow-[0_24px_50px_-24px_rgba(254,243,0,0.3)] sm:max-w-[360px]"
         >
-            <div className="grid w-full grid-cols-2 gap-px overflow-hidden rounded-2xl bg-border">
+            <div className="grid w-full grid-cols-2 gap-1 overflow-hidden rounded-2xl">
                 {logos.map((logo) => (
                     <div
                         key={logo}
-                        className="relative flex h-32 items-center justify-center bg-surface-raised p-4 transition-colors duration-300 group-hover:bg-surface"
+                        className="relative flex h-40 items-center justify-center bg-surface-raised p-4 transition-colors duration-300 group-hover:bg-surface"
                     >
                         <Image
                             src={logo}
