@@ -112,14 +112,15 @@ export default function ProfileForm({
         <Input
           label="Relación"
           optional
-          placeholder="ej. 52*17"
+          placeholder="ej. 50*15"
           {...register("bikeRatio")}
         />
         <Input
           label="Peso (kg)"
           optional
           type="number"
-          placeholder="ej. 9.7"
+          step="0.1"
+          placeholder="ej. 9.5"
           {...register("bikeWeight")}
         />
         <Input
