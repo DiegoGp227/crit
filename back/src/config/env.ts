@@ -25,7 +25,7 @@ export const env = {
   TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION ?? "1h",
   CORS_ORIGIN:      process.env.CORS_ORIGIN || "http://localhost:3000",
   COOKIE_NAME:      process.env.COOKIE_NAME || "crit_token",
-  COOKIE_SECURE:    process.env.COOKIE_SECURE === "true",
+  COOKIE_SECURE:    process.env.COOKIE_SECURE !== "false",
   MINIO_ENDPOINT:   process.env.MINIO_ENDPOINT || "minio",
   MINIO_ROOT_USER:  process.env.MINIO_ROOT_USER || "minioadmin",
   MINIO_ROOT_PASSWORD: process.env.MINIO_ROOT_PASSWORD || "minioadmin",

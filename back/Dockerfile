@@ -25,4 +25,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "pnpm exec prisma migrate deploy && pnpm exec tsx prisma/seed.ts && node dist/app/index.js"]
+CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/app/index.js"]
