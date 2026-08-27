@@ -2,7 +2,7 @@ import Label from "@/src/shared/components/ui/Label";
 import { cn } from "@/src/shared/utils/cn";
 import { padBib } from "@/src/shared/utils/format";
 
-const BIB_NUMBERS = Array.from({ length: 100 }, (_, index) => index + 400);
+const BIB_NUMBERS = Array.from({ length: 100 }, (_, index) => index + 100);
 
 interface BibPickerProps {
   bibAssigned?: boolean;

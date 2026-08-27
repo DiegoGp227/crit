@@ -3,7 +3,7 @@ import { CompetitionType } from "@prisma/client";
 
 export const createRegistrationSchema = z.object({
   competitionType: z.nativeEnum(CompetitionType),
-  bibNumber: z.number().int().min(400).max(499),
+  bibNumber: z.number().int().min(100).max(199),
   document: z.string().trim().min(1).max(20),
   phone: z.string().trim().min(1).max(20),
   team: z.string().trim().max(120).optional(),
