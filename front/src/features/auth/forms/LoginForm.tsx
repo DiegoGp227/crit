@@ -27,7 +27,7 @@ export default function LoginForm() {
                 <input
                     type="text"
                     autoComplete="username"
-                    placeholder="ej. diego@critvirgilio.co"
+                    placeholder="ej. user@critvirgilio.co"
                     className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-text-primary placeholder:text-text-dim outline-none transition-colors focus:border-border-yellow"
                     {...register("email")}
                 />

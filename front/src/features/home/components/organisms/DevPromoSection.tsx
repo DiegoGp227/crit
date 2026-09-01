@@ -122,7 +122,7 @@ export default function DevPromoSection() {
                                 <span className="text-green">$</span> quien construyó la web de crit?
                             </p>
                             <p className="text-text-primary">
-                                Diego Gongora (@DiegoGp227), full-stack, de principio a fin.
+                                Diego Gongora (@Diego.gp27), full-stack, de principio a fin.
                             </p>
                             <p className="text-text-muted">
                                 <span className="text-green">$</span> stack

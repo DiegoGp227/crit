@@ -20,10 +20,10 @@ export default function HeroHome() {
                     </div>
                     <Image
                         src="/brand/By.png"
-                        alt="CritVirgilium logo"
-                        width={250}
-                        height={70}
-                        style={{ height: "70px", width: "auto" }}
+                        alt="Crit Virgilio"
+                        width={350}
+                        height={120}
+                        className="h-400 w-auto sm:h-24 md:h-28 lg:h-32"
                     />
                 </div>
                 <HeroCarousel />
