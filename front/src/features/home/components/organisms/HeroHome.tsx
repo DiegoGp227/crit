@@ -21,9 +21,9 @@ export default function HeroHome() {
                     <Image
                         src="/brand/By.png"
                         alt="Crit Virgilio"
-                        width={350}
-                        height={120}
-                        className="h-400 w-auto sm:h-24 md:h-28 lg:h-32"
+                        width={623}
+                        height={198}
+                        className="h-60 w-auto sm:h-72 md:h-84 lg:h-96"
                     />
                 </div>
                 <HeroCarousel />
