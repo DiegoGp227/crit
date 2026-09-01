@@ -1,13 +1,17 @@
-import { Check } from "lucide-react";
+import { Bike, Check } from "lucide-react";
 import { cn } from "@/src/shared/utils/cn";
 import {
   COMPETITION_LABELS,
   type CompetitionType,
 } from "../../services/registrationService";
 
-const OPTIONS: { value: CompetitionType; description: string }[] = [
-  { value: "EXPERTOS", description: "Competencia general" },
-  { value: "FEMENINO", description: "Categoría femenina" },
+const OPTIONS: {
+  value: CompetitionType;
+  description: string;
+  iconColor: string;
+}[] = [
+  { value: "EXPERTOS", description: "Categoria masculina", iconColor: "text-blue" },
+  { value: "FEMENINO", description: "Categoría femenina", iconColor: "text-pink" },
 ];
 
 interface RegistrationStepCategoryProps {
@@ -35,6 +39,7 @@ export default function RegistrationStepCategory({
                 : "cursor-pointer border-2 border-transparent hover:border-border-hover",
             )}
           >
+            <Bike className={`h-8 w-8 ${option.iconColor}`} aria-hidden="true" />
             <span className="font-semibold text-text-primary">
               {COMPETITION_LABELS[option.value]}
             </span>

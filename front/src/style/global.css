@@ -30,6 +30,9 @@
   --bg-yellow-tint: #222108;
   --border-yellow: rgba(254, 243, 0, 0.15);
 
+  --blue: #3b82f6;
+  --pink: #ec4899;
+
   --completed-bg: #0f0f0f;
   --nav-hover: #1c1c1c;
 
@@ -74,6 +77,10 @@
   --color-gold: var(--gold);
   --color-silver: var(--silver);
   --color-bronze: var(--bronze);
+
+  /* category icons */
+  --color-blue: var(--blue);
+  --color-pink: var(--pink);
 
   /* text */
   --color-text-primary: var(--text-primary);
