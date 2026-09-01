@@ -5,9 +5,11 @@ import Link from "next/link";
 import Section from "@/src/shared/components/ui/Section";
 import Button from "@/src/shared/components/ui/Button";
 import { useCountdown, pad } from "@/src/shared/hooks/useCountdown";
+import { useAuthStore } from "@/src/store/authStore";
 
 export default function NextRaceCountdown() {
     const { days, hours, minutes, seconds } = useCountdown();
+    const user = useAuthStore((s) => s.user);
 
     const cells = [
         { label: "Días", value: pad(days) },
@@ -51,8 +53,8 @@ export default function NextRaceCountdown() {
                     ))}
                 </div>
                 <div className="mt-4">
-                    <Link href="/auth">
-                        <Button>Registrarse</Button>
+                    <Link href={user ? "/profile" : "/auth"}>
+                        <Button>{user ? "Ir a mi perfil" : "Registrarse"}</Button>
                     </Link>
                 </div>
             </div>
