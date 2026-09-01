@@ -3,6 +3,7 @@ import DevPromoSection from "../features/home/components/organisms/DevPromoSecti
 import HeroHome from "../features/home/components/organisms/HeroHome";
 import HomeCountdownMask from "../features/home/components/organisms/HomeCountdownMask";
 import NextRaceCountdown from "../features/home/components/organisms/NextRaceCountdown";
+import RidersSection from "../features/home/components/organisms/RidersSection";
 import SeasonTimeline from "../features/home/components/organisms/SeasonTimeline";
 import SponsorsSection from "../features/home/components/organisms/SponsorsSection";
 import StandingsSection from "../features/home/components/organisms/StandingsSection";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <NextRaceCountdown />
       <SeasonTimeline />
       <StandingsSection />
+      <RidersSection />
       <AboutCircuit />
       <SponsorsSection />
       <DevPromoSection />

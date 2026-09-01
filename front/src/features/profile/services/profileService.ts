@@ -20,7 +20,7 @@ export const CATEGORY_LABELS: Record<CategoryType, string> = {
   NOVATO: "Novato",
   EXPERTO: "Experto",
   RUTA: "Ruta",
-  MUJER: "Mujer",
+  MUJER: "Femenino",
 };
 
 export interface Profile {
