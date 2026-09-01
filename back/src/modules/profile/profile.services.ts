@@ -119,6 +119,21 @@ export const getPublicProfile = async (profileId: string) => {
   };
 };
 
+export const getAllRiders = async () => {
+  const profiles = await prisma.profile.findMany({
+    select: {
+      id: true,
+      fullName: true,
+      avatarUrl: true,
+      team: true,
+      category: true,
+    },
+    orderBy: { fullName: "asc" },
+  });
+
+  return profiles;
+};
+
 export const getUsedBibNumbers = async (): Promise<number[]> => {
   const registrations = await prisma.registration.findMany({
     select: { bibNumber: true },

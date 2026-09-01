@@ -7,6 +7,7 @@ export const UploadURL = `${BaseURL}upload`;
 export const MeURL = `${BaseURL}me`;
 export const MeProfileURL = `${BaseURL}me/profile`;
 export const RiderURL = (id: number) => `${BaseURL}riders/${id}`;
+export const RidersURL = `${BaseURL}riders`;
 export const BibsURL = `${BaseURL}bibs`;
 export const MeRegistrationURL = `${BaseURL}me/registration`;
 export const AdminRegistrationsURL = `${BaseURL}admin/registrations`;

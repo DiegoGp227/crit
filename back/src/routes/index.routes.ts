@@ -8,6 +8,7 @@ import {
   getBibs,
   getProfile,
   getRiderProfile,
+  getRiders,
   updateProfile,
 } from "../modules/profile/profile.controllers.js";
 import { upload } from "../modules/upload/upload.controllers.js";
@@ -57,6 +58,7 @@ router.post(
 // Profile Routes
 router.get("/me", authMiddleware, getProfile);
 router.patch("/me/profile", authMiddleware, updateProfile);
+router.get("/riders", getRiders);
 router.get("/riders/:id", getRiderProfile);
 router.get("/bibs", getBibs);
 

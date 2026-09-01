@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Loader2, Search } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
-import { useClassification } from "../../hooks/useClassification";
+import { useRiders } from "../../hooks/useRiders";
 import {
   CATEGORY_LABELS,
   type CategoryType,
@@ -13,8 +13,9 @@ import {
 type FilterType = "ALL" | CategoryType | "SIN_CATEGORIA";
 
 interface Rider {
-  profileId: number;
+  id: number;
   fullName: string;
+  avatarUrl: string | null;
   team: string | null;
   category: CategoryType | null;
 }
@@ -49,16 +50,7 @@ export default function RidersSection() {
   const [filter, setFilter] = useState<FilterType>("ALL");
   const [search, setSearch] = useState("");
 
-  const { classification, isLoading, error } = useClassification();
-
-  const riders = useMemo<Rider[]>(() => {
-    return classification.map((entry) => ({
-      profileId: entry.profileId,
-      fullName: entry.fullName,
-      team: entry.team,
-      category: entry.category,
-    }));
-  }, [classification]);
+  const { riders, isLoading, error } = useRiders();
 
   const filteredRiders = useMemo(() => {
     let result = riders;
@@ -95,7 +87,7 @@ export default function RidersSection() {
     };
     for (const rider of riders) {
       if (rider.category) {
-        map[rider.category]++;
+        map[rider.category as FilterType]++;
       } else {
         map.SIN_CATEGORIA++;
       }
@@ -114,7 +106,7 @@ export default function RidersSection() {
           <em className="text-text-secondary not-italic">participantes</em>
         </h2>
         <p className="max-w-md text-sm text-text-muted">
-          Explora el perfil de cada corredor inscrito en el campeonato
+          Explora el perfil de cada corredor de Crit
         </p>
       </div>
 
@@ -176,12 +168,20 @@ export default function RidersSection() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filteredRiders.map((rider) => (
               <Link
-                key={rider.profileId}
-                href={`/profiles/${rider.profileId}`}
+                key={rider.id}
+                href={`/profiles/${rider.id}`}
                 className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-border-yellow hover:bg-surface-raised hover:shadow-[0_20px_50px_-20px_rgba(254,243,0,0.15)]"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-border bg-surface-raised text-lg font-bold text-text-primary transition-all duration-300 group-hover:border-border-yellow group-hover:scale-105">
-                  {getInitials(rider.fullName)}
+                  {rider.avatarUrl ? (
+                    <img
+                      src={rider.avatarUrl}
+                      alt={rider.fullName}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  ) : (
+                    getInitials(rider.fullName)
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-text-primary transition-colors group-hover:text-text-secondary">
@@ -195,9 +195,9 @@ export default function RidersSection() {
                   <div className="mt-2">
                     {rider.category ? (
                       <span
-                        className={`inline-block rounded-full px-2.5 py-1 text-2xs font-medium ${CATEGORY_COLORS[rider.category]}`}
+                        className={`inline-block rounded-full px-2.5 py-1 text-2xs font-medium ${CATEGORY_COLORS[rider.category as CategoryType]}`}
                       >
-                        {CATEGORY_LABELS[rider.category]}
+                        {CATEGORY_LABELS[rider.category as CategoryType]}
                       </span>
                     ) : (
                       <span className="inline-block rounded-full bg-surface-raised px-2.5 py-1 text-2xs font-medium text-text-dim">

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import {
+  getAllRiders,
   getMyProfile,
   getPublicProfile,
   getUsedBibNumbers,
@@ -40,6 +41,15 @@ export const updateProfile = asyncHandler(async (req: Request, res: Response) =>
   const profile = await upsertMyProfile(req.user!.id, validation.data);
 
   res.status(200).json({ message: "Profile saved", profile });
+});
+
+/**
+ * @route GET /riders
+ * @returns { riders }
+ */
+export const getRiders = asyncHandler(async (_req: Request, res: Response) => {
+  const riders = await getAllRiders();
+  res.status(200).json({ riders });
 });
 
 /**
