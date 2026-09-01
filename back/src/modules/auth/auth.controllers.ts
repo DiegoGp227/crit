@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { ValidationError, UnauthorizedError } from "../../errors/appError.js";
+import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import { cookieOptions } from "../../utils/cookie.js";
 import { env } from "../../config/env.js";
 import { createUser, createAdminUser, validateUser } from "./auth.services.js";
 import { loginSchema, signupSchema, createAdminSchema } from "./auth.schemas.js";
+
 
 /**
  * @route POST /signup
@@ -105,11 +106,7 @@ export const createAdminTemp = asyncHandler(async (req: Request, res: Response) 
     throw new ValidationError("Validation errors", errors);
   }
 
-  const { email, password, secret } = validation.data;
-
-  if (!env.ADMIN_TEMP_SECRET || secret !== env.ADMIN_TEMP_SECRET) {
-    throw new UnauthorizedError("Invalid secret key");
-  }
+  const { email, password } = validation.data;
 
   const user = await createAdminUser({ email, password });
 

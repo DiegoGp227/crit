@@ -9,7 +9,6 @@ import Button from "@/src/shared/components/ui/Button";
 interface FormValues {
   email: string;
   password: string;
-  secret: string;
 }
 
 export default function CreateAdminPage() {
@@ -83,21 +82,6 @@ export default function CreateAdminPage() {
             />
             {errors.password && (
               <span className="text-xs text-red-500">{errors.password.message}</span>
-            )}
-          </label>
-
-          <label className="flex flex-col gap-2">
-            <span className="text-xs font-semibold uppercase tracking-widest text-text-muted">
-              Secret Key
-            </span>
-            <input
-              type="password"
-              placeholder="Clave secreta"
-              className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-text-primary placeholder:text-text-dim outline-none transition-colors focus:border-border-yellow"
-              {...register("secret", { required: "La secret key es obligatoria" })}
-            />
-            {errors.secret && (
-              <span className="text-xs text-red-500">{errors.secret.message}</span>
             )}
           </label>
 

@@ -29,7 +29,6 @@ export const loginSchema = z.object({
 export const createAdminSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
-  secret: z.string().min(1),
 });
 
 /* =========================
