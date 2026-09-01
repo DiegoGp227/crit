@@ -6,7 +6,7 @@ export default function HeroHome() {
     return (
         <Section container={false} className="py-0">
             <div className="grid w-full min-h-screen grid-cols-1 lg:grid-cols-2">
-                <div className="flex flex-col justify-center items-center gap-10 px-6 py-20">
+                <div className="flex flex-col justify-center items-center gap-7 px-6 py-20">
                     <Image
                         src="/brand/CritVirgilium.png"
                         alt="CritVirgilium logo"
@@ -23,7 +23,7 @@ export default function HeroHome() {
                         alt="Crit Virgilio"
                         width={623}
                         height={198}
-                        className="h-60 w-auto sm:h-72 md:h-84 lg:h-96"
+                        className="h-120 w-auto sm:h-144 md:h-168 lg:h-192"
                     />
                 </div>
                 <HeroCarousel />
