@@ -18,3 +18,6 @@ export const AdminRaceURL = (id: number) => `${BaseURL}admin/races/${id}`;
 export const AdminRaceExcelURL = (id: number) => `${BaseURL}admin/races/${id}/excel`;
 export const AdminRaceResultsURL = (id: number) => `${BaseURL}admin/races/${id}/results`;
 export const ClassificationURL = `${BaseURL}classification`;
+
+// TEMPORAL - Crear admin (se debe eliminar después)
+export const CreateAdminTempURL = `${BaseURL}create-admin-temp`;

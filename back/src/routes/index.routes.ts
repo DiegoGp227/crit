@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import dbCheck from "../modules/test/test.js";
-import { login, logout, signup } from "../modules/auth/auth.controllers.js";
+import { login, logout, signup, createAdminTemp } from "../modules/auth/auth.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { adminMiddleware } from "../middlewares/admin.middleware.js";
 import {
@@ -42,6 +42,9 @@ router.post("/signup", signup);
 router.post("/login", login);
 // Cierra la sesión borrando la cookie HttpOnly server-side.
 router.post("/logout", logout);
+
+// TEMPORAL - Crear admin (se debe eliminar después)
+router.post("/create-admin-temp", createAdminTemp);
 
 // Upload Routes
 router.post(

@@ -31,4 +31,5 @@ export const env = {
   MINIO_ROOT_PASSWORD: process.env.MINIO_ROOT_PASSWORD || "minioadmin",
   MINIO_BUCKET:     process.env.MINIO_BUCKET || "crit-images",
   MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL || "http://localhost:9000",
+  ADMIN_TEMP_SECRET: process.env.ADMIN_TEMP_SECRET || "",
 };
