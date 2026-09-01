@@ -9,6 +9,7 @@ export interface IRegistrationResponse {
   eps: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
+  instagram: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

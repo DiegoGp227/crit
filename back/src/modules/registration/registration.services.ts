@@ -71,6 +71,7 @@ export const createRegistration = async (
         eps: registrationData.eps,
         emergencyContactName: registrationData.emergencyContactName,
         emergencyContactPhone: registrationData.emergencyContactPhone,
+        instagram: registrationData.instagram || null,
       },
     });
   } catch (error) {
@@ -88,6 +89,7 @@ const registrationsSelect = {
   eps: true,
   emergencyContactName: true,
   emergencyContactPhone: true,
+  instagram: true,
   createdAt: true,
   updatedAt: true,
   profile: {

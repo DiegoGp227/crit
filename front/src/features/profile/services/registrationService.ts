@@ -20,6 +20,7 @@ export interface Registration {
   eps: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
+  instagram: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,6 +34,7 @@ export interface CreateRegistrationDTO {
   eps: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
+  instagram?: string;
 }
 
 export interface RegistrationFormValues {
@@ -42,6 +44,7 @@ export interface RegistrationFormValues {
   eps: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
+  instagram: string;
 }
 
 export function toCreateRegistrationDTO(
@@ -50,6 +53,7 @@ export function toCreateRegistrationDTO(
   bibNumber: number,
 ): CreateRegistrationDTO {
   const team = values.team.trim();
+  const instagram = values.instagram.trim();
   return {
     competitionType,
     bibNumber,
@@ -59,6 +63,7 @@ export function toCreateRegistrationDTO(
     emergencyContactName: values.emergencyContactName.trim(),
     emergencyContactPhone: values.emergencyContactPhone.trim(),
     ...(team && { team }),
+    ...(instagram && { instagram }),
   };
 }
 

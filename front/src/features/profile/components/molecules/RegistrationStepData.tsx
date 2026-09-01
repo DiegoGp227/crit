@@ -48,6 +48,12 @@ export default function RegistrationStepData({
           {...register("team")}
         />
         <Input
+          label="Instagram"
+          optional
+          placeholder="ej. @usuario"
+          {...register("instagram")}
+        />
+        <Input
           label="Eps"
           placeholder="ej. Sanitas"
           error={errors.eps?.message}

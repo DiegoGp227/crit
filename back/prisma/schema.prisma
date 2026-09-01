@@ -82,6 +82,7 @@ model Registration {
   eps                    String
   emergencyContactName   String          @map("emergency_contact_name")
   emergencyContactPhone  String          @map("emergency_contact_phone")
+  instagram              String?
   createdAt              DateTime        @default(now()) @map("created_at")
   updatedAt              DateTime        @updatedAt @map("updated_at")
 

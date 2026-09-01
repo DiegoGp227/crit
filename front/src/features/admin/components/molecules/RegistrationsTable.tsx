@@ -8,6 +8,7 @@ import {
   ChevronRight,
   FileText,
   HeartPulse,
+  Instagram,
   Phone,
   User,
 } from "lucide-react";
@@ -119,6 +120,15 @@ export default function RegistrationsTable({
         cell: ({ row }) => (
           <span className="whitespace-nowrap text-sm text-text">
             {row.original.profile.team ?? "—"}
+          </span>
+        ),
+      },
+      {
+        id: "instagram",
+        header: "Instagram",
+        cell: ({ row }) => (
+          <span className="whitespace-nowrap text-sm text-text">
+            {row.original.instagram ?? "—"}
           </span>
         ),
       },
@@ -268,6 +278,11 @@ export default function RegistrationsTable({
                           icon={Phone}
                           label="Tel. emergencia"
                           value={row.original.emergencyContactPhone}
+                        />
+                        <Detail
+                          icon={Instagram}
+                          label="Instagram"
+                          value={row.original.instagram ?? "—"}
                         />
                         <Detail
                           icon={CalendarDays}

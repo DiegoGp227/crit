@@ -59,6 +59,7 @@ export default function RegistrationModal({
       eps: "",
       emergencyContactName: "",
       emergencyContactPhone: "",
+      instagram: "",
     },
   });
 

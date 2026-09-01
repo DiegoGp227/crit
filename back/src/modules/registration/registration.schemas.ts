@@ -10,6 +10,7 @@ export const createRegistrationSchema = z.object({
   eps: z.string().trim().min(1).max(120),
   emergencyContactName: z.string().trim().min(1).max(120),
   emergencyContactPhone: z.string().trim().min(1).max(20),
+  instagram: z.string().trim().max(120).optional(),
 });
 
 export type CreateRegistrationDTO = z.infer<typeof createRegistrationSchema>;
