@@ -20,6 +20,7 @@ const sponsors: Sponsor[] = [
     },
     { name: "Bicicle Parking", logo: "/brand/sponsors/Bicilcle Parking.png", url: "https://www.instagram.com/bicycle_parking.r/", gold: true },
     { name: "The Bike Thender", logo: "/brand/sponsors/The Bike Thender_Mesa de trabajo 1.png", url: "https://www.instagram.com/thebikethender/", gold: true },
+    { name: "Mango Art", logo: "/brand/sponsors/Logo Mango Art.png", url: "https://www.instagram.com/__mangoart/", gold: true },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {
