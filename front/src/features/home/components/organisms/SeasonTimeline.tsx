@@ -32,7 +32,7 @@ export default function SeasonTimeline() {
                 <span className="badge border-border-yellow bg-bg-yellow-tint text-text-secondary">
                     Temporada 2026
                 </span>
-                <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">El viaje</h2>
+                <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">Calendario</h2>
                 <p className="max-w-md text-sm leading-relaxed text-text-muted">
                     Cinco carreras cada viernes, una Gran Final que lo decide todo.
                 </p>
