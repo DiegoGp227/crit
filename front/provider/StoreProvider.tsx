@@ -37,16 +37,8 @@ export const SWRProvider = ({ children }: { children: ReactNode }) => {
       window.removeEventListener("app:unauthorized", handleUnauthorized);
   }, [router, clearAuth]);
 
-  if (!isClient) {
-    return null;
-  }
-
   return (
-    <SWRConfig
-      value={{
-        fetcher: fetcher,
-      }}
-    >
+    <SWRConfig value={isClient ? { fetcher } : undefined}>
       {children}
     </SWRConfig>
   );
