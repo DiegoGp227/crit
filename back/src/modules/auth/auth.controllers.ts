@@ -3,8 +3,8 @@ import { ValidationError } from "../../errors/appError.js";
 import { asyncHandler } from "../../middlewares/asyncHandler.js";
 import { cookieOptions } from "../../utils/cookie.js";
 import { env } from "../../config/env.js";
-import { createUser, createAdminUser, validateUser } from "./auth.services.js";
-import { loginSchema, signupSchema, createAdminSchema } from "./auth.schemas.js";
+import { createUser, validateUser } from "./auth.services.js";
+import { loginSchema, signupSchema } from "./auth.schemas.js";
 
 
 /**
@@ -85,39 +85,4 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 export const logout = asyncHandler(async (_req: Request, res: Response) => {
   res.clearCookie(env.COOKIE_NAME, cookieOptions());
   res.status(200).json({ message: "Logged out successfully" });
-});
-
-/**
- * TEMPORAL - @route POST /create-admin-temp
- * @body { email, password, secret }
- * @returns { message, userInfo }
- */
-export const createAdminTemp = asyncHandler(async (req: Request, res: Response) => {
-  const validation = createAdminSchema.safeParse(req.body);
-
-  if (!validation.success) {
-    const errors = validation.error.issues.reduce<Record<string, string>>(
-      (acc, err) => {
-        acc[err.path.join(".")] = err.message;
-        return acc;
-      },
-      {},
-    );
-    throw new ValidationError("Validation errors", errors);
-  }
-
-  const { email, password } = validation.data;
-
-  const user = await createAdminUser({ email, password });
-
-  res.status(201).json({
-    message: "Admin user created successfully",
-    userInfo: {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    },
-  });
 });
