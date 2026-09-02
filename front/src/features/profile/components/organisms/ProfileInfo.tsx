@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import { CheckCircle2, User } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
 import Button from "@/src/shared/components/ui/Button";
+import ImageLightbox from "@/src/shared/components/ui/ImageLightbox";
 import { padBib } from "@/src/shared/utils/format";
 import {
   CATEGORY_LABELS,
@@ -29,6 +33,7 @@ export default function ProfileInfo({
   onEdit,
   onRegister,
 }: ProfileInfoProps) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const statsItems = [
     { label: "Ranking", value: stats?.points != null ? `#${stats.points}` : "0", highlight: true },
     { label: "Puntos", value: stats?.points?.toLocaleString("es-CO") ?? "0" },
@@ -58,7 +63,10 @@ export default function ProfileInfo({
         </div>
 
         <div className="relative grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr_auto] lg:justify-items-center">
-          <div className="relative flex h-40 w-40 items-center justify-center justify-self-center overflow-hidden rounded-full border-2 border-border-hover bg-surface">
+          <div
+            className={`relative flex h-40 w-40 items-center justify-center justify-self-center overflow-hidden rounded-full border-2 border-border-hover bg-surface ${profile.avatarUrl ? "cursor-pointer" : ""}`}
+            onClick={() => profile.avatarUrl && setLightboxSrc(profile.avatarUrl)}
+          >
             {profile.avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -130,6 +138,14 @@ export default function ProfileInfo({
           </div>
         </div>
       </div>
+
+      {lightboxSrc && (
+        <ImageLightbox
+          src={lightboxSrc}
+          alt="Foto de perfil"
+          onClose={() => setLightboxSrc(null)}
+        />
+      )}
     </Section>
   );
 }
