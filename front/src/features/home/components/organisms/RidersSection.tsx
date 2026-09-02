@@ -1,24 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Loader2, Search } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
-import Pagination from "@/src/features/admin/components/molecules/Pagination";
-import { useRiders } from "../../hooks/useRiders";
+import { useClassification } from "../../hooks/useClassification";
 import {
   CATEGORY_LABELS,
   type CategoryType,
 } from "@/src/features/profile/services/profileService";
 
-const ITEMS_PER_PAGE = 10;
-
 type FilterType = "ALL" | CategoryType | "SIN_CATEGORIA";
 
 interface Rider {
-  id: number;
+  profileId: number;
   fullName: string;
-  avatarUrl: string | null;
   team: string | null;
   category: CategoryType | null;
 }
@@ -52,13 +48,17 @@ const getInitials = (name: string) =>
 export default function RidersSection() {
   const [filter, setFilter] = useState<FilterType>("ALL");
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
 
-  const { riders, isLoading, error } = useRiders();
+  const { classification, isLoading, error } = useClassification();
 
-  useEffect(() => {
-    setPage(1);
-  }, [filter, search]);
+  const riders = useMemo<Rider[]>(() => {
+    return classification.map((entry) => ({
+      profileId: entry.profileId,
+      fullName: entry.fullName,
+      team: entry.team,
+      category: entry.category,
+    }));
+  }, [classification]);
 
   const filteredRiders = useMemo(() => {
     let result = riders;
@@ -83,12 +83,6 @@ export default function RidersSection() {
     return result;
   }, [riders, filter, search]);
 
-  const totalPages = Math.ceil(filteredRiders.length / ITEMS_PER_PAGE);
-  const paginatedRiders = filteredRiders.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE,
-  );
-
   const counts = useMemo(() => {
     const map: Record<FilterType, number> = {
       ALL: riders.length,
@@ -101,7 +95,7 @@ export default function RidersSection() {
     };
     for (const rider of riders) {
       if (rider.category) {
-        map[rider.category as FilterType]++;
+        map[rider.category]++;
       } else {
         map.SIN_CATEGORIA++;
       }
@@ -179,24 +173,15 @@ export default function RidersSection() {
             </p>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {paginatedRiders.map((rider) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {filteredRiders.map((rider) => (
               <Link
-                key={rider.id}
-                href={`/profiles/${rider.id}`}
+                key={rider.profileId}
+                href={`/profiles/${rider.profileId}`}
                 className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-border-yellow hover:bg-surface-raised hover:shadow-[0_20px_50px_-20px_rgba(254,243,0,0.15)]"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-border bg-surface-raised text-lg font-bold text-text-primary transition-all duration-300 group-hover:border-border-yellow group-hover:scale-105">
-                  {rider.avatarUrl ? (
-                    <img
-                      src={rider.avatarUrl}
-                      alt={rider.fullName}
-                      className="h-full w-full rounded-full object-cover"
-                    />
-                  ) : (
-                    getInitials(rider.fullName)
-                  )}
+                  {getInitials(rider.fullName)}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-text-primary transition-colors group-hover:text-text-secondary">
@@ -210,9 +195,9 @@ export default function RidersSection() {
                   <div className="mt-2">
                     {rider.category ? (
                       <span
-                        className={`inline-block rounded-full px-2.5 py-1 text-2xs font-medium ${CATEGORY_COLORS[rider.category as CategoryType]}`}
+                        className={`inline-block rounded-full px-2.5 py-1 text-2xs font-medium ${CATEGORY_COLORS[rider.category]}`}
                       >
-                        {CATEGORY_LABELS[rider.category as CategoryType]}
+                        {CATEGORY_LABELS[rider.category]}
                       </span>
                     ) : (
                       <span className="inline-block rounded-full bg-surface-raised px-2.5 py-1 text-2xs font-medium text-text-dim">
@@ -222,18 +207,8 @@ export default function RidersSection() {
                   </div>
                 </div>
               </Link>
-              ))}
-            </div>
-            {totalPages > 1 && (
-              <div className="mt-8">
-                <Pagination
-                  page={page}
-                  totalPages={totalPages}
-                  onPageChange={setPage}
-                />
-              </div>
-            )}
-          </>
+            ))}
+          </div>
         )}
       </div>
     </Section>

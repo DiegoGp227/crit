@@ -28,12 +28,12 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between sm:gap-4">
       <p className="text-sm text-text-muted">
         Página {page} de {totalPages}
       </p>
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center justify-center gap-1.5">
         <Button
           variant="surface"
           size="sm"
@@ -43,14 +43,14 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
           className="gap-1 px-3"
         >
           <ChevronLeft className="size-4" />
-          Anterior
+          <span className="hidden sm:inline">Anterior</span>
         </Button>
 
         {getPageNumbers(page, totalPages).map((pageNumber, index, arr) => {
           const isGap = index > 0 && pageNumber - arr[index - 1] > 1;
           return (
             <span key={pageNumber} className="flex items-center gap-1.5">
-              {isGap && <span className="px-1 text-sm text-text-dim">…</span>}
+              {isGap && <span className="px-1 text-sm text-text-dim hidden sm:inline">…</span>}
               <button
                 type="button"
                 onClick={() => onPageChange(pageNumber)}
@@ -76,7 +76,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
           aria-label="Página siguiente"
           className="gap-1 px-3"
         >
-          Siguiente
+          <span className="hidden sm:inline">Siguiente</span>
           <ChevronRight className="size-4" />
         </Button>
       </div>
