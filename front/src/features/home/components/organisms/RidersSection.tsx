@@ -1,14 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Loader2, Search } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
+import Pagination from "@/src/features/admin/components/molecules/Pagination";
 import { useRiders } from "../../hooks/useRiders";
 import {
   CATEGORY_LABELS,
   type CategoryType,
 } from "@/src/features/profile/services/profileService";
+
+const ITEMS_PER_PAGE = 10;
 
 type FilterType = "ALL" | CategoryType | "SIN_CATEGORIA";
 
@@ -49,8 +52,13 @@ const getInitials = (name: string) =>
 export default function RidersSection() {
   const [filter, setFilter] = useState<FilterType>("ALL");
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
 
   const { riders, isLoading, error } = useRiders();
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter, search]);
 
   const filteredRiders = useMemo(() => {
     let result = riders;
@@ -74,6 +82,12 @@ export default function RidersSection() {
 
     return result;
   }, [riders, filter, search]);
+
+  const totalPages = Math.ceil(filteredRiders.length / ITEMS_PER_PAGE);
+  const paginatedRiders = filteredRiders.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE,
+  );
 
   const counts = useMemo(() => {
     const map: Record<FilterType, number> = {
@@ -165,8 +179,9 @@ export default function RidersSection() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filteredRiders.map((rider) => (
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {paginatedRiders.map((rider) => (
               <Link
                 key={rider.id}
                 href={`/profiles/${rider.id}`}
@@ -207,8 +222,18 @@ export default function RidersSection() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+            {totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  onPageChange={setPage}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </Section>
