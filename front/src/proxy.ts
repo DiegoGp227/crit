@@ -33,7 +33,7 @@ function isValidSessionToken(token: string | undefined): boolean {
   return payload.exp * 1000 > Date.now();
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const sessionToken = request.cookies.get(SESSION_COOKIE)?.value;
 
   if (!isValidSessionToken(sessionToken)) {
