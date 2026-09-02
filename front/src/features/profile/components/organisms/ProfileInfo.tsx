@@ -30,11 +30,11 @@ export default function ProfileInfo({
   onRegister,
 }: ProfileInfoProps) {
   const statsItems = [
-    { label: "Ranking", value: "#1", highlight: true },
-    { label: "Puntos", value: stats?.points?.toLocaleString("es-CO") ?? "—" },
-    { label: "Carreras", value: stats?.races?.toString() ?? "—" },
-    { label: "Victorias", value: "1", highlight: true },
-    { label: "Km", value: profile.kilometers?.toString() ?? "—" },
+    { label: "Ranking", value: stats?.points != null ? `#${stats.points}` : "0", highlight: true },
+    { label: "Puntos", value: stats?.points?.toLocaleString("es-CO") ?? "0" },
+    { label: "Carreras", value: stats?.races?.toString() ?? "0" },
+    { label: "Victorias", value: "0", highlight: true },
+    { label: "Km", value: profile.kilometers?.toString() ?? "0" },
   ];
 
   return (
