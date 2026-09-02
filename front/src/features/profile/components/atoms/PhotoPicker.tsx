@@ -7,6 +7,7 @@ import Label from "@/src/shared/components/ui/Label";
 import { cn } from "@/src/shared/utils/cn";
 import { parseProfileError } from "@/src/shared/utils/parseProfileError";
 import { uploadImage } from "../../services/profileService";
+import CropModal from "../molecules/CropModal";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
@@ -26,8 +27,9 @@ export default function PhotoPicker({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
@@ -37,9 +39,20 @@ export default function PhotoPicker({
       return;
     }
 
+    setUploadError(null);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropImageSrc(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropComplete = async (blob: Blob) => {
+    setCropImageSrc(null);
     setUploading(true);
     setUploadError(null);
     try {
+      const file = new File([blob], "cropped.jpg", { type: blob.type });
       const url = await uploadImage(file);
       onChange(url);
     } catch (uploadErr) {
@@ -50,6 +63,7 @@ export default function PhotoPicker({
   };
 
   const shape = circular ? "rounded-full" : "rounded-xl";
+  const cropAspect = circular ? 1 : 16 / 9;
 
   return (
     <div className="flex flex-col gap-2">
@@ -97,6 +111,16 @@ export default function PhotoPicker({
         />
       </div>
       {uploadError && <span className="text-xs text-red-500">{uploadError}</span>}
+
+      {cropImageSrc && (
+        <CropModal
+          imageSrc={cropImageSrc}
+          aspect={cropAspect}
+          circular={circular}
+          onCropComplete={handleCropComplete}
+          onCancel={() => setCropImageSrc(null)}
+        />
+      )}
     </div>
   );
 }
