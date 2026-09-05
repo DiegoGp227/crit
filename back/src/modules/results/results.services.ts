@@ -3,6 +3,7 @@ import prisma from "../../db/prisma.js";
 import { BadRequestError, NotFoundError } from "../../errors/appError.js";
 import { invalidateCached } from "../../lib/classificationCache.js";
 import type { RaceResultDTO } from "./results.schemas.js";
+import { recalculateProfileStats } from "./profileStats.js";
 
 const CLASSIFICATION_CACHE_KEY = "classification";
 
@@ -12,6 +13,15 @@ const replaceRaceResults = async (raceId: number, results: RaceResultDTO[]) => {
   if (!race) {
     throw new NotFoundError("Race");
   }
+
+  const oldResults = await prisma.result.findMany({
+    where: { raceDateId: raceId },
+    select: { profileId: true },
+  });
+
+  const oldProfileIds = oldResults.map((r) => r.profileId);
+  const newProfileIds = results.map((r) => r.profileId);
+  const affectedProfileIds = [...new Set([...oldProfileIds, ...newProfileIds])];
 
   await prisma.$transaction([
     prisma.result.deleteMany({ where: { raceDateId: raceId } }),
@@ -25,6 +35,7 @@ const replaceRaceResults = async (raceId: number, results: RaceResultDTO[]) => {
     }),
   ]);
 
+  await recalculateProfileStats(affectedProfileIds);
   invalidateCached(CLASSIFICATION_CACHE_KEY);
 };
 

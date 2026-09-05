@@ -4,6 +4,8 @@ export interface IRaceResponse {
   id: number;
   raceDate: Date;
   status: RaceStatus;
+  maleLaps: number;
+  femaleLaps: number;
   updatedAt: Date;
 }
 

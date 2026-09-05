@@ -61,7 +61,11 @@ model Profile {
   bikeFrame    String?       @map("bike_frame")
   bikeRatio    String?       @map("bike_ratio")
   bikeWeight   Decimal?      @map("bike_weight")
-  bikeSize     String?       @map("bike_size")
+  bikeSize     String?      @map("bike_size")
+  totalPoints  Int          @default(0) @map("total_points")
+  totalRaces   Int          @default(0) @map("total_races")
+  totalVictories Int        @default(0) @map("total_victories")
+  totalKm      Float        @default(0) @map("total_km")
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
 
@@ -92,12 +96,14 @@ model Registration {
 }
 
 model RaceDate {
-  id        Int        @id @default(autoincrement())
-  raceDate  DateTime   @map("race_date")
-  status    RaceStatus @default(SCHEDULED)
-  updatedAt DateTime   @updatedAt @map("updated_at")
+  id          Int        @id @default(autoincrement())
+  raceDate    DateTime   @map("race_date")
+  status      RaceStatus @default(SCHEDULED)
+  maleLaps    Int        @default(0) @map("male_laps")
+  femaleLaps  Int        @default(0) @map("female_laps")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
 
-  results   Result[]
+  results     Result[]
 
   @@map("race_dates")
 }

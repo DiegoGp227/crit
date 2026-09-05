@@ -35,11 +35,10 @@ export default function ProfileInfo({
 }: ProfileInfoProps) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const statsItems = [
-    { label: "Ranking", value: stats?.points != null ? `#${stats.points}` : "0", highlight: true },
     { label: "Puntos", value: stats?.points?.toLocaleString("es-CO") ?? "0" },
     { label: "Carreras", value: stats?.races?.toString() ?? "0" },
-    { label: "Victorias", value: "0", highlight: true },
-    { label: "Km", value: profile.kilometers?.toString() ?? "0" },
+    { label: "Victorias", value: stats?.victories?.toString() ?? "0", highlight: true },
+    { label: "Km", value: stats?.km != null ? stats.km.toFixed(1) : "0" },
   ];
 
   return (

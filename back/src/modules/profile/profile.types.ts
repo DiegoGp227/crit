@@ -34,5 +34,7 @@ export interface PublicProfileResponse {
   stats: {
     points: number;
     races: number;
+    victories: number;
+    km: number;
   };
 }

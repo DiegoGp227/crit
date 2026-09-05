@@ -99,17 +99,19 @@ export const getPublicProfile = async (profileId: string) => {
 
   const profile = await prisma.profile.findUnique({
     where: { id },
-    include: { results: true, registration: true },
+    include: { registration: true },
   });
 
   if (!profile) {
     throw new NotFoundError("Profile");
   }
 
-  const { results, registration, ...profileData } = profile;
+  const { registration, ...profileData } = profile;
   const stats = {
-    points: results.reduce((acc, result) => acc + result.points, 0),
-    races: results.length,
+    points: profileData.totalPoints,
+    races: profileData.totalRaces,
+    victories: profileData.totalVictories,
+    km: profileData.totalKm,
   };
 
   return {

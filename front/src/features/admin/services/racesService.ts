@@ -13,6 +13,8 @@ export interface Race {
   id: number;
   raceDate: string;
   status: RaceStatus;
+  maleLaps: number;
+  femaleLaps: number;
   updatedAt: string;
 }
 
@@ -81,17 +83,26 @@ export const fetchRace = async (id: number): Promise<Race> => {
   return response.data.race;
 };
 
-export const createRace = async (raceDate: string): Promise<Race> => {
+export const createRace = async (
+  raceDate: string,
+  maleLaps: number,
+  femaleLaps: number,
+): Promise<Race> => {
   const response = await apiClient.post<{ message: string; race: Race }>(
     AdminRacesURL,
-    { raceDate },
+    { raceDate, maleLaps, femaleLaps },
   );
   return response.data.race;
 };
 
 export const updateRace = async (
   id: number,
-  data: { raceDate?: string; status?: RaceStatus },
+  data: {
+    raceDate?: string;
+    status?: RaceStatus;
+    maleLaps?: number;
+    femaleLaps?: number;
+  },
 ): Promise<Race> => {
   const response = await apiClient.patch<{ message: string; race: Race }>(
     AdminRaceURL(id),

@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, CalendarPlus, Clock3, Info, Loader2 } from "lucide-react";
+import { Calendar, CalendarPlus, Clock3, Info, Loader2, Trash2 } from "lucide-react";
 import Button from "@/src/shared/components/ui/Button";
 import Input from "@/src/shared/components/ui/Input";
+import Modal from "@/src/shared/components/ui/Modal";
 import { cn } from "@/src/shared/utils/cn";
 import { padBib } from "@/src/shared/utils/format";
 import {
   RACE_STATUS_META,
   createRace,
+  deleteRace,
   formatRaceDate,
   updateRace,
   type Race,
@@ -33,8 +35,12 @@ const parseError = (err: unknown): string => {
 export default function CreateRacePanel() {
   const { races, isLoading, mutate } = useRaces();
   const [raceDate, setRaceDate] = useState("");
+  const [maleLaps, setMaleLaps] = useState<number>(0);
+  const [femaleLaps, setFemaleLaps] = useState<number>(0);
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Race | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const dateLabel = raceDate
     ? new Date(`${raceDate}T00:00:00`).toLocaleDateString("es-CO", {
@@ -50,8 +56,10 @@ export default function CreateRacePanel() {
     setCreating(true);
     setError(null);
     try {
-      await createRace(`${raceDate}T19:00:00.000Z`);
+      await createRace(`${raceDate}T19:00:00.000Z`, maleLaps, femaleLaps);
       setRaceDate("");
+      setMaleLaps(0);
+      setFemaleLaps(0);
       await mutate();
     } catch (err) {
       setError(parseError(err));
@@ -66,6 +74,20 @@ export default function CreateRacePanel() {
       await mutate();
     } catch (err) {
       setError(parseError(err));
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget || deleting) return;
+    setDeleting(true);
+    try {
+      await deleteRace(deleteTarget.id);
+      setDeleteTarget(null);
+      await mutate();
+    } catch (err) {
+      setError(parseError(err));
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -105,6 +127,26 @@ export default function CreateRacePanel() {
             onChange={(event) => setRaceDate(event.target.value)}
             className="[color-scheme:dark]"
           />
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Vueltas masculinas"
+              type="number"
+              min={0}
+              value={maleLaps}
+              onChange={(event) => setMaleLaps(Number(event.target.value))}
+            />
+            <Input
+              label="Vueltas femeninas"
+              type="number"
+              min={0}
+              value={femaleLaps}
+              onChange={(event) => setFemaleLaps(Number(event.target.value))}
+            />
+          </div>
+          <p className="text-xs text-text-muted">
+            1 vuelta = 1.5 km. Los km se calculan automáticamente por cada corredor presente.
+          </p>
 
           <div className="flex flex-wrap items-center gap-2">
             {dateLabel ? (
@@ -184,13 +226,13 @@ export default function CreateRacePanel() {
             <table className="w-full min-w-140 border-collapse">
               <thead>
                 <tr className="border-y border-border bg-surface-raised">
-                  {["Carrera", "Fecha", "Estado"].map((heading, index) => (
+                  {["Carrera", "Fecha", "Vueltas", "Estado"].map((heading, index) => (
                     <th
                       key={heading}
                       className={cn(
                         "whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-widest text-text-dim",
                         index === 0 ? "pl-6 text-left" : "text-left",
-                        index === 2 ? "pr-6" : "",
+                        index === 3 ? "pr-6" : "",
                       )}
                     >
                       {heading}
@@ -214,6 +256,9 @@ export default function CreateRacePanel() {
                       <td className="whitespace-nowrap px-4 py-3.5 text-sm text-text-primary">
                         {formatRaceDate(race.raceDate)}
                       </td>
+                      <td className="whitespace-nowrap px-4 py-3.5 text-sm text-text-muted">
+                        H: {race.maleLaps} / M: {race.femaleLaps}
+                      </td>
                       <td className="whitespace-nowrap px-4 py-3.5 pr-6">
                         <div className="flex items-center gap-2">
                           <span className={cn("badge", statusMeta.className)}>
@@ -236,6 +281,14 @@ export default function CreateRacePanel() {
                               </option>
                             ))}
                           </select>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteTarget(race)}
+                            aria-label={`Eliminar carrera #${race.id}`}
+                            className="rounded-lg p-1.5 text-text-dim transition-colors hover:bg-accent-bright/10 hover:text-accent-bright"
+                          >
+                            <Trash2 className="size-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -279,6 +332,46 @@ export default function CreateRacePanel() {
           </li>
         </ul>
       </section>
+
+      <Modal open={!!deleteTarget} onClose={() => setDeleteTarget(null)}>
+        <div className="rounded-2xl border border-border bg-surface p-6">
+          <h3 className="text-lg font-bold text-text-primary">
+            Eliminar carrera
+          </h3>
+          <p className="mt-2 text-sm text-text-muted">
+            ¿Seguro que quieres eliminar la carrera{" "}
+            <span className="font-semibold text-text-primary">
+              #{deleteTarget?.id}
+            </span>
+            {deleteTarget && ` del ${formatRaceDate(deleteTarget.raceDate)}`}?
+            Esta acción no se puede deshacer.
+          </p>
+          <div className="mt-5 flex items-center justify-end gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setDeleteTarget(null)}
+              disabled={deleting}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="surface"
+              size="sm"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="gap-2 text-accent-bright"
+            >
+              {deleting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Trash2 className="size-4" />
+              )}
+              {deleting ? "Eliminando…" : "Eliminar"}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

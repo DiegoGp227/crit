@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "profiles" ADD COLUMN     "total_km" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "total_points" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "total_races" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "total_victories" INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "race_dates" ADD COLUMN     "female_laps" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "male_laps" INTEGER NOT NULL DEFAULT 0;

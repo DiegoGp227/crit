@@ -3,6 +3,7 @@ import ExcelJS from "exceljs";
 import prisma from "../../db/prisma.js";
 import { NotFoundError } from "../../errors/appError.js";
 import { invalidateCached } from "../../lib/classificationCache.js";
+import { recalculateProfileStats } from "../results/profileStats.js";
 import type { CreateRaceDTO, UpdateRaceDTO } from "./races.schemas.js";
 
 const CLASSIFICATION_CACHE_KEY = "classification";
@@ -31,6 +32,8 @@ export const createRace = async (data: CreateRaceDTO) => {
     data: {
       raceDate: data.raceDate,
       status: RaceStatus.SCHEDULED,
+      maleLaps: data.maleLaps,
+      femaleLaps: data.femaleLaps,
     },
   });
 };
@@ -76,6 +79,8 @@ export const updateRace = async (id: number, data: UpdateRaceDTO) => {
       data: {
         ...(data.raceDate !== undefined && { raceDate: data.raceDate }),
         ...(data.status !== undefined && { status: data.status }),
+        ...(data.maleLaps !== undefined && { maleLaps: data.maleLaps }),
+        ...(data.femaleLaps !== undefined && { femaleLaps: data.femaleLaps }),
       },
     });
   } catch (error) {
@@ -86,16 +91,23 @@ export const updateRace = async (id: number, data: UpdateRaceDTO) => {
 export const deleteRace = async (id: number) => {
   await getRace(id);
 
+  const results = await prisma.result.findMany({
+    where: { raceDateId: id },
+    select: { profileId: true },
+  });
+  const affectedProfileIds = [...new Set(results.map((r) => r.profileId))];
+
   await prisma.$transaction([
     prisma.result.deleteMany({ where: { raceDateId: id } }),
     prisma.raceDate.delete({ where: { id } }),
   ]);
 
+  await recalculateProfileStats(affectedProfileIds);
   invalidateCached(CLASSIFICATION_CACHE_KEY);
 };
 
 export const generateRaceExcel = async (raceId: number): Promise<Buffer> => {
-  await getRace(raceId);
+  const race = await getRace(raceId);
 
   const registrations = await prisma.registration.findMany({
     orderBy: { profile: { registration: { bibNumber: "asc" } } },

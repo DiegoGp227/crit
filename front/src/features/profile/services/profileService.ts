@@ -56,6 +56,8 @@ export interface MyProfileResponse {
 export interface ProfileStats {
   points: number;
   races: number;
+  victories: number;
+  km: number;
 }
 
 export interface PublicProfileResponse {

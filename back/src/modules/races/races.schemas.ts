@@ -3,6 +3,8 @@ import { RaceStatus } from "@prisma/client";
 
 export const createRaceSchema = z.object({
   raceDate: z.coerce.date(),
+  maleLaps: z.number().int().min(0).default(0),
+  femaleLaps: z.number().int().min(0).default(0),
 });
 
 export type CreateRaceDTO = z.infer<typeof createRaceSchema>;
@@ -10,6 +12,8 @@ export type CreateRaceDTO = z.infer<typeof createRaceSchema>;
 export const updateRaceSchema = z.object({
   raceDate: z.coerce.date().optional(),
   status: z.nativeEnum(RaceStatus).optional(),
+  maleLaps: z.number().int().min(0).optional(),
+  femaleLaps: z.number().int().min(0).optional(),
 });
 
 export type UpdateRaceDTO = z.infer<typeof updateRaceSchema>;
