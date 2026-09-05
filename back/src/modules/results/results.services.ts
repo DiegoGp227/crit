@@ -194,11 +194,11 @@ export const uploadRaceResults = async (
       errors.push({ fila: label, motivo: "Asistencia vacía" });
     } else if (
       typeof attendance !== "string" ||
-      !["PRESENT", "ABSENT"].includes(attendance.trim().toUpperCase())
+      !["SI", "NO"].includes(attendance.trim().toUpperCase())
     ) {
       errors.push({
         fila: label,
-        motivo: "Formato inválido: Asistencia debe ser PRESENT o ABSENT",
+        motivo: "Formato inválido: Asistencia debe ser SI o NO",
       });
     }
 
@@ -214,12 +214,16 @@ export const uploadRaceResults = async (
 
     if (
       typeof attendance === "string" &&
-      ["PRESENT", "ABSENT"].includes(attendance.trim().toUpperCase()) &&
+      ["SI", "NO"].includes(attendance.trim().toUpperCase()) &&
       points !== null
     ) {
+      const statusMap: Record<string, RaceResultDTO["status"]> = {
+        SI: "PRESENT",
+        NO: "ABSENT",
+      };
       results.push({
         profileId: row.profileId,
-        status: attendance.trim().toUpperCase() as RaceResultDTO["status"],
+        status: statusMap[attendance.trim().toUpperCase()],
         points,
       });
     }

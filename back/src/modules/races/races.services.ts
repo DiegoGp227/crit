@@ -185,10 +185,10 @@ export const generateRaceExcel = async (raceId: number): Promise<Buffer> => {
         worksheet.getRow(rowNumber).getCell(5).dataValidation = {
           type: "list",
           allowBlank: true,
-          formulae: ['"PRESENT,ABSENT"'],
+          formulae: ['"SI,NO"'],
           showErrorMessage: true,
           errorTitle: "Valor inválido",
-          error: "Selecciona PRESENT o ABSENT",
+          error: "Selecciona SI o NO",
         };
       }
     }
