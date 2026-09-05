@@ -20,7 +20,7 @@ const races: SeasonRace[] = [
 
 export default function SeasonTimeline() {
     return (
-        <Section className="relative overflow-hidden">
+        <Section className="relative mt-20 overflow-hidden">
             <div
                 className="pointer-events-none absolute inset-x-0 top-10 h-96 -translate-y-1/2 rounded-full"
                 style={{
@@ -42,8 +42,9 @@ export default function SeasonTimeline() {
                 <div className="relative overflow-x-auto px-5 pb-4">
                     <div className="flex items-start">
                         {races.map((race, index) => {
-                            const isNext = index === 0;
+                            const isNext = index === 1;
                             const isFinale = race.type === "finale";
+                            const isPast = index < 1;
                             return (
                                 <div
                                     key={race.date}
@@ -56,7 +57,9 @@ export default function SeasonTimeline() {
                                                 ? "border-gold/40 bg-linear-to-br from-bg-yellow-tint to-surface shadow-[0_0_28px_rgba(254,243,0,0.18)]"
                                                 : isNext
                                                     ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
-                                                    : "border-border bg-surface-raised group-hover:border-border-hover"
+                                                    : isPast
+                                                        ? "border-green/20 bg-green/[0.04]"
+                                                        : "border-border bg-surface-raised group-hover:border-border-hover"
                                         )}
                                     >
                                         {race.icon}
@@ -81,7 +84,9 @@ export default function SeasonTimeline() {
                                                         ? "h-3.5 w-3.5 bg-cta shadow-[0_0_16px_rgba(254,243,0,0.5)]"
                                                         : isFinale
                                                             ? "h-3.5 w-3.5 bg-gold ring-4 ring-gold/15"
-                                                            : "h-3 w-3 bg-border-hover group-hover:bg-cta/60"
+                                                            : isPast
+                                                                ? "h-3 w-3 bg-green/40"
+                                                                : "h-3 w-3 bg-border-hover group-hover:bg-cta/60"
                                                 )}
                                             />
                                         </div>
@@ -89,14 +94,22 @@ export default function SeasonTimeline() {
 
                                     <div
                                         className={cn(
-                                            "mt-3 w-full rounded-2xl border px-3 py-3 text-center transition-all duration-300",
+                                            "relative mt-3 w-full rounded-2xl border px-3 py-3 text-center transition-all duration-300",
                                             isFinale
                                                 ? "border-gold/40 bg-linear-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
                                                 : isNext
                                                     ? "border-border-yellow bg-surface-raised"
-                                                    : "border-border bg-surface group-hover:border-border-hover"
+                                                    : isPast
+                                                        ? "border-green/15 bg-green/[0.03]"
+                                                        : "border-border bg-surface group-hover:border-border-hover"
                                         )}
                                     >
+                                        {isPast && (
+                                            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1 rounded-full border border-green/20 bg-green/[0.07] px-2 py-0.5">
+                                                <span className="size-1.5 rounded-full bg-green/50" />
+                                                <span className="text-[9px] font-semibold uppercase tracking-widest text-green/70">Finalizada</span>
+                                            </span>
+                                        )}
                                         <span
                                             className={cn(
                                                 "block text-2xs font-semibold uppercase tracking-widest",
@@ -116,7 +129,9 @@ export default function SeasonTimeline() {
                                                     ? "text-text-primary"
                                                     : isNext
                                                         ? "text-text-primary"
-                                                        : "text-text-muted group-hover:text-text-secondary"
+                                                        : isPast
+                                                            ? "text-text-muted"
+                                                            : "text-text-muted group-hover:text-text-secondary"
                                             )}
                                         >
                                             {race.name}

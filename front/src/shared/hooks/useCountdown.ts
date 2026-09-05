@@ -2,8 +2,8 @@
 
 import { useSyncExternalStore } from "react";
 
-// Viernes 4 de septiembre de 2026, 19:00 Bogotá (UTC-5) == 24:00 UTC del mismo día
-export const EVENT_UTC = Date.UTC(2026, 8, 4, 24, 0, 0);
+// Viernes 11 de septiembre de 2026, 19:00 Bogotá (UTC-5) == 24:00 UTC del mismo día
+export const EVENT_UTC = Date.UTC(2026, 8, 11, 24, 0, 0);
 
 const getSecondsLeft = () =>
   Math.max(0, Math.floor((EVENT_UTC - Date.now()) / 1000));
