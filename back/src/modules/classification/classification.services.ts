@@ -8,6 +8,7 @@ export interface IClassificationEntry {
   profileId: number;
   bibNumber: number;
   fullName: string;
+  avatarUrl: string | null;
   team: string | null;
   category: CategoryType | null;
   competitionType: CompetitionType | null;
@@ -25,7 +26,6 @@ export const getClassification = async (): Promise<IClassificationEntry[]> => {
   const grouped = await prisma.result.groupBy({
     by: ["profileId"],
     _sum: { points: true },
-    _count: { profileId: true },
     orderBy: { _sum: { points: "desc" } },
   });
 
@@ -33,11 +33,22 @@ export const getClassification = async (): Promise<IClassificationEntry[]> => {
     return setCached(CLASSIFICATION_CACHE_KEY, []);
   }
 
+  const presentCounts = await prisma.result.groupBy({
+    by: ["profileId"],
+    _count: { profileId: true },
+    where: { status: "PRESENT" },
+  });
+
+  const presentCountMap = new Map(
+    presentCounts.map((row) => [row.profileId, row._count.profileId]),
+  );
+
   const profiles = await prisma.profile.findMany({
     where: { id: { in: grouped.map((row) => row.profileId) } },
     select: {
       id: true,
       fullName: true,
+      avatarUrl: true,
       team: true,
       category: true,
       registration: {
@@ -55,11 +66,12 @@ export const getClassification = async (): Promise<IClassificationEntry[]> => {
       profileId: row.profileId,
       bibNumber: profile?.registration?.bibNumber ?? 0,
       fullName: profile?.fullName ?? "Corredor eliminado",
+      avatarUrl: profile?.avatarUrl ?? null,
       team: profile?.team ?? null,
       category: profile?.category ?? null,
       competitionType: profile?.registration?.competitionType ?? null,
       points: row._sum.points ?? 0,
-      races: row._count.profileId,
+      races: presentCountMap.get(row.profileId) ?? 0,
     };
   });
 
