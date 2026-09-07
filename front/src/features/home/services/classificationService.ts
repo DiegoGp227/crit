@@ -37,6 +37,7 @@ export interface ClassificationResponse {
 export interface FetchClassificationParams {
   page?: number;
   pageSize?: number;
+  competitionType?: string;
 }
 
 export const fetchClassification = async (
@@ -45,6 +46,7 @@ export const fetchClassification = async (
   const searchParams = new URLSearchParams();
   if (params.page) searchParams.set("page", String(params.page));
   if (params.pageSize) searchParams.set("pageSize", String(params.pageSize));
+  if (params.competitionType) searchParams.set("competitionType", params.competitionType);
 
   const response = await apiClient.get<ClassificationResponse>(
     `${ClassificationURL}?${searchParams.toString()}`,

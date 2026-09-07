@@ -33,7 +33,7 @@ export default function StandingsSection() {
     pagination,
     error: classificationError,
     isLoading: classificationLoading,
-  } = useClassification(view === "general" ? page : null, ITEMS_PER_PAGE);
+  } = useClassification(view === "general" ? page : null, ITEMS_PER_PAGE, view === "general" ? category : undefined);
 
   const {
     classification: fullClassification,
@@ -63,19 +63,17 @@ export default function StandingsSection() {
 
   const generalRows = useMemo<StandingRow[]>(
     () =>
-      classification
-        .filter((entry) => entry.competitionType === category)
-        .map((entry, index) => ({
-          profileId: entry.profileId,
-          position: (page - 1) * ITEMS_PER_PAGE + index + 1,
-          initials: getInitials(entry.fullName),
-          avatarUrl: entry.avatarUrl,
-          name: entry.fullName,
-          team: entry.team ?? "—",
-          points: entry.points,
-          races: entry.races,
-        })),
-    [classification, category, page],
+      classification.map((entry, index) => ({
+        profileId: entry.profileId,
+        position: (page - 1) * ITEMS_PER_PAGE + index + 1,
+        initials: getInitials(entry.fullName),
+        avatarUrl: entry.avatarUrl,
+        name: entry.fullName,
+        team: entry.team ?? "—",
+        points: entry.points,
+        races: entry.races,
+      })),
+    [classification, page],
   );
 
   const stageRows = useMemo<StandingRow[]>(
