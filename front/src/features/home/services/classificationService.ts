@@ -14,6 +14,7 @@ export interface ClassificationEntry {
   profileId: number;
   bibNumber: number;
   fullName: string;
+  avatarUrl: string | null;
   team: string | null;
   category: CategoryType | null;
   competitionType: CompetitionType | null;
@@ -21,9 +22,32 @@ export interface ClassificationEntry {
   races: number;
 }
 
-export const fetchClassification = async (): Promise<ClassificationEntry[]> => {
-  const response = await apiClient.get<{ classification: ClassificationEntry[] }>(
-    ClassificationURL,
+export interface PaginationMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface ClassificationResponse {
+  classification: ClassificationEntry[];
+  pagination: PaginationMeta;
+}
+
+export interface FetchClassificationParams {
+  page?: number;
+  pageSize?: number;
+}
+
+export const fetchClassification = async (
+  params: FetchClassificationParams = {},
+): Promise<ClassificationResponse> => {
+  const searchParams = new URLSearchParams();
+  if (params.page) searchParams.set("page", String(params.page));
+  if (params.pageSize) searchParams.set("pageSize", String(params.pageSize));
+
+  const response = await apiClient.get<ClassificationResponse>(
+    `${ClassificationURL}?${searchParams.toString()}`,
   );
-  return response.data.classification;
+  return response.data;
 };

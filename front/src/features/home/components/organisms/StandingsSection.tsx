@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import Section from "@/src/shared/components/ui/Section";
 import NavStanding, {
@@ -10,6 +10,9 @@ import NavStanding, {
 import StandingsTable, { type StandingRow } from "../molecules/StandingsTable";
 import { useClassification } from "../../hooks/useClassification";
 import { useRaces, useRaceResults } from "@/src/features/admin/hooks/useRaces";
+import Pagination from "@/src/features/admin/components/molecules/Pagination";
+
+const ITEMS_PER_PAGE = 10;
 
 const getInitials = (name: string) =>
   name
@@ -23,12 +26,18 @@ export default function StandingsSection() {
   const [view, setView] = useState<StandingView>("general");
   const [category, setCategory] = useState<StandingCategory>("EXPERTOS");
   const [selectedRaceId, setSelectedRaceId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
 
   const {
     classification,
+    pagination,
     error: classificationError,
     isLoading: classificationLoading,
-  } = useClassification();
+  } = useClassification(view === "general" ? page : null, ITEMS_PER_PAGE);
+
+  const {
+    classification: fullClassification,
+  } = useClassification(view === "etapa" ? 1 : null, 1000);
 
   const { races, isLoading: racesLoading } = useRaces();
 
@@ -43,13 +52,14 @@ export default function StandingsSection() {
 
   const categoryOfProfile = useMemo(() => {
     const map = new Map<number, StandingCategory>();
-    for (const entry of classification) {
+    const source = view === "etapa" ? fullClassification : classification;
+    for (const entry of source) {
       if (entry.competitionType) {
         map.set(entry.profileId, entry.competitionType);
       }
     }
     return map;
-  }, [classification]);
+  }, [classification, fullClassification, view]);
 
   const generalRows = useMemo<StandingRow[]>(
     () =>
@@ -57,14 +67,15 @@ export default function StandingsSection() {
         .filter((entry) => entry.competitionType === category)
         .map((entry, index) => ({
           profileId: entry.profileId,
-          position: index + 1,
+          position: (page - 1) * ITEMS_PER_PAGE + index + 1,
           initials: getInitials(entry.fullName),
+          avatarUrl: entry.avatarUrl,
           name: entry.fullName,
           team: entry.team ?? "—",
           points: entry.points,
           races: entry.races,
         })),
-    [classification, category],
+    [classification, category, page],
   );
 
   const stageRows = useMemo<StandingRow[]>(
@@ -90,13 +101,23 @@ export default function StandingsSection() {
     view === "general" ? classificationLoading : racesLoading || resultsLoading;
   const error = view === "general" ? classificationError : resultsError;
 
+  const handleCategoryChange = useCallback((newCategory: StandingCategory) => {
+    setCategory(newCategory);
+    setPage(1);
+  }, []);
+
+  const handleViewChange = useCallback((newView: StandingView) => {
+    setView(newView);
+    setPage(1);
+  }, []);
+
   return (
     <Section className="flex flex-col gap-14">
       <NavStanding
         view={view}
-        onViewChange={setView}
+        onViewChange={handleViewChange}
         category={category}
-        onCategoryChange={setCategory}
+        onCategoryChange={handleCategoryChange}
         races={races}
         racesLoading={racesLoading}
         selectedRaceId={effectiveRaceId}
@@ -120,7 +141,16 @@ export default function StandingsSection() {
           </div>
         </div>
       ) : (
-        <StandingsTable rows={rows} showRaces={view === "general"} />
+        <>
+          <StandingsTable rows={rows} showRaces={view === "general"} />
+          {view === "general" && pagination.totalPages > 1 && (
+            <Pagination
+              page={pagination.page}
+              totalPages={pagination.totalPages}
+              onPageChange={setPage}
+            />
+          )}
+        </>
       )}
     </Section>
   );

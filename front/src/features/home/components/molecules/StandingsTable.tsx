@@ -13,6 +13,7 @@ export interface StandingRow {
   profileId: number;
   position: number;
   initials: string;
+  avatarUrl?: string | null;
   name: string;
   team: string;
   points: number;
@@ -52,17 +53,25 @@ export default function StandingsTable({
         id: "rider",
         header: "Corredor",
         cell: ({ row }) => {
-          const { initials, name, team, position, profileId } = row.original;
+          const { initials, avatarUrl, name, team, position, profileId } = row.original;
           return (
             <div className="flex items-center gap-2.5">
               <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-2xs font-bold ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold ${
                   position <= 3
                     ? "border-border-yellow text-text-secondary"
                     : "border-border bg-surface-raised text-text-muted"
                 }`}
               >
-                {initials}
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  initials
+                )}
               </div>
               <div className="min-w-0">
                 <Link
