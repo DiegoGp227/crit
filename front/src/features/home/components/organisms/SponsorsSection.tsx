@@ -23,7 +23,7 @@ const sponsors: Sponsor[] = [
     { name: "Mango Art", logo: "/brand/sponsors/Logo Mango Art.png", url: "https://www.instagram.com/__mangoart/", gold: true },
     { name: "Bicicle Parking", logo: "/brand/sponsors/Bicilcle Parking.png", url: "https://www.instagram.com/bicycle_parking.r/", gold: true },
     { name: "Rolling Props", logo: "/brand/sponsors/Rolling Props.png", url: "https://www.instagram.com/rolling_props?stkn=d2o3MDU2aGhkaXc=", gold: true },
-    { name: "Hanei", logo: "/brand/sponsors/Hanei.png", url: "https://www.instagram.com/rolling_props?stkn=d2o3MDU2aGhkaXc=", gold: true },
+    { name: "Hanei", logo: "/brand/sponsors/Hanei.png", url: "https://www.instagram.com/haneiintegral", gold: true },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {
