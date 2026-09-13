@@ -50,14 +50,23 @@ export default function StandingsTable({
         ),
       },
       {
+        id: "points",
+        header: "Pts",
+        cell: ({ row }) => (
+          <span className="font-bold text-text-primary">
+            {row.original.points.toLocaleString("es-CO")}
+          </span>
+        ),
+      },
+      {
         id: "rider",
         header: "Corredor",
         cell: ({ row }) => {
           const { initials, avatarUrl, name, team, position, profileId } = row.original;
           return (
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2 md:gap-2.5">
               <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold ${
+                className={`flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold md:h-8 md:w-8 ${
                   position <= 3
                     ? "border-border-yellow text-text-secondary"
                     : "border-border bg-surface-raised text-text-muted"
@@ -101,15 +110,6 @@ export default function StandingsTable({
             },
           ]
         : []),
-      {
-        id: "points",
-        header: "Pts",
-        cell: ({ row }) => (
-          <span className="font-bold text-text-primary">
-            {row.original.points.toLocaleString("es-CO")}
-          </span>
-        ),
-      },
     ],
     [showRaces],
   );
@@ -124,17 +124,17 @@ export default function StandingsTable({
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-border bg-surface">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-135 border-collapse">
+        <table className="w-full border-collapse">
           <thead className="bg-surface-raised">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header, index) => (
                   <th
                     key={header.id}
-                    className={`whitespace-nowrap px-4 py-3.5 text-xs font-semibold uppercase tracking-widest text-text-dim ${
-                      index === 0 ? "w-10 pl-5" : ""
-                    } ${header.id === "points" ? "hidden text-right min-[401px]:table-cell" : "text-left"} ${
-                      index === headerGroup.headers.length - 1 ? "pr-5" : ""
+                    className={`whitespace-nowrap py-3.5 text-xs font-semibold uppercase tracking-widest text-text-dim ${
+                      index === 0 ? "w-10 pl-3 text-center md:pl-4" : "px-2 md:px-3"
+                    } ${header.id === "points" ? "text-right" : "text-left"} ${
+                      index === headerGroup.headers.length - 1 ? "pr-3 md:pr-4" : ""
                     }`}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
@@ -152,11 +152,13 @@ export default function StandingsTable({
                 {row.getVisibleCells().map((cell, index) => (
                   <td
                     key={cell.id}
-                    className={`px-4 py-3 text-sm ${index === 0 ? "pl-5" : ""} ${
+                    className={`py-2.5 text-sm md:py-3 ${
+                      index === 0 ? "w-10 pl-3 text-center md:pl-4" : "px-2 md:px-3"
+                    } ${
                       cell.column.id === "points"
-                        ? "hidden text-right min-[401px]:table-cell"
+                        ? "text-right"
                         : "text-left"
-                    } ${index === row.getVisibleCells().length - 1 ? "pr-5" : ""}`}
+                    } ${index === row.getVisibleCells().length - 1 ? "pr-3 md:pr-4" : ""}`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
@@ -166,9 +168,6 @@ export default function StandingsTable({
           </tbody>
         </table>
       </div>
-      <p className="hidden items-center justify-center gap-1.5 py-2 text-2xs text-text-dim max-[600px]:flex">
-        <span aria-hidden>←</span> Desliza para ver más <span aria-hidden>→</span>
-      </p>
     </div>
   );
 }
