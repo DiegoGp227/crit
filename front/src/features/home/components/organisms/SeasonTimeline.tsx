@@ -8,14 +8,15 @@ interface SeasonRace {
     date: string;
     name: string;
     icon: string;
+    completed: boolean;
 }
 
 const races: SeasonRace[] = [
-    { type: "race", date: "04 Sep", name: "Crit #1", icon: "🏁" },
-    { type: "race", date: "11 Sep", name: "Crit #2", icon: "🏁" },
-    { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁" },
-    { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁" },
-    { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆" },
+    { type: "race", date: "04 Sep", name: "Crit #1", icon: "🏁", completed: true },
+    { type: "race", date: "11 Sep", name: "Crit #2", icon: "🏁", completed: true },
+    { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁", completed: false },
+    { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁", completed: false },
+    { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆", completed: false },
 ];
 
 export default function SeasonTimeline() {
@@ -42,9 +43,9 @@ export default function SeasonTimeline() {
                 <div className="relative overflow-x-auto px-5 pb-4">
                     <div className="flex items-start">
                         {races.map((race, index) => {
-                            const isNext = index === 1;
+                            const isNext = index === 2;
                             const isFinale = race.type === "finale";
-                            const isPast = index < 1;
+                            const isPast = race.completed;
                             return (
                                 <div
                                     key={race.date}
@@ -58,7 +59,7 @@ export default function SeasonTimeline() {
                                                 : isNext
                                                     ? "border-border-yellow bg-bg-yellow-tint shadow-[0_0_18px_rgba(254,243,0,0.12)]"
                                                     : isPast
-                                                        ? "border-green/20 bg-green/[0.04]"
+                                                        ? "border-green/20 bg-green/4"
                                                         : "border-border bg-surface-raised group-hover:border-border-hover"
                                         )}
                                     >
@@ -100,7 +101,7 @@ export default function SeasonTimeline() {
                                                 : isNext
                                                     ? "border-border-yellow bg-surface-raised"
                                                     : isPast
-                                                        ? "border-green/15 bg-green/[0.03]"
+                                                        ? "border-green/15 bg-green/3"
                                                         : "border-border bg-surface group-hover:border-border-hover"
                                         )}
                                     >
