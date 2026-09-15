@@ -65,22 +65,27 @@ export default function StandingsTable({
           const { initials, avatarUrl, name, team, position, profileId } = row.original;
           return (
             <div className="flex items-center gap-2 md:gap-2.5">
-              <div
-                className={`flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold md:h-8 md:w-8 ${
-                  position <= 3
-                    ? "border-border-yellow text-text-secondary"
-                    : "border-border bg-surface-raised text-text-muted"
-                }`}
-              >
-                {avatarUrl ? (
-                  <img
-                    src={avatarUrl}
-                    alt={name}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  initials
+              <div className="relative shrink-0">
+                {position === 1 && (
+                  <span className="absolute -left-2 -top-2.5 z-10 text-sm rotate-[-50deg] select-none">👑</span>
                 )}
+                <div
+                  className={`flex h-6 w-6 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold md:h-8 md:w-8 ${
+                    position <= 3
+                      ? "border-border-yellow text-text-secondary"
+                      : "border-border bg-surface-raised text-text-muted"
+                  }`}
+                >
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt={name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    initials
+                  )}
+                </div>
               </div>
               <div className="min-w-0">
                 <Link
