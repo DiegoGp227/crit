@@ -57,7 +57,7 @@ export default function NavStanding({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <h2 className="font-bold text-2xl text-text-primary">
-            {view === "general" ? "Clasificación general" : "Resultados por etapa"} · Crit Virgilio
+            {view === "general" ? "Clasificación general" : "Resultados por etapa"} · Crit Virgilium
           </h2>
           <span className="badge border border-border-yellow bg-bg-yellow-tint text-text-secondary">
             <span aria-hidden="true" className="text-sm">⚡</span>
