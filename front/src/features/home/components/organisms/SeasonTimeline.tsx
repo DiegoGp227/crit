@@ -14,7 +14,7 @@ interface SeasonRace {
 const races: SeasonRace[] = [
     { type: "race", date: "04 Sep", name: "Crit #1", icon: "🏁", completed: true },
     { type: "race", date: "11 Sep", name: "Crit #2", icon: "🏁", completed: true },
-    { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁", completed: false },
+    { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁", completed: true },
     { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁", completed: false },
     { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆", completed: false },
 ];
@@ -43,7 +43,7 @@ export default function SeasonTimeline() {
                 <div className="relative overflow-x-auto px-5 pb-4">
                     <div className="flex items-start">
                         {races.map((race, index) => {
-                            const isNext = index === 2;
+                            const isNext = index === 3;
                             const isFinale = race.type === "finale";
                             const isPast = race.completed;
                             return (

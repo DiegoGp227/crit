@@ -66,9 +66,6 @@ export default function StandingsTable({
           return (
             <div className="flex items-center gap-2 md:gap-2.5">
               <div className="relative shrink-0">
-                {position === 1 && (
-                  <span className="absolute -left-2 -top-2.5 z-10 text-sm rotate-[-50deg] select-none">👑</span>
-                )}
                 <div
                   className={`flex h-6 w-6 items-center justify-center overflow-hidden rounded-full border text-2xs font-bold md:h-8 md:w-8 ${
                     position <= 3
