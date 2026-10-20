@@ -32,8 +32,8 @@ export default function ChampionsSection() {
 
   const stats = [
     { label: "Corredores", value: String(riders.length) },
-    { label: "Categorías", value: String(list.length || 2) },
-    { label: "Circuito", value: "Av. Calle 53 · Bogotá" },
+    { label: "Categorías", value: String(list.length || 4) },
+    { label: "Kilometros", value: "114.0" },
   ];
 
   return (
@@ -53,10 +53,10 @@ export default function ChampionsSection() {
             Palmarés
           </span>
           <h2 className="text-2xl font-bold text-text-primary sm:text-3xl">
-            Campeones de la Temporada
+            Campeones de la Serie
           </h2>
           <p className="max-w-md text-xs leading-relaxed text-text-muted">
-            Expertos y Femenino · Crit Virgilium · Temporada {SEASON_YEAR}
+            Expertos y Femenino · Crit Virgilium · Serie 1.0
           </p>
         </div>
 

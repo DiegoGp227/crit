@@ -15,9 +15,15 @@ const races: SeasonRace[] = [
     { type: "race", date: "04 Sep", name: "Crit #1", icon: "🏁", completed: true },
     { type: "race", date: "11 Sep", name: "Crit #2", icon: "🏁", completed: true },
     { type: "race", date: "18 Sep", name: "Crit #3", icon: "🏁", completed: true },
-    { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁", completed: false },
-    { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆", completed: false },
+    { type: "race", date: "25 Sep", name: "Crit #4", icon: "🏁", completed: true },
+    { type: "finale", date: "02 Oct", name: "Gran Final", icon: "🏆", completed: true },
 ];
+
+/**
+ * Índice de la próxima carrera. Es null porque la temporada ya terminó;
+ * al abrir una nueva temporada basta con poner aquí el índice del debut.
+ */
+const NEXT_RACE_INDEX: number | null = null;
 
 export default function SeasonTimeline() {
     return (
@@ -35,7 +41,7 @@ export default function SeasonTimeline() {
                 </span>
                 <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">Calendario</h2>
                 <p className="max-w-md text-sm leading-relaxed text-text-muted">
-                    Cinco carreras cada viernes, una Gran Final que lo decide todo.
+                    Las cinco carreras de la temporada ya se disputaron, incluida la Gran Final.
                 </p>
             </div>
 
@@ -43,7 +49,7 @@ export default function SeasonTimeline() {
                 <div className="relative overflow-x-auto px-5 pb-4">
                     <div className="flex items-start">
                         {races.map((race, index) => {
-                            const isNext = index === 3;
+                            const isNext = index === NEXT_RACE_INDEX;
                             const isFinale = race.type === "finale";
                             const isPast = race.completed;
                             return (
@@ -95,7 +101,7 @@ export default function SeasonTimeline() {
 
                                     <div
                                         className={cn(
-                                            "relative mt-3 w-full rounded-2xl border px-3 py-3 text-center transition-all duration-300",
+                                            "relative mt-3 w-full rounded-2xl border px-3 pt-8 pb-3 text-center transition-all duration-300",
                                             isFinale
                                                 ? "border-gold/40 bg-linear-to-b from-bg-yellow-tint/80 to-surface shadow-[0_0_24px_rgba(254,243,0,0.10)]"
                                                 : isNext
@@ -106,9 +112,9 @@ export default function SeasonTimeline() {
                                         )}
                                     >
                                         {isPast && (
-                                            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1 rounded-full border border-green/20 bg-green/[0.07] px-2 py-0.5">
-                                                <span className="size-1.5 rounded-full bg-green/50" />
-                                                <span className="text-[9px] font-semibold uppercase tracking-widest text-green/70">Finalizada</span>
+                                            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 rounded-full border border-green/50 bg-green-dim px-2.5 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                                                <span className="size-1.5 rounded-full bg-green" />
+                                                <span className="text-[9px] font-semibold uppercase tracking-widest text-green">Finalizada</span>
                                             </span>
                                         )}
                                         <span
@@ -151,8 +157,8 @@ export default function SeasonTimeline() {
                     Carrera
                 </span>
                 <span className="flex items-center gap-2 text-xs text-text-muted">
-                    <span className="h-2.5 w-2.5 rounded-full bg-cta" />
-                    Próximo
+                    <span className="h-2.5 w-2.5 rounded-full bg-green/40" />
+                    Finalizada
                 </span>
                 <span className="flex items-center gap-2 text-xs text-text-muted">
                     <span className="h-2.5 w-2.5 rounded-full bg-gold ring-4 ring-gold/15" />

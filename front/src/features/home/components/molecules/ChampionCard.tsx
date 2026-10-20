@@ -122,7 +122,7 @@ export default function ChampionCard({ type, champion }: ChampionCardProps) {
                 {entry.team}
               </span>
             )}
-            <span className="rounded border border-border bg-surface px-1 py-px font-mono text-[10px] text-text-dim">
+            <span className="rounded border border-border bg-surface px-1 py-px font-mono text-2xs text-text-dim">
               #{padBib(entry.bibNumber)}
             </span>
           </div>
@@ -139,7 +139,7 @@ export default function ChampionCard({ type, champion }: ChampionCardProps) {
           >
             {entry.points}
           </span>
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
+          <span className="text-2xs font-semibold uppercase tracking-widest text-text-dim">
             pts
           </span>
         </div>
