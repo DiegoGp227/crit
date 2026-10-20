@@ -102,6 +102,37 @@
   /* typography scale */
   --text-2xs: 0.625rem;
   --text-countdown: clamp(2.5rem, 12.5vw, 9rem);
+
+  /* animations */
+  --animate-shimmer: shimmer 7s ease-in-out infinite;
+  --animate-float-slow: float-slow 4.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  62% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(520%);
+    opacity: 0;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
 }
 
 body {
