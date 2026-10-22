@@ -97,7 +97,7 @@ export default function ChampionsSection() {
 
               <div className="relative overflow-hidden rounded-2xl bg-surface">
                 <Image
-                  src="/brand/Champions.png"
+                  src="/brand/Champions.jpeg"
                   alt="Los campeones de Crit Virgilium celebrando en el podio"
                   width={557}
                   height={405}
