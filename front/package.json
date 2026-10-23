@@ -31,12 +31,5 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@prisma/engines",
-      "prisma",
-      "esbuild"
-    ]
   }
 }

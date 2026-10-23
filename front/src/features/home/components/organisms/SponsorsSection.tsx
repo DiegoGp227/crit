@@ -25,8 +25,13 @@ const sponsors: Sponsor[] = [
     { name: "Rolling Props", logo: "/brand/sponsors/Rolling Props.png", url: "https://www.instagram.com/rolling_props?stkn=d2o3MDU2aGhkaXc=", gold: true },
     { name: "Hanei", logo: "/brand/sponsors/Hanei.png", url: "https://www.instagram.com/haneiintegral", gold: true },
     { name: "Urban", logo: "/brand/sponsors/URBAN.png", url: "https://www.instagram.com/urban3d.sv/", gold: true },
-    { name: "Tesaroll", logo: "/brand/sponsors/Tesaroll.png", url: "https://www.instagram.com/tesarolls/", gold: true },
+    // { name: "Tesaroll", logo: "/brand/sponsors/Tesaroll.png", url: "https://www.instagram.com/tesarolls/", gold: true },
     { name: "BonitasEnBici", logo: "/brand/sponsors/BonitasEnBici.png", url: "https://www.instagram.com/bonitasenbici/", gold: true },
+    { name: "Kryptonite", logo: "/brand/sponsors/Kryptonite.png", url: "https://www.instagram.com/kryptonitecolombia/", gold: true },
+    { name: "Aventon", logo: "/brand/sponsors/Aventon.png", url: "https://www.instagram.com/fixandbike/", gold: true },
+    { name: "6ku", logo: "/brand/sponsors/6ku.png", url: "https://www.instagram.com/fixandbike/", gold: true },
+    { name: "Michelin", logo: "/brand/sponsors/Michelin.png", url: "https://www.instagram.com/kryptonitecolombia/", gold: true },
+    { name: "WD-40", logo: "/brand/sponsors/WD-40.png", url: "https://www.instagram.com/kryptonitecolombia/", gold: true },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {
